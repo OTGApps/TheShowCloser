@@ -26,6 +26,7 @@ class HostessScreen < PM::TableScreen
         title: h.name,
         subtitle: h.showDate.to_s,
         cell_style: UITableViewCellStyleSubtitle,
+        accessory_type: UITableViewCellAccessoryDisclosureIndicator,
         selection_style: UITableViewCellSelectionStyleGray,
         editing_style: :delete, # Swipe-to-delete
         action: :pick_hostess,
