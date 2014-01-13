@@ -5,6 +5,9 @@ class HostessScreen < PM::TableScreen
   def on_load
     set_nav_bar_button :right, system_icon: :add, action: :add_hostess
     set_toolbar_items [{
+        image: UIImage.imageNamed("jewelry"),
+        action: :show_quick_lookup,
+      }, {
         system_item: :flexible_space
       }, {
         title: "Global Settings",
@@ -73,4 +76,9 @@ class HostessScreen < PM::TableScreen
     options.modalPresentationStyle = UIModalPresentationFormSheet
     self.presentModalViewController(options, animated:true)
   end
+
+  def show_quick_lookup
+    open_modal QuickLookupScreen.new nav_bar:true
+  end
+
 end

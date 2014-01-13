@@ -12,6 +12,7 @@ gem 'bubble-wrap', :github => 'rubymotion/BubbleWrap', :require => ['bubble-wrap
 gem 'ProMotion'#, github: 'clearsightstudio/ProMotion', branch: 'edge'
 gem 'motion_data_wrapper'
 gem 'formotion', :github => 'markrickert/formotion', :branch => 'texties'
+gem 'rm_vendor' # IAP
 
 # Testflight
 # gem 'motion-testflight', :github => 'hboon/motion-testflight', :branch => 'takeoff-on-launch-only'
