@@ -19,6 +19,7 @@ Motion::Project::App.setup do |app|
   app.version = '18'
   app.short_version = '3.0.0'
   app.icons = Dir.glob("resources/Icon*.png").map{|icon| icon.split("/").last}
+  app.info_plist['FULL_APP_NAME'] = 'The Show Closer'
   app.info_plist['APP_STORE_ID'] = 483940964
 
   app.pods do
