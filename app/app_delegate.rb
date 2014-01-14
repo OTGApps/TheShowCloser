@@ -24,6 +24,9 @@ class AppDelegate < PM::Delegate
       Harpy.sharedInstance.checkVersion
     end
 
+    # Set defaults for the application
+    AppDefaults.set
+
     hostess_screen = HostessScreen.new(nav_bar:true, toolbar: true)
 
     @nav_stack = open hostess_screen

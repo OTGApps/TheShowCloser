@@ -7,15 +7,7 @@ class GlobalSettingsScreen < Formotion::FormController
     # Flurry.logEvent "SettingsView" unless Device.simulator?
   end
 
-  def set_defaults
-    App::Persistence['kTaxEnabled'] ||= true
-    App::Persistence['kTaxRate']    ||= 6.75
-    App::Persistence['kTaxShipping']||= true
-    App::Persistence['kReceiptName']||= "Your Favorite Jewelry Lady"
-  end
-
   def init
-    set_defaults
 
     @form ||= Formotion::Form.new({
       sections: [{
@@ -46,6 +38,11 @@ class GlobalSettingsScreen < Formotion::FormController
           key: :kReceiptName,
           type: :text,
           value: App::Persistence['kReceiptName']
+        }, {
+          title: "Lock in portrait orientation",
+          key: :kLockPortraitMode,
+          type: :switch,
+          value: App::Persistence['kLockPortraitMode']
         }]
       }, {
         title: "#{App.name} is open source:",
