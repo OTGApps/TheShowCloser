@@ -16,6 +16,15 @@ class HostessScreen < PM::TableScreen
     # ap Hostess.destroy_all
   end
 
+  def on_appear
+    # Check for Jewelry Database update
+    unless App::Persistence['jeweler_number']
+      show_registration
+    else
+      db_update_check
+    end
+  end
+
   def table_data
   [{
     title: nil,
@@ -52,9 +61,7 @@ class HostessScreen < PM::TableScreen
         update_table_data
       end
     end
-    # TODO - make this acutually work.
     alert_field = alert.textFieldAtIndex(0)
-    # ap alert_field
     alert_field.autocapitalizationType = UITextAutocapitalizationTypeWords
     alert_field.autocorrectionType = UITextAutocorrectionTypeNo
     alert.show
@@ -63,11 +70,21 @@ class HostessScreen < PM::TableScreen
   def pick_hostess(args)
     ap "Picked hostess:"
     ap args
+
+    # open_tab_bar QuickLookupScreen.new(nav_bar:true), QuickLookupScreen.new(nav_bar:true)
+
   end
 
   def on_cell_deleted(cell)
     cell[:arguments][:hostess].destroy
     true
+  end
+
+  def show_registration
+    options_screen = RegistrationScreen.alloc.init
+    options = UINavigationController.alloc.initWithRootViewController(options_screen)
+    options.modalPresentationStyle = UIModalPresentationFullScreen
+    self.presentModalViewController(options, animated:false)
   end
 
   def show_global_options
@@ -79,6 +96,12 @@ class HostessScreen < PM::TableScreen
 
   def show_quick_lookup
     open_modal QuickLookupScreen.new nav_bar:true
+  end
+
+  def db_update_check
+    ap "Checking for a database update."
+    jd = JewelryDownloader.new
+    jd.check
   end
 
 end
