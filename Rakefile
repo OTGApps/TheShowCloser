@@ -28,8 +28,6 @@ Motion::Project::App.setup do |app|
     pod 'Harpy'
     pod 'TestFlightSDK'
     pod 'MRCurrencyRound'
-    pod 'SVProgressHUD'
-    pod 'NSDate-Extensions', :head
   end
 
 end

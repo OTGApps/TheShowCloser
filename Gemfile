@@ -13,6 +13,8 @@ gem 'ProMotion'#, github: 'clearsightstudio/ProMotion', branch: 'edge'
 gem 'motion_data_wrapper'
 gem 'formotion', :github => 'markrickert/formotion', :branch => 'texties'
 gem 'rm_vendor' # IAP
+gem 'motion-blitz' # SVProgressHUD
+# gem 'pro_motion_slide_menu'
 
 # Testflight
 # gem 'motion-testflight', :github => 'hboon/motion-testflight', :branch => 'takeoff-on-launch-only'
