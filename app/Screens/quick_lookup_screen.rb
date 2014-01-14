@@ -4,23 +4,25 @@ class QuickLookupScreen < PM::TableScreen
 
   def on_load
     set_nav_bar_button :right, system_item: :stop, action: :close
+    @data ||= [{
+      title: 'Loading...',
+      selection_style: UITableViewCellSelectionStyleNone
+    }]
   end
 
   def on_appear
-    ap "test"
+    cells
   end
 
   def table_data
   [{
     title: nil,
-    cells: cells
+    cells: @data
   }]
   end
 
   def cells
-    ap JeweleryData.file_data['database']
-
-    JeweleryData.file_data['database'].sort_by { |j| j['name'] }.collect do |j|
+    @data = JeweleryData.file_data['database'].sort_by { |j| j['name'] }.collect do |j|
       {
         title: j['name'],
         subtitle: "Item: #{j['item']}, $#{j['price'].to_i}#{page_number(j)}",
@@ -28,6 +30,7 @@ class QuickLookupScreen < PM::TableScreen
         selection_style: UITableViewCellSelectionStyleNone
       }
     end
+    update_table_data
   end
 
   def page_number(item)
