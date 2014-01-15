@@ -8,6 +8,16 @@ GIT
       motion-require (~> 0.0.3)
 
 GIT
+  remote: git://github.com/markrickert/promotion_slide_menu.git
+  revision: 7767fbdd506784b9a639a16a494a39558838c22e
+  branch: ECSlidingViewController
+  specs:
+    pro_motion_slide_menu (0.1.0)
+      ProMotion (~> 1.0)
+      bubble-wrap
+      motion-cocoapods
+
+GIT
   remote: git://github.com/rubymotion/BubbleWrap.git
   revision: 117bdbf3894e95d77a6e86f98fd52be5ee0e0c38
   specs:
@@ -82,5 +92,6 @@ DEPENDENCIES
   motion-blitz
   motion-cocoapods
   motion_data_wrapper
+  pro_motion_slide_menu!
   rake
   rm_vendor

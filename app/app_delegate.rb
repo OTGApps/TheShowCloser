@@ -29,7 +29,11 @@ class AppDelegate < PM::Delegate
 
     hostess_screen = HostessScreen.new(nav_bar:true, toolbar: true)
 
-    @nav_stack = open hostess_screen
+    open_slide_menu QuickLookupScreen.new(nav_bar: true), left: hostess_screen
+    slide_menu.anchorRightRevealAmount = Device.screen.width
+    slide_menu.show_right(false)
+
+    # @nav_stack = open hostess_screen
 
   end
 

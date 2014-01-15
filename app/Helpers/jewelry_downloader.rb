@@ -79,7 +79,6 @@ class JewelryDownloader
     end
   end
 
-
   private
   def done_downloading
     ap 'Done Downloading'
