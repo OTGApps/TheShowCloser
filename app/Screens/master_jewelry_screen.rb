@@ -28,11 +28,19 @@ class MasterJewelryScreen < PM::TableScreen
 
   def build_cell(data)
     {
-      title: data['name'],
-      subtitle: "Item: #{data['item']}, $#{data['price'].to_i}#{page_number(data)}",
+      title: cell_title(data),
+      subtitle: cell_subtitle(data),
       cell_style: UITableViewCellStyleSubtitle,
       selection_style: UITableViewCellSelectionStyleNone
     }
+  end
+
+  def cell_title(data)
+    data['name']
+  end
+
+  def cell_subtitle(data)
+    "Item: #{data['item']}, $#{data['price'].to_i}#{page_number(data)}"
   end
 
   def page_number(item)
