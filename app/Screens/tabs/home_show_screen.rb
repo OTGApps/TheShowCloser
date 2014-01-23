@@ -1,6 +1,6 @@
 class HomeShowScreen < PM::FormotionScreen
-  title "Homeshow"
-  tab_bar_item icon: "tab_homeshow", title: "Homeshow"
+  title "Home Show"
+  tab_bar_item icon: "tab_homeshow", title: "Home Show"
 
   def on_load
     set_nav_bar_button :left, {
@@ -17,7 +17,8 @@ class HomeShowScreen < PM::FormotionScreen
   end
 
   def reinit
-    self.title = "#{Hostesses.shared_hostess.current_hostess.name}'s Homeshow"
+    self.title = "#{Hostesses.shared_hostess.current_hostess.name}'s Home Show"
+    self.tabBarItem.title = "Home Show"
   end
 
   def show_hostesses
