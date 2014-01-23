@@ -5,12 +5,15 @@ class AppDelegate < PM::Delegate
 
   def on_load(app, options)
     # 3rd Party integrations
+
+    BW.debug = true unless App.info_plist['AppStoreRelease'] == true
+
     unless Device.simulator?
       app_id = App.info_plist['APP_STORE_ID']
 
       # Flurry
       NSSetUncaughtExceptionHandler("uncaughtExceptionHandler")
-      Flurry.startSession("3W88Z2Q6MR87NHGDSMVV")
+      Flurry.startSession((App.info_plist['AppStoreRelease'] == true ? "IRHW8V9LE2M38WJLSM6T" : "3W88Z2Q6MR87NHGDSMVV"))
 
       # Appirater
       Appirater.setAppId app_id
@@ -46,10 +49,6 @@ class AppDelegate < PM::Delegate
   #Flurry exception handler
   def uncaughtExceptionHandler(exception)
     Flurry.logError("Uncaught", message:"Crash!", exception:exception)
-  end
-
-  def applicationWillEnterForeground(application)
-    Appirater.appEnteredForeground true unless Device.simulator?
   end
 
 end
