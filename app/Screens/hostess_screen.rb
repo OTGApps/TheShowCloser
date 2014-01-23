@@ -71,6 +71,7 @@ class HostessScreen < PM::TableScreen
     ap "Picked hostess:"
     ap args
 
+    App.delegate.slide_menu.hide
     # open_tab_bar QuickLookupScreen.new(nav_bar:true), QuickLookupScreen.new(nav_bar:true)
 
   end

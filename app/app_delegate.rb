@@ -29,11 +29,17 @@ class AppDelegate < PM::Delegate
 
     hostess_screen = HostessScreen.new(nav_bar:true, toolbar: true)
 
-    open_slide_menu QuickLookupScreen.new(nav_bar: true), left: hostess_screen
+    @tab_bar = ProMotion::TabBarController.new(
+      HomeShowScreen.new(nav_bar:true),
+      JewelryScreen.new(nav_bar:true),
+      WishlistScreen.new(nav_bar:true),
+      ReceiptScreen.new(nav_bar:true),
+      SettingsScreen.new(nav_bar:true)
+    )
+
+    open_slide_menu @tab_bar, left: hostess_screen
     slide_menu.anchorRightRevealAmount = Device.screen.width
     slide_menu.show_right(false)
-
-    # @nav_stack = open hostess_screen
 
   end
 
