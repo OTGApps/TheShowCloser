@@ -68,12 +68,9 @@ class HostessScreen < PM::TableScreen
   end
 
   def pick_hostess(args)
-    ap "Picked hostess:"
-    ap args
-
+    Hostesses.shared_hostess.current_hostess = args[:cell][:arguments][:hostess]
+    App.notification_center.post "PickedHostessNotification"
     App.delegate.slide_menu.hide
-    # open_tab_bar QuickLookupScreen.new(nav_bar:true), QuickLookupScreen.new(nav_bar:true)
-
   end
 
   def on_cell_deleted(cell)

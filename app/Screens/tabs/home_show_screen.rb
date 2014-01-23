@@ -3,11 +3,26 @@ class HomeShowScreen < PM::FormotionScreen
   tab_bar_item icon: "tab_homeshow", title: "Homeshow"
 
   def on_load
+    set_nav_bar_button :left, {
+      title: "Hostesses",
+      system_item: :reply,
+      action: :show_hostesses
+    }
 
+    # Listen for hostess changes
+    App.notification_center.observe "PickedHostessNotification" do |notification|
+      ap Hostesses.shared_hostess.current_hostess
+      reinit
+    end
   end
 
-  def on_appear
+  def reinit
+    self.title = "#{Hostesses.shared_hostess.current_hostess.name}'s Homeshow"
+  end
 
+  def show_hostesses
+    App.delegate.slide_menu.show(:right)
+    Hostesses.shared_hostess.current_hostess = nil
   end
 
   def on_submit(_form)
