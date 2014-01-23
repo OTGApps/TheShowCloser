@@ -1,23 +1,53 @@
-class HomeShowScreen < PM::Screen
+class HomeShowScreen < PM::FormotionScreen
   title "Homeshow"
   tab_bar_item icon: "tab_homeshow", title: "Homeshow"
 
   def on_load
-    view.backgroundColor = UIColor.whiteColor
 
-    # set_nav_bar_button :left, title: :stop, action: :close
-    # set_nav_bar_button :right, system_icon: :add, action: :add_hostess
-    # set_toolbar_items [{
-    #     system_item: :flexible_space
-    #   }, {
-    #     title: "Global Settings",
-    #     action: :show_global_options,
-    #   }]
-    # ap Hostess.destroy_all
   end
 
   def on_appear
-    ap "test"
+
+  end
+
+  def on_submit(_form)
+
+  end
+
+  def table_data
+    {
+      sections: [{
+        title: "Hostess's Show:",
+        rows: [{
+          title: "Total",
+          key: :show_total,
+          type: :currency,
+          input_accessory: :done
+        },{
+          title: "Earned Bonus 1:",
+          key: :show_bonus_1,
+          type: :switch
+        },{
+          title: "Earned Bonus 2:",
+          key: :show_bonus_2,
+          type: :switch
+        }]
+      },{
+        title: "About The Show:",
+        rows: [{
+          title: "Date",
+          key: :show_date,
+          type: :date,
+          format: :medium,
+          input_accessory: :done
+        },{
+          title: "Notes:",
+          key: :show_notes,
+          type: :text,
+          input_accessory: :done
+        }]
+      }]
+    }
   end
 
 end
