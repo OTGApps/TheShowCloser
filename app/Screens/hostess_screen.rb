@@ -22,6 +22,7 @@ class HostessScreen < PM::TableScreen
       show_registration
     else
       db_update_check
+      update_table_data
     end
   end
 
@@ -36,7 +37,7 @@ class HostessScreen < PM::TableScreen
     Hostess.all.sort_by { |h| h.showDate }.reverse.collect do |h|
       {
         title: h.name,
-        subtitle: h.showDate.to_s,
+        subtitle: "Show: #{h.showDate.short_date}",
         cell_style: UITableViewCellStyleSubtitle,
         accessory_type: UITableViewCellAccessoryDisclosureIndicator,
         selection_style: UITableViewCellSelectionStyleGray,
