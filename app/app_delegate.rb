@@ -1,6 +1,5 @@
 class AppDelegate < PM::Delegate
   include MotionDataWrapper::Delegate
-
   tint_color "#7B4289".to_color
 
   def on_load(app, options)
