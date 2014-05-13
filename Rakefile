@@ -30,7 +30,6 @@ Motion::Project::App.setup do |app|
     pod 'MRCurrencyRound'
   end
 
-
   app.release do
     app.info_plist['AppStoreRelease'] = true
     app.entitlements['get-task-allow'] = false
