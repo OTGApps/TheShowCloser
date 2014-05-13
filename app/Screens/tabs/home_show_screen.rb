@@ -80,7 +80,7 @@ class HomeShowScreen < PM::FormotionScreen
   def table_data
     {
       sections: [{
-        title: "Hostess's Show:",
+        title: "Show Results:",
         rows: [{
           title: "Total",
           key: :show_total,
@@ -90,12 +90,12 @@ class HomeShowScreen < PM::FormotionScreen
           done_action: Proc.new{ done(:show_total) }
         },{
           title: "Earned Bonus 1:",
-          key: :show_bonus_1,
+          key: :bonus_1,
           value: (Hostesses.shared_hostess.current_hostess.nil?) ? false : Hostesses.shared_hostess.current_hostess.bonus1.to_bool,
           type: :switch
         },{
           title: "Earned Bonus 2:",
-          key: :show_bonus_2,
+          key: :bonus_2,
           value: (Hostesses.shared_hostess.current_hostess.nil?) ? false : Hostesses.shared_hostess.current_hostess.bonus2.to_bool,
           type: :switch
         }]
@@ -108,7 +108,7 @@ class HomeShowScreen < PM::FormotionScreen
           value: (Hostesses.shared_hostess.current_hostess.nil?) ? '' : Hostesses.shared_hostess.current_hostess.name,
           input_accessory: :done,
           done_action: Proc.new{ done(:name) }
-        }{
+        },{
           title: "Date",
           key: :show_date,
           type: :date,
@@ -128,25 +128,53 @@ class HomeShowScreen < PM::FormotionScreen
         title: "Hostess Benefits:",
         rows: [{
           title: "Free Jewelry",
-          key: :jewelryPercentage,
-          type: :string,
-          value: (Hostesses.shared_hostess.current_hostess.nil?) ? 30 : Hostesses.shared_hostess.current_hostess.jewelryPercentage,
+          key: :jewelry_percentage,
+          type: :picker,
+          items: ['20', '30', '40', '50'],
+          value: (Hostesses.shared_hostess.current_hostess.nil?) ? '30' : Hostesses.shared_hostess.current_hostess.jewelryPercentage.to_s,
           input_accessory: :done,
           done_action: Proc.new{ done(:jewelryPercentage) }
-        }{
+        },{
           title: "Bonus Value",
-          key: :bonusValue,
-          type: :string,
+          key: :bonus_value,
+          type: :currency,
           value: (Hostesses.shared_hostess.current_hostess.nil?) ? 50 : Hostesses.shared_hostess.current_hostess.bonusValue,
           input_accessory: :done,
           done_action: Proc.new{ done(:bonusValue) }
         },{
-          title: "Promotional Extra Bonus",
-          key: :bonusExtra,
-          type: :text,
+          title: "Extra Bonus",
+          key: :bonus_extra,
+          type: :currency,
           input_accessory: :done,
           value: (Hostesses.shared_hostess.current_hostess.nil?) ? 0 : Hostesses.shared_hostess.current_hostess.bonusExtra,
           done_action: Proc.new{ done(:bonusExtra) }
+        }]
+      },{
+        title: "Taxes, Shipping, & Discounts:",
+        rows: [{
+          title: "Enable Tax?",
+          key: :tax_enabled,
+          type: :switch,
+          value: (Hostesses.shared_hostess.current_hostess.nil?) ? true : Hostesses.shared_hostess.current_hostess.taxEnabled
+        },{
+          title: "Tax Rate (%)",
+          key: :tax_rate,
+          type: :number,
+          value: (Hostesses.shared_hostess.current_hostess.nil?) ? 6.75 : Hostesses.shared_hostess.current_hostess.taxRate,
+          input_accessory: :done,
+          done_action: Proc.new{ done(:bonusValue) }
+        },{
+          title: "Hostess Shipping",
+          key: :shipping,
+          type: :currency,
+          input_accessory: :done,
+          value: (Hostesses.shared_hostess.current_hostess.nil?) ? 4 : Hostesses.shared_hostess.current_hostess.shipping,
+          done_action: Proc.new{ done(:bonusExtra) }
+        },{
+          title: "Tax Shipping?",
+          key: :tax_shipping,
+          type: :switch,
+          value: (Hostesses.shared_hostess.current_hostess.nil?) ? true : Hostesses.shared_hostess.current_hostess.shipping
         }]
       }]
     }
