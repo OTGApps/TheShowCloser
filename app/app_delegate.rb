@@ -32,11 +32,10 @@ class AppDelegate < PM::Delegate
     hostess_screen = HostessScreen.new(nav_bar:true, toolbar: true)
 
     @tab_bar = ProMotion::TabBarController.new(
-      HomeShowScreen.new(nav_bar:true),
+      UINavigationController.alloc.initWithRootViewController(HomeShowScreen.alloc.init),
       JewelryScreen.new(nav_bar:true),
-      WishlistScreen.new(nav_bar:true),
-      ReceiptScreen.new(nav_bar:true),
-      SettingsScreen.new(nav_bar:true)
+      WishlistScreen.new(nav_bar:true, external_links: false),
+      ReceiptScreen.new(nav_bar:true)
     )
 
     open_slide_menu @tab_bar, left: hostess_screen

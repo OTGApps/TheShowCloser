@@ -1,34 +1,34 @@
-class HomeShowScreen < PM::FormotionScreen
+class HomeShowScreen < Formotion::FormController
   include BW::KVO
+  include ProMotion::ScreenModule
 
-  title "Home Show"
-  tab_bar_item icon: "tab_homeshow", title: "Home Show"
-
-  def on_load
-    set_nav_bar_button :left, {
-      title: "Hostesses",
-      system_item: :reply,
-      action: :show_hostesses
-    }
-
-    # Listen for hostess changes
+  def viewDidLoad
+    super
     App.notification_center.observe "PickedHostessNotification" do |notification|
       ap "PickedHostessNotification"
       ap Hostesses.shared_hostess.current_hostess
       reinit
     end
-    observe_switches
+    # Listen for hostess changes
+    observe_switces
   end
 
   def reinit
-    # ap get_title
-    # self.title = "#{Hostesses.shared_hostess.current_hostess.name}'s Home Show"
-    # self.tabBarItem.title = "Home Show"
-    # resolve_title
-    update_table_data
+    self.form = build_form
+    self.form.controller = self
+
+    self.title = 'Home Show'
+    self.navigationController.tabBarItem.title = "Show"
+    self.navigationController.tabBarItem.image = UIImage.imageNamed('tab_homeshow')
+
+    set_nav_bar_button :left, {
+      title: "Hostesses",
+      system_item: :reply,
+      action: :show_all_hostesses
+    }
   end
 
-  def show_hostesses
+  def show_all_hostesses
     App.delegate.slide_menu.show(:right)
     Hostesses.shared_hostess.current_hostess = nil
   end
@@ -59,8 +59,8 @@ class HomeShowScreen < PM::FormotionScreen
   end
 
   def observe_switches
-    row1 = @form.sections[0].rows[1]
-    row2 = @form.sections[0].rows[2]
+    row1 = self.form.sections[0].rows[1]
+    row2 = self.form.sections[0].rows[2]
 
     ap "Observing Switches"
     ap row1
@@ -76,9 +76,10 @@ class HomeShowScreen < PM::FormotionScreen
     end
   end
 
+  def build_form
+    return Formotion::Form.new if Hostesses.shared_hostess.current_hostess.nil?
 
-  def table_data
-    {
+    Formotion::Form.new({
       sections: [{
         title: "Show Results:",
         rows: [{
@@ -194,7 +195,10 @@ class HomeShowScreen < PM::FormotionScreen
           done_action: Proc.new{ done(:addtlCharge) }
         }]
       }]
-    }
+    })
   end
 
+  def init
+    super.initWithForm(build_form)
+  end
 end

@@ -5,4 +5,10 @@ class NSDate
     dateFormatter.setDateStyle(NSDateFormatterMediumStyle)
     dateFormatter.stringFromDate(self)
   end
+
+  def full_date
+    dateFormatter = NSDateFormatter.alloc.init
+    dateFormatter.setDateStyle(NSDateFormatterLongStyle)
+    dateFormatter.stringFromDate(self)
+  end
 end

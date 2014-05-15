@@ -1,0 +1,142 @@
+<html>
+   <head>
+      <meta name="viewport" content="width=device-width; initial-scale=1.0;"/>
+   </head>
+   <body style="margin: 0;font-size: 14px;font-family: Helvetica, Arial;background-color: white">
+      <h2 class="receipt-title" style="margin: 0;display: block;background: -webkit-gradient(linear, left top, left bottom, from(#e0e4e7), to(#b4bec6));-webkit-background-origin: padding-box;padding: 2%;color: #111;width: 96.5%;font-size: 15px;border: solid #8999a5;border-width: 0 0 1px 0;word-wrap: break-word">Hostess Receipt for [[[HOSTESS_NAME]]]</h2>
+      <h2 class="receipt-subtitle" style="margin: 0;display: block;background-color: #e0e4e7;padding: 2%;color: #8999a5;width: 96.5%;font-size: 12px;border: solid #8999a5;border-width: 0 0 1px 0;text-align: right">Your Jeweler: [[[JEWELER_NAME]]]<br/>
+          Show Date: [[[SHOW_DATE]]]<br />
+          Today's Date: [[[DATE]]]
+      </h2>
+      <div id="content-pane" style="margin: 0;width: 97%;overflow: visible;word-wrap: break-word;padding: 5px">
+         <div id="half-price">
+            <table style="width: 100%;margin-top: 10px">
+               <caption style="background-color: #ccc;width: 75%;padding: 0.4em;margin: 0 auto;font-weight: bold">Hostess Half Price Selections:</caption>
+               <tr>
+                  <th style="font-weight: normal">Item</th>
+                  <th style="font-weight: normal">Qty</th>
+                  <th style="font-weight: normal">Jewelry Item Name</th>
+                  <th style="font-weight: normal">Ea.</th>
+                  <th style="font-weight: normal">Total</th>
+               </tr>
+               [[[HALF_PRICE_SELECTIONS]]]
+               <tr>
+                  <td colspan="4" class="ral noborder" style="border: none;text-align: right;vertical-align: bottom">Total Hostess Half Price Selections (A)</td>
+                  <td class="ral strong" style="border: 1px solid #CCC;text-align: right;vertical-align: bottom;font-weight: bold">[[[HALF_PRICE_TOTAL]]]</td>
+               </tr>
+            </table>
+         </div>
+         <div id="benefit-summary">
+            <table style="width: 100%;margin-top: 10px">
+               <caption style="background-color: #ccc;width: 100%;padding: 0.4em;margin: 0 auto;font-weight: normal;background: none;text-align: left">Hostess Benefit Summary</caption>
+               <tr>
+                  <td style="border: 1px solid #CCC">
+                     <!-- Hostess Benefit Calculations -->
+                     <table style="width: 100%;margin-top: 10px">
+                        <caption style="background-color: #ccc;width: 100%;padding: 0.4em;margin: 0 auto;font-weight: normal;background: none;text-align: left">I. Hostess Benefit Calculations</caption>
+                        <tr>
+                           <th style="font-weight: normal;font-size: 80%;text-align: left">Total Retail Customer Orders</th>
+                           <td colspan="2" align="right" valign="top" class="bottomborder" style="border: none;border-bottom: 1px solid #CCC"> <span class="bottomborder">[[[TOTAL_RETAIL]]]</span> (1)</td>
+                        </tr>
+                        <tr>
+                           <th style="font-weight: normal;font-size: 80%;text-align: left">Total Hostess Half Price Selections<br/>(A) Above</th>
+                           <td colspan="2" align="right" valign="top" class="bottomborder" style="border: none;border-bottom: 1px solid #CCC"><span class="bottomborder">[[[HALF_PRICE_TOTAL]]]</span> (2)</td>
+                        </tr>
+                        <tr>
+                           <th style="font-weight: normal;font-size: 80%;text-align: left">Total Home Show Retail Sales (1) + (2)</th>
+                           <td colspan="2" align="right" valign="top" class="bottomborder" style="border: none;border-bottom: 1px solid #CCC"> <span class="bottomborder">[[[RETAIL_PLUS_HALF]]]</span> (3)</td>
+                        </tr>
+                        <tr>
+                           <td colspan="2" align="right" class="noborder" style="border: none">x[[[JEWELRY_PERCENTAGE]]]% = (4)</td>
+                           <td align="right" class="bottomborder" style="border: none;border-bottom: 1px solid #CCC">[[[EQUALS_FOUR]]]</td>
+                        </tr>
+                     </table>
+                     <!-- Hostess Bonus Plan Award Calculations -->
+                     <table class="" style="width: 100%;margin-top: 10px">
+                        <caption style="background-color: #ccc;width: 100%;padding: 0.4em;margin: 0 auto;font-weight: normal;background: none;text-align: left">II. Hostess Bonus Plan Award Calculations</caption>
+                        <tr>
+                           <td colspan="5" class="noborder" style="border: none">
+                              [[[BONUS_1]]] Bonus Gift Card 1<br/>
+                              [[[BONUS_2]]] Bonus Gift Card 2
+                           </td>
+                        </tr>
+                        <tr>
+                           <td align="right" class="noborder" style="border: nonel vertical-align:top;" colspan="3">No. of Awards <span style="border-bottom: 1px solid #CCC;">[[[AWARD_COUNT]]]</span> x[[[AWARD_VALUE]]] =</td>
+                           <td width="10" align="right" class="bottomborder" style="border: none;border-bottom: 1px solid #CCC">[[[AWARD_VALUE_TOTAL]]]</td>
+                           <td width="10" class="noborder" style="border: none">(5)</td>
+                        </tr>
+                     </table>
+                     <!-- Total Hostess Benefits -->
+                     <table style="width: 100%;margin-top: 10px">
+                        <caption style="background-color: #ccc;width: 100%;padding: 0.4em;margin: 0 auto;font-weight: normal;background: none;text-align: left">III. Total Hostess Benefits</caption>
+                        <tr>
+                           <td align="right" class="noborder" style="border: none">(4) + (5)</td>
+                           <td align="right" class="thickborder" style="border: 3px solid #CCC">[[[TOTAL_HOSTESS_BENEFITS]]]</td>
+                           <td class="noborder" style="border: none">(6)</td>
+                        </tr>
+                     </table>
+                  </td>
+               </tr>
+            </table>
+         </div>
+         <div id="benefit-selections">
+            <table style="width: 100%;margin-top: 10px">
+               <caption style="background-color: #ccc;width: 75%;padding: 0.4em;margin: 0 auto;font-weight: bold">Hostess Benefit Selections:</caption>
+               <tr>
+                  <th style="font-weight: normal">Item</th>
+                  <th style="font-weight: normal">Qty</th>
+                  <th style="font-weight: normal">Jewelry Item Name</th>
+                  <th style="font-weight: normal">Ea.</th>
+                  <th style="font-weight: normal">Total</th>
+               </tr>
+               [[[BENEFIT_SELECTIONS]]]
+               <tr>
+                  <td colspan="4" class="ral noborder" style="border: none;text-align: right;vertical-align: bottom">Total Hostess Benefit Selections (B)</td>
+                  <td class="ral strong" style="border: 1px solid #CCC;text-align: right;vertical-align: bottom;font-weight: bold">[[[BENEFIT_TOTAL]]]</td>
+               </tr>
+            </table>
+         </div>
+         <div id="final-summary">
+            <table style="width: 100%;margin-top: 10px">
+               <tr>
+                  <th style="font-weight: normal;text-align: right">*Shipping/Handling (C)</th>
+                  <th style="font-weight: normal;text-align: right"> </th>
+                  <td style="border: none;text-align: right;border-bottom: 1px solid #CCC">[[[SHIPPING_RATE]]]</td>
+               </tr>
+               <tr>
+                  <th style="font-weight: normal;text-align: right">Subtotal (A + B + C) =</th>
+                  <th style="font-weight: normal;text-align: right">+</th>
+                  <td style="border: none;text-align: right;border-bottom: 1px solid #CCC">[[[SUBTOTAL_ONE_ABC]]]</td>
+               </tr>
+               <tr>
+                  <th style="font-weight: normal;text-align: right">*Tax ([[[TAX_RATE]]]%)</th>
+                  <th style="font-weight: normal;text-align: right">+</th>
+                  <td style="border: none;text-align: right;border-bottom: 1px solid #CCC">[[[TAX_AMOUNT]]]</td>
+               </tr>
+               <tr>
+                  <th style="font-weight: normal;text-align: right">Subtotal</th>
+                  <th style="font-weight: normal;text-align: right">=</th>
+                  <td style="border: none;text-align: right;border-bottom: 1px solid #CCC">[[[SUBTOTAL_TWO]]]</td>
+               </tr>
+               <tr>
+                  <th style="font-weight: normal;text-align: right">Enter the amount from<br/> (6) or (B) whichever is less:</th>
+                  <th style="font-weight: normal;text-align: right">-</th>
+                  <td style="border: none;text-align: right;border-bottom: 1px solid #CCC">[[[WHICHEVER_IS_LESS]]]</td>
+                  [[[SPECIAL_DISCOUNT]]]
+                  [[[SPECIAL_CHARGE]]]
+               </tr>
+               <tr>
+                  <th style="font-weight: normal;text-align: right">Total Due</th>
+                  <th style="font-weight: normal;text-align: right"> </th>
+                  <td class="strong" style="border: none;font-weight: bold;text-align: right;border-bottom: 1px solid #CCC">[[[TOTAL_DUE]]]</td>
+               </tr>
+            </table>
+         </div>
+      </div>
+      <div class="receipt-footer" style="margin: 0;display: block;background-color: #e0e4e7;padding: 2%;color: #8999a5;width: 96.5%;font-size: 12px;border: solid #8999a5;border-width: 0 0 1px 0;text-align: right">
+         <p><small>*We are required by law to collect state and local sales tax.<br/>
+            Shipping/Handling is taxable in states where applicable. All product is shipped F.O.B. Origin</small>
+         </p>
+      </div>
+   </body>
+</html>
