@@ -9,8 +9,6 @@ class HomeShowScreen < Formotion::FormController
       ap Hostesses.shared_hostess.current_hostess
       reinit
     end
-    # Listen for hostess changes
-    observe_switces
   end
 
   def reinit
@@ -26,78 +24,66 @@ class HomeShowScreen < Formotion::FormController
       system_item: :reply,
       action: :show_all_hostesses
     }
+
+    # Listen for hostess changes
+    observe_switches
   end
 
   def show_all_hostesses
     App.delegate.slide_menu.show(:right)
+    unobserve_all
     Hostesses.shared_hostess.current_hostess = nil
   end
 
-  def done(key = nil)
+  def update_and_save_hostess(key = nil)
     return if Hostesses.shared_hostess.current_hostess.nil?
     ap 'Saving Hostess Data'
 
     serialized = form.render
+    serialized[:show_date] = Time.at(serialized[:show_date])
+    serialized[:jewelry_percentage] = serialized[:jewelry_percentage].to_i
+    serialized[:tax_rate] = serialized[:tax_rate].to_f
+
     ap serialized
 
-    ch = Hostesses.shared_hostess.current_hostess
-
-    case key
-    when :show_total
-      ch.show_total = serialized[:show_total]
-    when :show_date
-      ch.show_date = Time.at(serialized[:show_date])
-    when :show_notes
-      ch.show_notes = serialized[:show_notes]
-    when :bonus_1
-      ch.bonus_1 = serialized[:bonus_1]
-    when :bonus_2
-      ch.bonus_2 = serialized[:bonus_2]
-    end
-
-    ch.save
+    Hostesses.shared_hostess.current_hostess.set_and_save(serialized)
   end
 
   def observe_switches
-    row1 = self.form.sections[0].rows[1]
-    row2 = self.form.sections[0].rows[2]
+    return if Hostesses.shared_hostess.current_hostess.nil?
 
-    ap "Observing Switches"
-    ap row1
-
-    observe(row1, "value") do |old_value, new_value|
-      ap new_value
-      done(:bonus_1)
-    end
-
-    observe(row2, "value") do |old_value, new_value|
-      ap new_value
-      done(:bonus_1)
+    # Observe all switches in the form.
+    self.form.sections.each_with_index do |s, si|
+      s.rows.each_with_index do |r, ri|
+        if r.type == :switch
+          observe(self.form.sections[si].rows[ri], "value") do |old_value, new_value|
+            update_and_save_hostess
+          end
+        end
+      end
     end
   end
 
-  def build_form
-    return Formotion::Form.new if Hostesses.shared_hostess.current_hostess.nil?
-
-    Formotion::Form.new({
+  def form_data
+    {
       sections: [{
         title: "Show Results:",
         rows: [{
           title: "Total",
           key: :show_total,
           type: :currency,
-          value: (Hostesses.shared_hostess.current_hostess.nil?) ? 0 : Hostesses.shared_hostess.current_hostess.showTotal,
+          value: Hostesses.shared_hostess.current_hostess.showTotal,
           input_accessory: :done,
-          done_action: Proc.new{ done(:showTotal) }
+          done_action: default_done_action
         },{
           title: "Earned Bonus 1:",
           key: :bonus_1,
-          value: (Hostesses.shared_hostess.current_hostess.nil?) ? false : Hostesses.shared_hostess.current_hostess.bonus1.to_bool,
+          value: Hostesses.shared_hostess.current_hostess.bonus1.to_bool,
           type: :switch
         },{
           title: "Earned Bonus 2:",
           key: :bonus_2,
-          value: (Hostesses.shared_hostess.current_hostess.nil?) ? false : Hostesses.shared_hostess.current_hostess.bonus2.to_bool,
+          value: Hostesses.shared_hostess.current_hostess.bonus2.to_bool,
           type: :switch
         }]
       },{
@@ -106,24 +92,24 @@ class HomeShowScreen < Formotion::FormController
           title: "Hostess Name",
           key: :name,
           type: :string,
-          value: (Hostesses.shared_hostess.current_hostess.nil?) ? '' : Hostesses.shared_hostess.current_hostess.name,
+          value: Hostesses.shared_hostess.current_hostess.name,
           input_accessory: :done,
-          done_action: Proc.new{ done(:name) }
+          done_action: default_done_action
         },{
           title: "Date",
           key: :show_date,
           type: :date,
           format: :medium,
-          value: (Hostesses.shared_hostess.current_hostess.nil?) ? 0 : Hostesses.shared_hostess.current_hostess.showDate.to_i,
+          value: Hostesses.shared_hostess.current_hostess.showDate.to_i,
           input_accessory: :done,
-          done_action: Proc.new{ done(:showDate) }
+          done_action: default_done_action
         },{
           # TODO - Make this work
           title: "Notes:",
           key: :notes,
           type: :text,
           input_accessory: :done,
-          done_action: Proc.new{ done(:notes) }
+          done_action: default_done_action
         }]
       },{
         title: "Hostess Benefits:",
@@ -132,23 +118,23 @@ class HomeShowScreen < Formotion::FormController
           key: :jewelry_percentage,
           type: :picker,
           items: ['20', '30', '40', '50'],
-          value: (Hostesses.shared_hostess.current_hostess.nil?) ? '30' : Hostesses.shared_hostess.current_hostess.jewelryPercentage.to_s,
+          value: Hostesses.shared_hostess.current_hostess.jewelryPercentage.to_s,
           input_accessory: :done,
-          done_action: Proc.new{ done(:jewelryPercentage) }
+          done_action: default_done_action
         },{
           title: "Bonus Value",
           key: :bonus_value,
           type: :currency,
-          value: (Hostesses.shared_hostess.current_hostess.nil?) ? 50 : Hostesses.shared_hostess.current_hostess.bonusValue,
+          value: Hostesses.shared_hostess.current_hostess.bonusValue,
           input_accessory: :done,
-          done_action: Proc.new{ done(:bonusValue) }
+          done_action: default_done_action
         },{
           title: "Extra Bonus",
           key: :bonus_extra,
           type: :currency,
           input_accessory: :done,
-          value: (Hostesses.shared_hostess.current_hostess.nil?) ? 0 : Hostesses.shared_hostess.current_hostess.bonusExtra,
-          done_action: Proc.new{ done(:bonusExtra) }
+          value: Hostesses.shared_hostess.current_hostess.bonusExtra,
+          done_action: default_done_action
         }]
       },{
         title: "Taxes & Shipping:",
@@ -156,26 +142,26 @@ class HomeShowScreen < Formotion::FormController
           title: "Enable Tax?",
           key: :tax_enabled,
           type: :switch,
-          value: (Hostesses.shared_hostess.current_hostess.nil?) ? true : Hostesses.shared_hostess.current_hostess.taxEnabled
+          value: Hostesses.shared_hostess.current_hostess.taxEnabled
         },{
           title: "Tax Rate (%)",
           key: :tax_rate,
           type: :number,
-          value: (Hostesses.shared_hostess.current_hostess.nil?) ? "6.75" : Hostesses.shared_hostess.current_hostess.taxRate,
+          value: Hostesses.shared_hostess.current_hostess.taxRate,
           input_accessory: :done,
-          done_action: Proc.new{ done(:taxRate) }
+          done_action: default_done_action
         },{
           title: "Hostess Shipping",
           key: :shipping,
           type: :currency,
           input_accessory: :done,
-          value: (Hostesses.shared_hostess.current_hostess.nil?) ? 4 : Hostesses.shared_hostess.current_hostess.shipping,
-          done_action: Proc.new{ done(:shipping) }
+          value: Hostesses.shared_hostess.current_hostess.shipping,
+          done_action: default_done_action
         },{
           title: "Tax Shipping?",
           key: :tax_shipping,
           type: :switch,
-          value: (Hostesses.shared_hostess.current_hostess.nil?) ? true : Hostesses.shared_hostess.current_hostess.shipping
+          value: Hostesses.shared_hostess.current_hostess.shipping
         }]
       },{
         title: "Special Discounts / Charges:",
@@ -183,22 +169,31 @@ class HomeShowScreen < Formotion::FormController
           title: "Additional Discount",
           key: :addtl_discount,
           type: :currency,
-          value: (Hostesses.shared_hostess.current_hostess.nil?) ? '0.0' : Hostesses.shared_hostess.current_hostess.addtlDiscount,
+          value: Hostesses.shared_hostess.current_hostess.addtlDiscount,
           input_accessory: :done,
-          done_action: Proc.new{ done(:addtlDiscount) }
+          done_action: default_done_action
         },{
           title: "Additional Charge",
           key: :addtl_charge,
           type: :currency,
-          value: (Hostesses.shared_hostess.current_hostess.nil?) ? '0.0' : Hostesses.shared_hostess.current_hostess.addtlCharge,
+          value: Hostesses.shared_hostess.current_hostess.addtlCharge,
           input_accessory: :done,
-          done_action: Proc.new{ done(:addtlCharge) }
+          done_action: default_done_action
         }]
       }]
-    })
+    }
+  end
+
+  def build_form
+    return Formotion::Form.new if Hostesses.shared_hostess.current_hostess.nil?
+    Formotion::Form.new(form_data)
   end
 
   def init
     super.initWithForm(build_form)
+  end
+
+  def default_done_action
+    -> { update_and_save_hostess }
   end
 end
