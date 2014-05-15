@@ -57,7 +57,16 @@ class HostessScreen < PM::TableScreen
       if alert.clicked_button.index > 0
         ap "Got: #{a.plain_text_field.text}"
 
-        h = Hostess.create(name: a.plain_text_field.text, showDate: Time.now)
+        h = Hostess.create(
+          name: a.plain_text_field.text,
+          showDate: Time.now,
+          bonusValue: App::Persistence['kBonusValue'],
+          jewelryPercentage: App::Persistence['kJewelryPercentage'],
+          shipping: App::Persistence['kShippingRate'],
+          taxEnabled: App::Persistence['kTaxEnabled'],to_bool,
+          taxRate: App::Persistence['kTaxRate'],
+          taxShipping: App::Persistence['kTaxShipping'].to_bool
+        )
         ap h
         update_table_data
       end
