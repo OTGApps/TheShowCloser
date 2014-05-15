@@ -76,12 +76,12 @@ class HomeShowScreen < Formotion::FormController
           input_accessory: :done,
           done_action: default_done_action
         },{
-          title: "Earned Bonus 1:",
+          title: "Earned Bonus 1",
           key: :bonus_1,
           value: Hostesses.shared_hostess.current_hostess.bonus1.to_bool,
           type: :switch
         },{
-          title: "Earned Bonus 2:",
+          title: "Earned Bonus 2",
           key: :bonus_2,
           value: Hostesses.shared_hostess.current_hostess.bonus2.to_bool,
           type: :switch

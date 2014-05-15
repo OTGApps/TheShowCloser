@@ -13,10 +13,10 @@ class MasterJewelryScreen < PM::TableScreen
   end
 
   def table_data
-  [{
-    title: nil,
-    cells: @data
-  }]
+    [{
+      title: nil,
+      cells: @data
+    }]
   end
 
   def cells

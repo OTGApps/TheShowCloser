@@ -63,7 +63,7 @@ class HostessScreen < PM::TableScreen
           bonusValue: App::Persistence['kBonusValue'],
           jewelryPercentage: App::Persistence['kJewelryPercentage'],
           shipping: App::Persistence['kShippingRate'],
-          taxEnabled: App::Persistence['kTaxEnabled'],to_bool,
+          taxEnabled: App::Persistence['kTaxEnabled'].to_bool,
           taxRate: App::Persistence['kTaxRate'],
           taxShipping: App::Persistence['kTaxShipping'].to_bool
         )
