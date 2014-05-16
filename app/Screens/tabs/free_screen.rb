@@ -1,7 +1,7 @@
 class FreeScreen < MasterJewelryScreen
   searchable
   title "Free Selections"
-  tab_bar_item icon: "tab_jewelry", title: "Free"
+  tab_bar_item icon: "jewelry", title: "Free"
 
   def on_load
     super

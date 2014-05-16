@@ -1,6 +1,6 @@
 class ReceiptScreen < PM::WebScreen
   title "Receipt"
-  tab_bar_item icon: "tab_receipt", title: "Receipt"
+  tab_bar_item icon: "receipt", title: "Receipt"
 
   def content
     parsed_html

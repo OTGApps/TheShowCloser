@@ -12,6 +12,14 @@ class Hostess < MotionDataWrapper::Model
     self.save
   end
 
+  def has_free_item?(item_number)
+
+  end
+
+  def has_halfprice_item?(item_number)
+
+  end
+
   def method_missing(meth, *args)
     obj_c_meth = "set" << meth.split('_').inject([]){ |buffer,e| buffer.push(e.capitalize) }.join.delete("=")
     if respond_to?(obj_c_meth)

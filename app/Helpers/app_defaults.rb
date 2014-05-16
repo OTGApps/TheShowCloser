@@ -1,7 +1,5 @@
 class AppDefaults
   def self.set
-    # defaults = NSUserDefaults.standardUserDefaults
-
     {
       kTaxEnabled: true,
       kTaxRate: 6.75,

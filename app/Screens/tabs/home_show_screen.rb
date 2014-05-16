@@ -17,7 +17,7 @@ class HomeShowScreen < Formotion::FormController
 
     self.title = 'Home Show'
     self.navigationController.tabBarItem.title = "Show"
-    self.navigationController.tabBarItem.image = UIImage.imageNamed('tab_homeshow')
+    self.navigationController.tabBarItem.image = UIImage.imageNamed('homeshow')
 
     set_nav_bar_button :left, {
       title: "Hostesses",
