@@ -18,3 +18,5 @@ nbproject
 /vendor/
 
 /TSCDatamodel/
+
+*.xcdatamodeld
