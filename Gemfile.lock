@@ -1,34 +1,36 @@
 GIT
-  remote: git://github.com/clayallsopp/formotion.git
-  revision: b2f9edf443e5cef35973c634119cef3561e59b07
+  remote: git://github.com/markrickert/promotion_slide_menu.git
+  revision: 2ed80c6c454702b2a11fcf80e6733beadf053a83
+  branch: ECSlidingViewController
+  specs:
+    pro_motion_slide_menu (0.1.0)
+      ProMotion (> 1.0)
+      bubble-wrap
+      motion-cocoapods
+
+PATH
+  remote: ../BubbleWrap
+  specs:
+    bubble-wrap (1.6.0)
+      bubble-wrap-http (= 1.6.0)
+
+PATH
+  remote: ../ProMotion
+  specs:
+    ProMotion (2.0.0)
+      dbt (~> 1.1.4)
+      methadone (~> 1.3)
+
+PATH
+  remote: ../formotion
   specs:
     formotion (1.7)
       bubble-wrap (>= 1.4.0)
       motion-require (>= 0.1.0)
 
-GIT
-  remote: git://github.com/markrickert/promotion_slide_menu.git
-  revision: 7767fbdd506784b9a639a16a494a39558838c22e
-  branch: ECSlidingViewController
-  specs:
-    pro_motion_slide_menu (0.1.0)
-      ProMotion (~> 1.0)
-      bubble-wrap
-      motion-cocoapods
-
-GIT
-  remote: git://github.com/rubymotion/BubbleWrap.git
-  revision: 55f92007f4fd59eff0c657ddd912feb6fec2eae1
-  specs:
-    bubble-wrap (1.6.0)
-      bubble-wrap-http (= 1.6.0)
-
 GEM
   remote: https://rubygems.org/
   specs:
-    ProMotion (1.2.0)
-      methadone (~> 1.3)
-      motion-require (~> 0.2)
     ProMotion-formotion (0.1.4)
       ProMotion (>= 1.2.0)
       formotion (>= 1.7)
@@ -59,6 +61,7 @@ GEM
     cocoapods-downloader (0.5.0)
     cocoapods-try (0.2.0)
     colored (1.2)
+    dbt (1.1.4)
     escape (0.0.4)
     fuzzy_match (2.0.4)
     i18n (0.6.9)
@@ -74,13 +77,13 @@ GEM
       bubble-wrap
     multi_json (1.10.0)
     nap (0.7.0)
-    open4 (1.3.3)
-    rake (10.3.1)
+    open4 (1.3.4)
+    rake (10.3.2)
     rm_vendor (0.3.3)
       bubble-wrap
       motion-cocoapods
       sugarcube
-    sugarcube (1.6.0)
+    sugarcube (1.6.1)
     xcodeproj (0.16.1)
       activesupport (~> 3.0)
       colored (~> 1.2)
@@ -89,7 +92,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  ProMotion
+  ProMotion!
   ProMotion-formotion
   awesome_print_motion
   bubble-wrap!
