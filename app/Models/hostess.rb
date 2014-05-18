@@ -1,15 +1,10 @@
-class Hostess < MotionDataWrapper::Model
-
-  def create(options={})
-    ap 'created'
-    ap options
-  end
+class Hostess < CDQManagedObject
 
   def set_and_save(values)
     values.each do |k,v|
       self.send("#{k}=", v)
     end
-    self.save
+    cdq.save
   end
 
   def has_free_item?(item_number)
@@ -28,5 +23,4 @@ class Hostess < MotionDataWrapper::Model
       warn NoMethodError.new("Method not implemented on Hostess model: #{meth.to_s}")
     end
   end
-
 end

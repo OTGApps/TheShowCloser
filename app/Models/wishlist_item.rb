@@ -1,3 +1,3 @@
-class WishlistItem < MotionDataWrapper::Model
+class WishlistItem < CDQManagedObject
 
 end

@@ -1,10 +1,11 @@
 class AppDelegate < PM::Delegate
-  include MotionDataWrapper::Delegate
+  include CDQ
   tint_color "#7B4289".to_color
 
   def on_load(app, options)
+    cdq.setup
+    
     # 3rd Party integrations
-
     BW.debug = true unless App.info_plist['AppStoreRelease'] == true
 
     unless Device.simulator?

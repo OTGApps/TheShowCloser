@@ -38,4 +38,7 @@ Motion::Project::App.setup do |app|
     app.testflight.identify_testers = false
   end
 
+  # For CDQ
+  task :"build:simulator" => :"schema:build"
+
 end
