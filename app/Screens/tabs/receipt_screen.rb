@@ -13,7 +13,27 @@ class ReceiptScreen < PM::WebScreen
   end
 
   def on_load
-    view.backgroundColor = UIColor.whiteColor
+    set_nav_bar_button :right, {
+      title: "Email Receipt",
+      system_item: :reply,
+      action: :email_receipt
+    }
+  end
+
+  def email_receipt
+    BW::Mail.compose(
+      delegate: self,
+      html: true,
+      subject: " Premier Designs Receipt from #{App::Persistence['kReceiptName']}",
+      message: html,
+    ) do |result, error|
+      # result.sent?      # => boolean
+      # result.canceled?  # => boolean
+      # result.saved?     # => boolean
+      # result.failed?    # => boolean
+      # error             # => NSError
+    end
+
   end
 
   def parsed_html
@@ -26,7 +46,7 @@ class ReceiptScreen < PM::WebScreen
     html.sub! '[[[DATE]]]', Time.now.full_date # Put the date on the receipt
     # html.sub! '[[[SHOW_DATE]]]', h.showDate.full_date
     # html.sub! '[[[HOSTESS_NAME]]]', h.name
-    # html.sub! '[[[JEWELER_NAME]]]', h.name
+    html.sub! '[[[JEWELER_NAME]]]', App::Persistence['kReceiptName']
 
 
 	# //Put the tax rate on the receipt
