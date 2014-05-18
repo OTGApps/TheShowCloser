@@ -31,10 +31,6 @@ PATH
 GEM
   remote: https://rubygems.org/
   specs:
-    ProMotion-formotion (0.1.4)
-      ProMotion (>= 1.2.0)
-      formotion (>= 1.7)
-      motion-require (>= 0.2.0)
     activesupport (3.2.18)
       i18n (~> 0.6, >= 0.6.4)
       multi_json (~> 1.0)
@@ -101,7 +97,6 @@ PLATFORMS
 
 DEPENDENCIES
   ProMotion!
-  ProMotion-formotion
   awesome_print_motion
   bubble-wrap!
   cdq
