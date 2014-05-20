@@ -7,12 +7,12 @@ class Hostess < CDQManagedObject
     cdq.save
   end
 
-  def has_free_item?(item_number)
-
+  def has_free?(item_number)
+    !self.wishlist.find{ |wli| wli.item == item_number || wli.qtyFree > 0 }.nil?
   end
 
-  def has_halfprice_item?(item_number)
-
+  def has_halfprice?(item_number)
+    !self.wishlist.find{ |wli| wli.item == item_number && wli.qtyHalfPrice > 0 }.nil?
   end
 
   def method_missing(meth, *args)
@@ -21,6 +21,7 @@ class Hostess < CDQManagedObject
       send obj_c_meth, *args
     else
       warn NoMethodError.new("Method not implemented on Hostess model: #{meth.to_s}")
+      false
     end
   end
 end

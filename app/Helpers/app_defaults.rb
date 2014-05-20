@@ -6,8 +6,6 @@ class AppDefaults
       kShippingRate: 4.0,
       kTaxShipping: true,
       kLockPortraitMode: false,
-      kJewelryPercentage: 30,
-      kBonusValue: 50,
       kReceiptName: "Your Favorite Jewelry Lady",
     }.each do |k, v|
       App::Persistence[k.to_s] ||= v

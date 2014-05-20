@@ -1,4 +1,4 @@
-  schema "006" do
+  schema "005" do
 
     entity "Hostess" do
       float     :addtlCharge, default: 0
@@ -21,7 +21,6 @@
       boolean   :taxEnabled, default: true
       float     :taxRate
       boolean   :taxShipping, default:true
-      string    :notes
 
       has_many  :wishlist, inverse: "WishlistItem.hostesses"
     end
@@ -32,7 +31,7 @@
       string    :name
       string    :pages
       float     :price
-      integer16 :qtyFree, optional: false, default: 0
+      integer16 :qtyFree, default: 0
       integer16 :qtyHalfPrice, default: 0
       boolean   :retired
       boolean   :stopSell

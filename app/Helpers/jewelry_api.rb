@@ -12,8 +12,6 @@ class JewelryAPI
   end
 
   def self.version_info(&block)
-
-
     BW::HTTP.post(VERSION_URL, {payload: JewelryAPI.post_data}) do |response|
       json = nil
       error = nil
@@ -29,7 +27,7 @@ class JewelryAPI
   end
 
   def self.get_jewelry(&block)
-    BW::HTTP.post(JEWELRY_URL, {payload: JewelryAPI.post_data}) do |response|
+    BW::HTTP.post(JEWELRY_URL, { payload: JewelryAPI.post_data} ) do |response|
       text = nil
       error = nil
 

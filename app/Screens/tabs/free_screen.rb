@@ -3,13 +3,25 @@ class FreeScreen < MasterJewelryScreen
   title "Free Selections"
   tab_bar_item icon: "jewelry", title: "Free"
 
-  def on_load
-    super
+  def build_cell(data)
+    {
+      selection_style: UITableViewCellSelectionStyleDefault,
+      action: :toggle_free,
+      image: Hostesses.shared_hostess.current_hostess.has_free?(data['item']) ? 'free' : 'normal',
+      arguments: { item: data['item'] },
+    }.merge(super)
   end
 
-  def on_appear
-    super
-    ap "test"
+  def toggle_free(args)
+    ch = Hostesses.shared_hostess.current_hostess
+
+    if ch.has_free?(args[:item])
+      ch.remove_free(args[:item])
+    else
+      ch.add_free(args[:item])
+    end
+
+    update_table_data
   end
 
 end

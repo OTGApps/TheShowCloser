@@ -8,7 +8,6 @@ class GlobalSettingsScreen < Formotion::FormController
   end
 
   def init
-
     @form ||= Formotion::Form.new({
       sections: [{
         title: "These settings will be the default for new hostesses. Changing these values will not affect previously created hostesses.",
