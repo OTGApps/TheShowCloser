@@ -7,7 +7,7 @@
       boolean   :bonus2, default: false
       boolean   :bonus3, default: false
       boolean   :bonus4, default: false
-      integer16 :bonusValue, default: 25
+      integer16 :bonusValue, default: 50
       integer16 :bonusExtra, default: 0
       datetime  :createdDate, optional: false
       float     :discount, default: 0.0

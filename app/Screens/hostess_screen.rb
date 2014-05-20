@@ -13,7 +13,7 @@ class HostessScreen < PM::TableScreen
         title: "Global Settings",
         action: :show_global_options,
       }]
-    # ap Hostess.destroy_all
+    # ap Hostess.destroy_all!
   end
 
   def on_appear
@@ -34,10 +34,10 @@ class HostessScreen < PM::TableScreen
   end
 
   def all_hostesses
-    Hostess.all.sort_by { |h| h.showDate }.reverse.collect do |h|
+    Hostess.sort_by(:createdDate, order: :descending).collect do |h|
       {
         title: h.name,
-        subtitle: "Show: #{h.showDate.short_date}",
+        subtitle: "Show: #{h.createdDate.short_date}",
         cell_style: UITableViewCellStyleSubtitle,
         accessory_type: UITableViewCellAccessoryDisclosureIndicator,
         selection_style: UITableViewCellSelectionStyleGray,
@@ -59,13 +59,11 @@ class HostessScreen < PM::TableScreen
 
         h = Hostess.create(
           name: a.plain_text_field.text,
-          showDate: Time.now,
-          bonusValue: App::Persistence['kBonusValue'],
-          jewelryPercentage: App::Persistence['kJewelryPercentage'],
+          createdDate: Time.now,
           shipping: App::Persistence['kShippingRate'],
-          taxEnabled: App::Persistence['kTaxEnabled'].to_bool,
+          taxEnabled: App::Persistence['kTaxEnabled'],
           taxRate: App::Persistence['kTaxRate'],
-          taxShipping: App::Persistence['kTaxShipping'].to_bool
+          taxShipping: App::Persistence['kTaxShipping']
         )
         ap h
         update_table_data

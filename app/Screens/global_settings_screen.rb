@@ -14,7 +14,7 @@ class GlobalSettingsScreen < Formotion::FormController
         title: "These settings will be the default for new hostesses. Changing these values will not affect previously created hostesses.",
         rows: []
       },{
-        title: "Tax:",
+        title: "Tax & Shipping:",
         rows: [{
           title: "Enable Tax?",
           key: :kTaxEnabled,
@@ -30,6 +30,11 @@ class GlobalSettingsScreen < Formotion::FormController
           key: :kTaxShipping,
           type: :switch,
           value: App::Persistence['kTaxShipping']
+        },{
+          title: "Shipping Price",
+          key: :kShippingRate,
+          type: :currency,
+          value: App::Persistence['kShippingRate']
         }]
       },{
         title: "Preferences:",

@@ -40,7 +40,7 @@ class HomeShowScreen < Formotion::FormController
     ap 'Saving Hostess Data'
 
     serialized = form.render
-    serialized[:show_date] = Time.at(serialized[:show_date])
+    serialized[:created_date] = Time.at(serialized[:created_date])
     serialized[:jewelry_percentage] = serialized[:jewelry_percentage].to_i
     serialized[:tax_rate] = serialized[:tax_rate].to_f
 
@@ -65,6 +65,7 @@ class HomeShowScreen < Formotion::FormController
   end
 
   def form_data
+    ch = Hostesses.shared_hostess.current_hostess
     {
       sections: [{
         title: "Show Results:",
@@ -72,18 +73,18 @@ class HomeShowScreen < Formotion::FormController
           title: "Total",
           key: :show_total,
           type: :currency,
-          value: Hostesses.shared_hostess.current_hostess.showTotal,
+          value: ch.showTotal,
           input_accessory: :done,
           done_action: default_done_action
         },{
           title: "Earned Bonus 1",
           key: :bonus_1,
-          value: Hostesses.shared_hostess.current_hostess.bonus1.to_bool,
+          value: ch.bonus1.to_bool,
           type: :switch
         },{
           title: "Earned Bonus 2",
           key: :bonus_2,
-          value: Hostesses.shared_hostess.current_hostess.bonus2.to_bool,
+          value: ch.bonus2.to_bool,
           type: :switch
         }]
       },{
@@ -92,15 +93,15 @@ class HomeShowScreen < Formotion::FormController
           title: "Hostess Name",
           key: :name,
           type: :string,
-          value: Hostesses.shared_hostess.current_hostess.name,
+          value: ch.name,
           input_accessory: :done,
           done_action: default_done_action
         },{
           title: "Date",
-          key: :show_date,
+          key: :created_date,
           type: :date,
           format: :medium,
-          value: Hostesses.shared_hostess.current_hostess.showDate.to_i,
+          value: ch.createdDate.to_i,
           input_accessory: :done,
           done_action: default_done_action
         },{
@@ -118,14 +119,14 @@ class HomeShowScreen < Formotion::FormController
           key: :jewelry_percentage,
           type: :picker,
           items: ['20', '30', '40', '50'],
-          value: Hostesses.shared_hostess.current_hostess.jewelryPercentage.to_s,
+          value: ch.jewelryPercentage.to_s,
           input_accessory: :done,
           done_action: default_done_action
         },{
           title: "Bonus Value",
           key: :bonus_value,
           type: :currency,
-          value: Hostesses.shared_hostess.current_hostess.bonusValue,
+          value: ch.bonusValue,
           input_accessory: :done,
           done_action: default_done_action
         },{
@@ -133,7 +134,7 @@ class HomeShowScreen < Formotion::FormController
           key: :bonus_extra,
           type: :currency,
           input_accessory: :done,
-          value: Hostesses.shared_hostess.current_hostess.bonusExtra,
+          value: ch.bonusExtra,
           done_action: default_done_action
         }]
       },{
@@ -142,12 +143,12 @@ class HomeShowScreen < Formotion::FormController
           title: "Enable Tax?",
           key: :tax_enabled,
           type: :switch,
-          value: Hostesses.shared_hostess.current_hostess.taxEnabled
+          value: ch.taxEnabled
         },{
           title: "Tax Rate (%)",
           key: :tax_rate,
           type: :number,
-          value: Hostesses.shared_hostess.current_hostess.taxRate,
+          value: ch.taxRate,
           input_accessory: :done,
           done_action: default_done_action
         },{
@@ -155,13 +156,13 @@ class HomeShowScreen < Formotion::FormController
           key: :shipping,
           type: :currency,
           input_accessory: :done,
-          value: Hostesses.shared_hostess.current_hostess.shipping,
+          value: ch.shipping,
           done_action: default_done_action
         },{
           title: "Tax Shipping?",
           key: :tax_shipping,
           type: :switch,
-          value: Hostesses.shared_hostess.current_hostess.shipping
+          value: ch.shipping
         }]
       },{
         title: "Special Discounts / Charges:",
@@ -169,14 +170,14 @@ class HomeShowScreen < Formotion::FormController
           title: "Additional Discount",
           key: :addtl_discount,
           type: :currency,
-          value: Hostesses.shared_hostess.current_hostess.addtlDiscount,
+          value: ch.addtlDiscount,
           input_accessory: :done,
           done_action: default_done_action
         },{
           title: "Additional Charge",
           key: :addtl_charge,
           type: :currency,
-          value: Hostesses.shared_hostess.current_hostess.addtlCharge,
+          value: ch.addtlCharge,
           input_accessory: :done,
           done_action: default_done_action
         }]
@@ -185,7 +186,7 @@ class HomeShowScreen < Formotion::FormController
   end
 
   def build_form
-    return Formotion::Form.new if Hostesses.shared_hostess.current_hostess.nil?
+    return Formotion::Form.new() if Hostesses.shared_hostess.current_hostess.nil?
     Formotion::Form.new(form_data)
   end
 

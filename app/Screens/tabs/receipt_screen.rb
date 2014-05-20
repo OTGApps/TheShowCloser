@@ -44,7 +44,7 @@ class ReceiptScreen < PM::WebScreen
 	# NSDictionary *reportData = [jb totalDict];
 
     html.sub! '[[[DATE]]]', Time.now.full_date # Put the date on the receipt
-    # html.sub! '[[[SHOW_DATE]]]', h.showDate.full_date
+    # html.sub! '[[[SHOW_DATE]]]', h.createdDate.full_date
     # html.sub! '[[[HOSTESS_NAME]]]', h.name
     html.sub! '[[[JEWELER_NAME]]]', App::Persistence['kReceiptName']
 
