@@ -83,6 +83,7 @@ class HostessScreen < PM::TableScreen
 
   def on_cell_deleted(cell)
     cell[:arguments][:hostess].destroy
+    cdq.save
     true
   end
 
