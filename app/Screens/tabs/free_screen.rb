@@ -21,11 +21,9 @@ class FreeScreen < MasterJewelryScreen
 
     qty = (ch.has_free?(args[:item])) ? 0 : 1
     ch.set_free(args[:item], qty)
-    update_table_data
   end
 
   def show_qty_picker(args)
-
     initial_index = 0
     if Hostesses.shared_hostess.current_hostess.has_free?(args[:item])
       initial_index = Hostesses.shared_hostess.current_hostess.free_count(args[:item])
@@ -45,7 +43,6 @@ class FreeScreen < MasterJewelryScreen
         ap "Canceled the picker"
       },
       origin: self.view)
-
   end
 
 end

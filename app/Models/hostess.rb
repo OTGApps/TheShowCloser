@@ -57,6 +57,7 @@ class Hostess < CDQManagedObject
       i.destroy
       cdq.save
     end
+    App.notification_center.post 'ReloadJewelryTableNotification'
   end
 
   # Find

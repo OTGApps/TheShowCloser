@@ -10,6 +10,14 @@ class MasterJewelryScreen < PM::TableScreen
 
   def on_appear
     cells
+
+    @reload_observer = App.notification_center.observe 'ReloadJewelryTableNotification' do |notification|
+      cells
+    end
+  end
+
+  def on_disappear
+    App.notification_center.unobserve @reload_observer
   end
 
   def table_data
@@ -24,6 +32,16 @@ class MasterJewelryScreen < PM::TableScreen
       build_cell(j)
     end
     update_table_data
+  end
+
+  def update_table_data
+    ap "Updating table data"
+    # TODO - Fix this
+    if searching?
+      searchDisplayController(nil, shouldReloadTableForSearchString:search_string)
+    end
+
+    super
   end
 
   def build_cell(data)
