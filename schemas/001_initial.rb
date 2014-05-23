@@ -28,7 +28,7 @@
       string    :name
       string    :pages
       float     :price
-      integer16 :qtyFree, optional: false, default: 0
+      integer16 :qtyFree, default: 0
       integer16 :qtyHalfPrice, default: 0
       boolean   :retired
       boolean   :stopSell
