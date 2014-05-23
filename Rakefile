@@ -11,9 +11,9 @@ end
 Motion::Project::App.setup do |app|
   # Use `rake config' to see complete project settings.
   app.name = 'Closer'
-  app.device_family = [:iphone, :ipad]
   app.deployment_target = "7.0"
   app.device_family = [:iphone]
+# app.device_family = [:iphone, :ipad]
   app.interface_orientations = [:portrait, :portrait_upside_down]
   app.identifier = 'com.mohawkapps.TheShowCloser'
   app.version = '18'
@@ -26,8 +26,8 @@ Motion::Project::App.setup do |app|
     pod 'FlurrySDK'
     pod 'Appirater'
     pod 'Harpy'
-    pod 'TestFlightSDK'
     pod 'MRCurrencyRound'
+    pod 'ActionSheetPicker-3.0'
   end
 
   app.release do
@@ -35,10 +35,8 @@ Motion::Project::App.setup do |app|
     app.entitlements['get-task-allow'] = false
     app.codesign_certificate = "iPhone Distribution: Mohawk Apps, LLC (DW9QQZR4ZL)"
     app.provisioning_profile = "./provisioning/TSCDistribution.mobileprovision"
-    app.testflight.identify_testers = false
   end
 
-  # For CDQ
-  task :"build:simulator" => :"schema:build"
+  task :"build:simulator" => :"schema:build" # For CDQ
 
 end
