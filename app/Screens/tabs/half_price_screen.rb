@@ -1,7 +1,7 @@
 class HalfPriceScreen < MasterJewelryScreen
   searchable
   title "Half Price Selections"
-  tab_bar_item icon: "jewelry", title: "1/2 Price"
+  tab_bar_item icon: "tab_jewelry", title: "1/2 Price"
 
   def build_cell(data)
     {
