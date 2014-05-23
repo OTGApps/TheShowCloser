@@ -4,6 +4,11 @@ class FreeScreen < MasterJewelryScreen
   title "Free Selections"
   tab_bar_item icon: "tab_jewelry", title: "Free"
 
+  def on_load
+    super
+    set_nav_bar_button :right, title: "Clear All", action: :clear_all_free, system_item: :trash
+  end
+
   def build_cell(data)
     {
       selection_style: UITableViewCellSelectionStyleDefault,
@@ -21,6 +26,19 @@ class FreeScreen < MasterJewelryScreen
 
     qty = (ch.has_free?(args[:item])) ? 0 : 1
     ch.set_free(args[:item], qty)
+  end
+
+  def clear_all_free
+    BW::UIAlertView.new({
+      title: 'Clear all free items?',
+      message: 'Are you sure you want to clear all free hostess selections?',
+      buttons: ['No', 'Yes'],
+      cancel_button_index: 0
+    }) do |alert|
+      unless alert.clicked_button.cancel?
+        Hostesses.shared_hostess.current_hostess.clear_free
+      end
+    end.show
   end
 
   def show_qty_picker(args)

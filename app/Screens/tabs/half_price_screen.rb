@@ -4,6 +4,11 @@ class HalfPriceScreen < MasterJewelryScreen
   title "Half Price Selections"
   tab_bar_item icon: "tab_jewelry", title: "1/2 Price"
 
+  def on_load
+    super
+    set_nav_bar_button :right, title: "Clear All", action: :clear_all_halfprice, system_item: :trash
+  end
+
   def build_cell(data)
     {
       selection_style: UITableViewCellSelectionStyleDefault,
@@ -21,6 +26,19 @@ class HalfPriceScreen < MasterJewelryScreen
 
     qty = (ch.has_halfprice?(args[:item])) ? 0 : 1
     ch.set_halfprice(args[:item], qty)
+  end
+
+  def clear_all_halfprice
+    BW::UIAlertView.new({
+      title: 'Clear all half price items?',
+      message: 'Are you sure you want to clear all half price hostess selections?',
+      buttons: ['No', 'Yes'],
+      cancel_button_index: 0
+    }) do |alert|
+      unless alert.clicked_button.cancel?
+        Hostesses.shared_hostess.current_hostess.clear_halfprice
+      end
+    end.show
   end
 
   def show_qty_picker(args)

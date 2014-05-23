@@ -60,7 +60,42 @@ class Hostess < CDQManagedObject
     App.notification_center.post 'ReloadJewelryTableNotification'
   end
 
+  # Clear
+  def clear_free
+    items.each do |i|
+      i.qtyFree = 0
+      if i.qtyFree == 0 && i.qtyHalfPrice == 0
+        i.destroy
+      end
+    end
+    cdq.save
+    App.notification_center.post 'ReloadJewelryTableNotification'
+  end
+
+  def clear_halfprice
+    items.each do |i|
+      i.qtyHalfPrice = 0
+      if i.qtyFree == 0 && i.qtyHalfPrice == 0
+        i.destroy
+      end
+    end
+    cdq.save
+    App.notification_center.post 'ReloadJewelryTableNotification'
+  end
+
   # Find
+  def items
+    self.wishlist.all
+  end
+
+  def free_items
+    self.wishlist.where(:qtyFree).gt(0).all
+  end
+
+  def halfprice_items
+    self.wishlist.where(:qtyHalfPrice).gt(0).all
+  end
+
   def item(item_number)
     self.wishlist.where(:item).eq(item_number.to_i).first
   end
