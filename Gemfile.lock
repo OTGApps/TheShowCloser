@@ -1,4 +1,11 @@
 GIT
+  remote: git://github.com/MohawkApps/awesome_print_motion.git
+  revision: c1f519ce93e5ee6dbdee39663516f4b4fb1fa2b4
+  branch: bubblewrap-debug
+  specs:
+    awesome_print_motion (0.1.0)
+
+GIT
   remote: git://github.com/markrickert/promotion_slide_menu.git
   revision: 2ed80c6c454702b2a11fcf80e6733beadf053a83
   branch: ECSlidingViewController
@@ -34,7 +41,6 @@ GEM
     activesupport (3.2.18)
       i18n (~> 0.6, >= 0.6.4)
       multi_json (~> 1.0)
-    awesome_print_motion (0.1.0)
     bubble-wrap-http (1.6.0)
     builder (3.2.2)
     cdq (0.1.8)
@@ -107,7 +113,7 @@ PLATFORMS
 
 DEPENDENCIES
   ProMotion!
-  awesome_print_motion
+  awesome_print_motion!
   bubble-wrap!
   cdq
   cocoapods

@@ -2,8 +2,8 @@ class AppDefaults
   def self.set
     {
       kTaxEnabled: true,
-      kTaxRate: 6.75,
-      kShippingRate: 4.0,
+      kTaxRate: "6.75",
+      kShippingRate: "4.00",
       kTaxShipping: true,
       kLockPortraitMode: false,
       kReceiptName: "Your Favorite Jewelry Lady",

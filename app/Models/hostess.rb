@@ -108,6 +108,21 @@ class Hostess < CDQManagedObject
     self.wishlist.where(:item).eq(item_number.to_i).and(cdq(:qtyHalfPrice).gt(0)).first
   end
 
+  def new_hostess_plan?
+    new_bonuses_date = "2013-07-27"
+    formatter = NSDateFormatter.alloc.init
+    formatter.setDateFormat("yyyy-MM-dd")
+    createdDate.later_than?(formatter.dateFromString(new_bonuses_date))
+  end
+
+  def tax_rate
+    (taxRate || 0.0).to_f
+  end
+
+  def shipping_rate
+    (shipping || 0.0).to_f
+  end
+
   def method_missing(meth, *args)
     obj_c_meth = "set" << meth.split('_').inject([]){ |buffer,e| buffer.push(e.capitalize) }.join.delete("=")
     if respond_to?(obj_c_meth)

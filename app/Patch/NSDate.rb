@@ -11,4 +11,8 @@ class NSDate
     dateFormatter.setDateStyle(NSDateFormatterLongStyle)
     dateFormatter.stringFromDate(self)
   end
+
+  def later_than?(other_date)
+	   (self.compare(other_date) == NSOrderedDescending)
+  end
 end

@@ -65,6 +65,7 @@ class HostessScreen < PM::TableScreen
           taxRate: App::Persistence['kTaxRate'],
           taxShipping: App::Persistence['kTaxShipping']
         )
+        cdq.save
         ap h
         update_table_data
       end

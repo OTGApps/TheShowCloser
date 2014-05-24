@@ -42,7 +42,11 @@ class HomeShowScreen < Formotion::FormController
     serialized = form.render
     serialized[:created_date] = Time.at(serialized[:created_date])
     serialized[:jewelry_percentage] = serialized[:jewelry_percentage].to_i
-    serialized[:tax_rate] = serialized[:tax_rate].to_f
+
+    # Stringify
+    [:tax_rate, :shipping, :show_total, :addtl_discount, :addtl_charge].each do |sym|
+      serialized[sym] = serialized[sym].to_s
+    end
 
     ap serialized
 
@@ -105,7 +109,6 @@ class HomeShowScreen < Formotion::FormController
           input_accessory: :done,
           done_action: default_done_action
         },{
-          # TODO - Make this work
           title: "Notes:",
           key: :notes,
           type: :text,
@@ -162,7 +165,7 @@ class HomeShowScreen < Formotion::FormController
           title: "Tax Shipping?",
           key: :tax_shipping,
           type: :switch,
-          value: ch.shipping
+          value: ch.taxShipping
         }]
       },{
         title: "Special Discounts / Charges:",
