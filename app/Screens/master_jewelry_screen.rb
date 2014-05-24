@@ -28,7 +28,7 @@ class MasterJewelryScreen < PM::TableScreen
   end
 
   def cells
-    @data = JeweleryData.file_data['database'].sort_by { |j| j['name'] }.collect do |j|
+    @data = JewelryData.file_data['database'].sort_by { |j| j['name'] }.collect do |j|
       build_cell(j)
     end
     update_table_data

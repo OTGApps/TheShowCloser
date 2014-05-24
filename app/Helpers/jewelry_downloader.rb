@@ -70,7 +70,7 @@ class JewelryDownloader
   def download_and_save
     JewelryAPI.get_jewelry do |json_text, error|
       if error.nil?
-        File.open(JeweleryData.file_location, 'w') { |file| file.write(json_text) }
+        File.open(JewelryData.file_location, 'w') { |file| file.write(json_text) }
         done_downloading
       else
         Motion::Blitz.error('Download failed. Please try again later.')
@@ -82,8 +82,8 @@ class JewelryDownloader
   private
   def done_downloading
     ap 'Done Downloading'
-    ap JeweleryData.file_data['db']
-    App::Persistence['db_version'] = JeweleryData.file_data['db']
+    ap JewelryData.file_data['db']
+    App::Persistence['db_version'] = JewelryData.file_data['db']
     Motion::Blitz.success('All done!')
   end
 
