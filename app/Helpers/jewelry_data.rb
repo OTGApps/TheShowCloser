@@ -7,6 +7,10 @@ class JewelryData
     File.join(App.documents_path, "jewelry.json")
   end
 
+  def self.sorted
+    file_data['database'].sort_by { |j| j['name'] }    
+  end
+
   def self.item_data(number)
     i = file_data['database'].find{|item| item['item'] == number.to_s}
     ap i.class
