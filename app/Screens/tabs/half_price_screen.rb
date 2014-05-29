@@ -10,15 +10,15 @@ class HalfPriceScreen < MasterJewelryScreen
   end
 
   def build_cell(data)
-    {
+    super.merge({
       selection_style: UITableViewCellSelectionStyleDefault,
       action: :toggle_halfprice,
       long_press_action: :show_qty_picker,
       image: Hostesses.shared_hostess.current_hostess.has_halfprice?(data['item']) ? UIImage.cellImageWithText(Hostesses.shared_hostess.current_hostess.halfprice_count(data['item'])) : 'normal',
       arguments: {
         item: data['item']
-      },
-    }.merge(super)
+      }
+    })
   end
 
   def toggle_halfprice(args)
