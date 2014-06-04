@@ -117,12 +117,20 @@ class Hostess < CDQManagedObject
     createdDate.later_than?(formatter.dateFromString(new_bonuses_date))
   end
 
+  def tax_enabled?
+    taxEnabled.to_bool
+  end
+
+  def tax_shipping?
+    taxShipping.to_bool
+  end
+
   def tax_rate
-    (taxRate || 0.0).to_f
+    BigDecimal.new(taxRate || 0.0)
   end
 
   def shipping_rate
-    (shipping || 0.0).to_f
+    BigDecimal.new(shipping || 0.0)
   end
 
   def method_missing(meth, *args)

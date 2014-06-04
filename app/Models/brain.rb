@@ -4,15 +4,20 @@ class Brain
     Hostesses.shared_hostess.current_hostess
   end
 
-  def getTaxRate
-    BigDecimal.new(h.taxEnabled == true ? h.taxRate : 0.0)
+  def tax_rate
+    BigDecimal.new(h.tax_enabled? ? h.taxRate : 0.0) / 100
   end
 
-  def getShippingRate
+  def shipping_rate
     BigDecimal.new(h.shipping)
   end
 
+  def shipping_total
+    (h.tax_shipping?) ? shipping_rate * (tax_rate + 1) : shipping_rate
+  end
+
   def half_price_total
+    ap 'Calculating half price total.'
     total = BigDecimal.new(0)
     h.halfprice_items.each do |item|
       total = total + (item.qtyHalfPrice * item.price)
@@ -46,7 +51,7 @@ class Brain
     # If it's a catalog show, completely ignore if 30-40-50 is on.
     return jp if jp == 20
 
-    if h.promotion304050 == true
+    if h.promotion304050.to_bool == true
       # Get the levels and the total retail+1/2 price
       showTotalWithHalfPrice = h.showTotal + half_price_total
       fourtyPctTrigger = h.promotion304050Trigger40

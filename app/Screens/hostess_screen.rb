@@ -3,7 +3,7 @@ class HostessScreen < PM::TableScreen
   title "Your Hostesses"
 
   def on_load
-    set_nav_bar_button :right, system_icon: :add, action: :add_hostess
+    set_nav_bar_button :right, system_item: :add, action: :add_hostess
     set_toolbar_items [{
         image: UIImage.imageNamed("jewelry"),
         action: :show_quick_lookup,
@@ -77,7 +77,8 @@ class HostessScreen < PM::TableScreen
   end
 
   def pick_hostess(args)
-    Hostesses.shared_hostess.current_hostess = args[:cell][:arguments][:hostess]
+    ap args
+    Hostesses.shared_hostess.current_hostess = args[:hostess]
     App.notification_center.post "PickedHostessNotification"
     App.delegate.slide_menu.hide
   end

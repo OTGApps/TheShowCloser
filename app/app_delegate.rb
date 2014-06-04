@@ -4,7 +4,7 @@ class AppDelegate < PM::Delegate
 
   def on_load(app, options)
     cdq.setup
-    
+
     # 3rd Party integrations
     BW.debug = true unless App.info_plist['AppStoreRelease'] == true
 
@@ -36,6 +36,7 @@ class AppDelegate < PM::Delegate
       UINavigationController.alloc.initWithRootViewController(HomeShowScreen.alloc.init),
       FreeScreen.new(nav_bar:true),
       HalfPriceScreen.new(nav_bar:true),
+      GenieScreen.new(nav_bar:true),
       ReceiptScreen.new(nav_bar:true, external_links: false)
     )
 

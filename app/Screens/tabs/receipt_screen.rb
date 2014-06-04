@@ -56,21 +56,27 @@ class ReceiptScreen < PM::WebScreen
 
   def parsed_html
     ap "Getting parsed HTML"
-    html = File.read(File.join(App.resources_path, "ReceiptTemplate.html"))
     ch = Hostesses.shared_hostess.current_hostess
 
-    # We don't have a current hostess yet!
-    return html if ch.nil?
+    if ch.nil?
+      # We don't have a current hostess yet!
+      return File.read(File.join(App.resources_path, "ReceiptError.html"))
+    end
+
+    html = File.read(File.join(App.resources_path, "ReceiptTemplate.html"))
 
     ap "Setting html contents"
 
     brain = Brain.new
     report_data = brain.to_dict
+    puts report_data
 
     html.sub!('[[[DATE]]]', Time.now.full_date) # Put the date on the receipt
     html.sub!('[[[SHOW_DATE]]]', ch.createdDate.full_date)
     html.sub!('[[[HOSTESS_NAME]]]', ch.name)
     html.sub!('[[[JEWELER_NAME]]]', App::Persistence['kReceiptName'])
+
+    html.sub!('[[[TOTAL_RETAIL]]]', dolarize(ch.showTotal))
 
     # Put the tax rate on the receipt
     html.sub!('[[[TAX_RATE]]]', ch.tax_rate.to_s)
@@ -91,6 +97,8 @@ class ReceiptScreen < PM::WebScreen
     end
 
     html.sub!('[[[HALF_PRICE_SELECTIONS]]]', half_price_html)
+    ap "half price total: "
+    ap brain.half_price_total.to_s
     html.sub!('[[[HALF_PRICE_TOTAL]]]', brain.half_price_total.to_s)
 
 	  # Bonuses
@@ -126,12 +134,11 @@ class ReceiptScreen < PM::WebScreen
 
     # Bonus values
     bonus_html = dolarize(report_data['awardValueTotal5'])
-    bonus_html << " (+#{dolarize(h.bonusExtra)})" if h.bonusExtra > 0
+    bonus_html << " (+#{dolarize(h.bonusExtra)})" if ch.bonusExtra > 0
     html.sub!('[[[AWARD_VALUE_TOTAL]]]', bonus_html)
 
-    html.sub!('[[[AWARD_VALUE]]]', dolarize(h.bonusValue))
+    html.sub!('[[[AWARD_VALUE]]]', dolarize(ch.bonusValue))
 
-	# template = [template stringByReplacingOccurrencesOfString:@"[[[TOTAL_RETAIL]]]" withString:[NSString stringWithFormat:@"$%@", [jb totalRetail]]];
 	# template = [template stringByReplacingOccurrencesOfString:@"[[[RETAIL_PLUS_HALF]]]" withString:[NSString stringWithFormat:@"$%@", [report_data objectForKey:@"retailPlusHalf"]]];
 	# template = [template stringByReplacingOccurrencesOfString:@"[[[JEWELRY_PERCENTAGE]]]" withString:[NSString stringWithFormat:@"%u", [[report_data objectForKey:@"jewelryPercentage"] intValue]]];
 	# template = [template stringByReplacingOccurrencesOfString:@"[[[EQUALS_FOUR]]]" withString:[NSString stringWithFormat:@"$%.2f", [[report_data objectForKey:@"equalsFour"] floatValue]]];
@@ -176,7 +183,12 @@ class ReceiptScreen < PM::WebScreen
   end
 
   def dolarize(number)
-    "$#{number}"
+    d = sprintf("$%.2f", number)
+    if d.end_with?('.00')
+      d[0...-3]
+    else
+      d
+    end
   end
 
 end

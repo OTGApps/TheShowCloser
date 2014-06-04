@@ -118,7 +118,7 @@ class HomeShowScreen < Formotion::FormController
       },{
         title: "Hostess Benefits:",
         rows: [{
-          title: "Free Jewelry",
+          title: "Free Jewelry (%)",
           key: :jewelry_percentage,
           type: :picker,
           items: ['20', '30', '40', '50'],
