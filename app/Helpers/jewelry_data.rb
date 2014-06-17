@@ -8,7 +8,7 @@ class JewelryData
   end
 
   def self.sorted
-    file_data['database'].sort_by { |j| j['name'] }    
+    file_data['database'].sort_by { |j| j['name'] }
   end
 
   def self.item_data(number)
@@ -29,5 +29,9 @@ class JewelryData
       end
     end
     res
+  end
+
+  def self.items(items)
+    file_data['database'].select{ |j| items.include?(j['item'].to_i) }#.sort_by { |j| j.name }
   end
 end
