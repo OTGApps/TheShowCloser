@@ -10,22 +10,7 @@ class FreeScreen < MasterJewelryScreen
   end
 
   def build_cell(data)
-    super.merge({
-      selection_style: UITableViewCellSelectionStyleDefault,
-      action: :toggle_free,
-      long_press_action: :show_qty_picker,
-      image: Hostesses.shared_hostess.current_hostess.has_free?(data['item']) ? UIImage.cellImageWithText(Hostesses.shared_hostess.current_hostess.free_count(data['item'])) : 'normal',
-      arguments: {
-        item: data['item']
-      }
-    })
-  end
-
-  def toggle_free(args)
-    ch = Hostesses.shared_hostess.current_hostess
-
-    qty = (ch.has_free?(args[:item])) ? 0 : 1
-    ch.set_free(args[:item], qty)
+    build_free_cell(data)
   end
 
   def clear_all_free

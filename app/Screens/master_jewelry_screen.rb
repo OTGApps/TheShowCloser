@@ -35,16 +35,6 @@ class MasterJewelryScreen < PM::TableScreen
     update_table_data
   end
 
-  def update_table_data
-    ap "Updating table data"
-    # TODO - Fix this
-    if searching?
-      searchDisplayController(nil, shouldReloadTableForSearchString:search_string)
-    end
-
-    super
-  end
-
   def build_cell(data)
     {
       title: cell_title(data),
@@ -72,6 +62,56 @@ class MasterJewelryScreen < PM::TableScreen
     else
       ", Pages: #{p.join(', ')}"
     end
+  end
+
+  def build_free_cell(data)
+    ch = Hostesses.shared_hostess.current_hostess
+
+    cell_data(data).merge({
+      action: :toggle_free,
+      long_press_action: :show_qty_picker,
+      image: ch.has_free?(data['item']) ? UIImage.cellImageWithText(ch.free_count(data['item'])) : 'normal',
+    })
+  end
+
+  def build_halfprice_cell(data)
+    ch = Hostesses.shared_hostess.current_hostess
+
+    cell_data(data).merge({
+      action: :toggle_halfprice,
+      long_press_action: :show_qty_picker,
+      image: ch.has_halfprice?(data['item']) ? UIImage.cellImageWithText(ch.halfprice_count(data['item'])) : 'normal',
+    })
+  end
+
+  def cell_data(data)
+    {
+      title: cell_title(data),
+      subtitle: cell_subtitle(data),
+      cell_style: UITableViewCellStyleSubtitle,
+      selection_style: UITableViewCellSelectionStyleDefault,
+      arguments: {
+        item: data['item']
+      }
+    }
+  end
+
+  def toggle_free(args)
+    ch = Hostesses.shared_hostess.current_hostess
+
+    qty = (ch.has_free?(args[:item])) ? 0 : 1
+    ch.set_free(args[:item], qty)
+
+    update_table_data
+  end
+
+  def toggle_halfprice(args)
+    ch = Hostesses.shared_hostess.current_hostess
+
+    qty = (ch.has_halfprice?(args[:item])) ? 0 : 1
+    ch.set_halfprice(args[:item], qty)
+
+    update_table_data
   end
 
 end
