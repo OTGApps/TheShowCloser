@@ -31,11 +31,11 @@ class Hostess < CDQManagedObject
     if item(item_number)
       my_item = item(item_number)
       my_item.qtyFree = count.to_i
-      cdq.save
     else
       item_data = JewelryData.item_data(item_number)
       self.wishlist.create(item_data.merge({qtyFree:count.to_i}))
     end
+    cdq.save
     clean_up_item(item_number)
   end
 
@@ -44,11 +44,11 @@ class Hostess < CDQManagedObject
     if item(item_number)
       my_item = item(item_number)
       my_item.qtyHalfPrice = count.to_i
-      cdq.save
     else
       item_data = JewelryData.item_data(item_number)
       self.wishlist.create(item_data.merge({qtyFree:count.to_i}))
     end
+    cdq.save
     clean_up_item(item_number)
   end
 
