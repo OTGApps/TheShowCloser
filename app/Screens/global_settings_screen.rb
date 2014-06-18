@@ -142,7 +142,7 @@ class GlobalSettingsScreen < Formotion::FormController
     ap data
 
     data.each do |key, value|
-      App::Persistence[key.to_s] = value
+      App::Persistence[key.to_s] = ([TrueClass, FalseClass, String].include?(value.class)) ? value : value.to_s
     end
 
     dismissModalViewControllerAnimated(true)
