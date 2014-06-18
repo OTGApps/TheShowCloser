@@ -66,8 +66,11 @@ class HostessScreen < PM::TableScreen
           taxShipping: App::Persistence['kTaxShipping']
         )
         cdq.save
-        ap h
         update_table_data
+
+        new_cell = NSIndexPath.indexPathForRow(0, inSection:0)
+        data_cell = self.promotion_table_data.cell(index_path: new_cell)
+        trigger_action(data_cell[:action], data_cell[:arguments]) if data_cell[:action]
       end
     end
     alert_field = alert.textFieldAtIndex(0)

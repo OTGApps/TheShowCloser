@@ -23,3 +23,4 @@ gem 'ruby-xcdm'
 
 # Development
 gem 'awesome_print_motion', github: 'MohawkApps/awesome_print_motion', branch: 'bubblewrap-debug'
+gem 'motion-hockeyapp'
