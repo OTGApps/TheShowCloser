@@ -24,6 +24,13 @@ GIT
       bubble-wrap
       motion-cocoapods
 
+GIT
+  remote: git://github.com/rromanchuk/motion-hockeyapp.git
+  revision: 384e671c7e181b69b77d227485098d5bf50a2457
+  branch: sdk-from-cocoapods
+  specs:
+    motion-hockeyapp (1.1.6)
+
 PATH
   remote: ../BubbleWrap
   specs:
@@ -86,7 +93,6 @@ GEM
       motion-cocoapods (>= 1.4.0)
     motion-cocoapods (1.5.0)
       cocoapods (>= 0.32.1)
-    motion-hockeyapp (1.1.6)
     motion-require (0.2.0)
     motion-yaml (1.2)
     multi_json (1.10.1)
@@ -120,7 +126,7 @@ DEPENDENCIES
   formotion!
   motion-blitz
   motion-cocoapods
-  motion-hockeyapp
+  motion-hockeyapp!
   pro_motion_slide_menu!
   rake
   rm_vendor
