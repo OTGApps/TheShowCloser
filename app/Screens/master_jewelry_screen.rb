@@ -71,7 +71,7 @@ class MasterJewelryScreen < PM::TableScreen
 
     cell_data(data).merge({
       action: :toggle_free,
-      long_press_action: :show_qty_picker,
+      long_press_action: :show_free_qty_picker,
       image: ch.has_free?(data['item']) ? UIImage.cellImageWithText(ch.free_count(data['item'])) : 'normal',
     })
   end
@@ -81,7 +81,7 @@ class MasterJewelryScreen < PM::TableScreen
 
     cell_data(data).merge({
       action: :toggle_halfprice,
-      long_press_action: :show_qty_picker,
+      long_press_action: :show_halfprice_qty_picker,
       image: ch.has_halfprice?(data['item']) ? UIImage.cellImageWithText(ch.halfprice_count(data['item'])) : 'normal',
     })
   end
@@ -169,4 +169,44 @@ class MasterJewelryScreen < PM::TableScreen
     clear(:all)
   end
 
+  # Picker
+
+  def show_free_qty_picker(args)
+    show_qty_picker(args[:item], true)
+  end
+
+  def show_halfprice_qty_picker(args)
+    show_qty_picker(args[:item], false)
+  end
+
+  def show_qty_picker(item, free)
+    ch = Hostesses.shared_hostess.current_hostess
+
+    # Get the initial index for the picker
+    initial_index = 0
+    if free && ch.has_free?(item)
+      initial_index = ch.free_count(item)
+    elsif !free && ch.has_halfprice?(item)
+      initial_index = ch.halfprice_count(item)
+    end
+
+    ActionSheetStringPicker.showPickerWithTitle(
+      "Select Qty",
+      rows: (0..10).to_a.map{ |i| i.to_s },
+      initialSelection: initial_index,
+      doneBlock: -> picker, index, value {
+        ap "Picked Qty: #{value}"
+
+        if free
+          ch.set_free(item, value)
+        else
+          ch.set_halfprice(item, value)
+        end
+        update_table_data
+      },
+      cancelBlock: -> picker {
+        ap "Canceled the picker"
+      },
+      origin: self.view)
+  end
 end
