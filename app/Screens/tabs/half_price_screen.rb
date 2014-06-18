@@ -13,19 +13,6 @@ class HalfPriceScreen < MasterJewelryScreen
     build_halfprice_cell(data)
   end
 
-  def clear_all_halfprice
-    BW::UIAlertView.new({
-      title: 'Clear all half price items?',
-      message: 'Are you sure you want to clear all half price hostess selections?',
-      buttons: ['No', 'Yes'],
-      cancel_button_index: 0
-    }) do |alert|
-      unless alert.clicked_button.cancel?
-        Hostesses.shared_hostess.current_hostess.clear_halfprice
-      end
-    end.show
-  end
-
   def show_qty_picker(args)
     initial_index = 0
     if Hostesses.shared_hostess.current_hostess.has_halfprice?(args[:item])

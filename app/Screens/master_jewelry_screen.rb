@@ -121,4 +121,52 @@ class MasterJewelryScreen < PM::TableScreen
     update_table_data
   end
 
+  # Clearing
+
+  def clear(kind = :all)
+    case kind
+    when :free
+      title = 'Clear all free items?'
+      message = 'Are you sure you want to clear all free hostess selections?'
+    when :halfprice
+      title = 'Clear all half price items?'
+      message = 'Are you sure you want to clear all half price hostess selections?'
+    else
+      title = 'Clear all items?'
+      message = 'Are you sure you want to clear all hostess selections? This can not be undone.'
+    end
+
+    BW::UIAlertView.new({
+      title: title,
+      message: message,
+      buttons: ['No', 'Yes'],
+      cancel_button_index: 0
+    }) do |alert|
+      unless alert.clicked_button.cancel?
+        case kind
+        when :free
+          Hostesses.shared_hostess.current_hostess.clear_free
+        when :halfprice
+          Hostesses.shared_hostess.current_hostess.clear_halfprice
+        else
+          Hostesses.shared_hostess.current_hostess.clear_free
+          Hostesses.shared_hostess.current_hostess.clear_halfprice
+        end
+        update_table_data
+      end
+    end.show
+  end
+
+  def clear_all_free
+    clear(:free)
+  end
+
+  def clear_all_halfprice
+    clear(:halfprice)
+  end
+
+  def clear_all
+    clear(:all)
+  end
+
 end
