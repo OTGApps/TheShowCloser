@@ -112,6 +112,7 @@ class HomeShowScreen < Formotion::FormController
           title: "Notes:",
           key: :notes,
           type: :text,
+          value: ch.notes,
           input_accessory: :done,
           done_action: default_done_action
         }]
