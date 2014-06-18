@@ -64,6 +64,8 @@ class MasterJewelryScreen < PM::TableScreen
     end
   end
 
+  # Cell data
+
   def build_free_cell(data)
     ch = Hostesses.shared_hostess.current_hostess
 
@@ -96,21 +98,26 @@ class MasterJewelryScreen < PM::TableScreen
     }
   end
 
+  #Toggling
+
   def toggle_free(args)
-    ch = Hostesses.shared_hostess.current_hostess
-
-    qty = (ch.has_free?(args[:item])) ? 0 : 1
-    ch.set_free(args[:item], qty)
-
-    update_table_data
+    toggle_item(args[:item], true)
   end
 
   def toggle_halfprice(args)
+    toggle_item(args[:item], false)
+  end
+
+  def toggle_item(item, free)
     ch = Hostesses.shared_hostess.current_hostess
 
-    qty = (ch.has_halfprice?(args[:item])) ? 0 : 1
-    ch.set_halfprice(args[:item], qty)
-
+    if free
+      qty = (ch.has_free?(item)) ? 0 : 1
+      ch.set_free(item, qty)
+    else
+      qty = (ch.has_halfprice?(item)) ? 0 : 1
+      ch.set_halfprice(item, qty)
+    end
     update_table_data
   end
 
