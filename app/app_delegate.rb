@@ -8,6 +8,8 @@ class AppDelegate < PM::Delegate
     # 3rd Party integrations
     BW.debug = true unless App.info_plist['AppStoreRelease'] == true
 
+    BITHockeyManagerLauncher.new.start unless BW.debug?
+
     unless Device.simulator?
       app_id = App.info_plist['APP_STORE_ID']
 
@@ -43,7 +45,6 @@ class AppDelegate < PM::Delegate
     open_slide_menu @tab_bar, left: hostess_screen
     slide_menu.anchorRightRevealAmount = Device.screen.width
     slide_menu.show_right(false)
-
   end
 
   #Flurry exception handler

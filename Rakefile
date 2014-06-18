@@ -30,11 +30,30 @@ Motion::Project::App.setup do |app|
     pod 'ActionSheetPicker-3.0'
   end
 
+  # Non-release
+  app.entitlements['get-task-allow'] = true
+  app.codesign_certificate = "iPhone Developer: Mark Rickert (YA2VZGDX4S)"
+  app.provisioning_profile = "./provisioning/development.mobileprovision"
+
   app.release do
     app.info_plist['AppStoreRelease'] = true
     app.entitlements['get-task-allow'] = false
     app.codesign_certificate = "iPhone Distribution: Mohawk Apps, LLC (DW9QQZR4ZL)"
-    app.provisioning_profile = "./provisioning/TSCDistribution.mobileprovision"
+    app.provisioning_profile = "./provisioning/release.mobileprovision"
+  end
+
+  if app.hockeyapp?
+    app.hockeyapp do
+      set :api_token, '48f624f35e054b12971acae809731b3a'
+      set :beta_id, '204fc75ce437870248bf98b630ff6c01'
+      set :status, "2"
+      set :notify, "0"
+      set :notes_type, "1"
+    end
+    app.entitlements['get-task-allow'] = false
+    app.identifier = 'com.mohawkapps.TheShowCloserBeta'
+    app.codesign_certificate = "iPhone Distribution: Mohawk Apps, LLC (DW9QQZR4ZL)"
+    app.provisioning_profile = "./provisioning/adhoc.mobileprovision"
   end
 
   task :"build:simulator" => :"schema:build" # For CDQ
