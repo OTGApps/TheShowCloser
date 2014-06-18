@@ -46,7 +46,7 @@ class Hostess < CDQManagedObject
       my_item.qtyHalfPrice = count.to_i
     else
       item_data = JewelryData.item_data(item_number)
-      self.wishlist.create(item_data.merge({qtyFree:count.to_i}))
+      self.wishlist.create(item_data.merge({qtyHalfPrice:count.to_i}))
     end
     cdq.save
     clean_up_item(item_number)
