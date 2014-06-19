@@ -15,12 +15,14 @@ Motion::Project::App.setup do |app|
   app.device_family = [:iphone]
 # app.device_family = [:iphone, :ipad]
   app.interface_orientations = [:portrait, :portrait_upside_down]
-  app.identifier = 'com.mohawkapps.TheShowCloser'
   app.version = '18'
   app.short_version = '3.0.0b1'
   app.icons = Dir.glob("resources/Icon*.png").map{|icon| icon.split("/").last}
   app.info_plist['FULL_APP_NAME'] = 'The Show Closer'
   app.info_plist['APP_STORE_ID'] = 483940964
+
+  app.entitlements['get-task-allow'] = true
+  app.codesign_certificate = "iPhone Developer: Mark Rickert (YA2VZGDX4S)"
 
   app.pods do
     pod 'FlurrySDK'
@@ -32,9 +34,12 @@ Motion::Project::App.setup do |app|
     pod 'HockeySDK'
   end
 
-  # Non-release
-  app.entitlements['get-task-allow'] = true
-  app.codesign_certificate = "iPhone Developer: Mark Rickert (YA2VZGDX4S)"
+  # Beta
+  app.identifier = 'com.mohawkapps.TheShowCloserBeta'
+  app.provisioning_profile = "./provisioning/beta.mobileprovision"
+
+  # Non-Beta
+  app.identifier = 'com.mohawkapps.TheShowCloser'
   app.provisioning_profile = "./provisioning/development.mobileprovision"
 
   app.release do
