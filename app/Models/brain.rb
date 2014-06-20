@@ -5,7 +5,7 @@ class Brain
   end
 
   def tax_rate
-    BigDecimal.new(h.tax_enabled? ? h.taxRate : 0.0) / 100
+    BigDecimal.new(h.tax_enabled? ? h.taxRate : 0.0) / 100.0
   end
 
   def shipping_rate
@@ -90,7 +90,7 @@ class Brain
         bonusTotal = bonusTotal + 1 if bonus == true
       end
     end
-    ap "Total Bonuses: #{bonusTotal}"
+    ap "Total Bonuses: #{desc(to_dict['bonusTotal'])}"
 
     # Calculate the total award value
     to_dict["awardValueTotal5"] = BigDecimal.new((h.bonusValue * bonusTotal) + h.bonusExtra)
@@ -101,35 +101,35 @@ class Brain
     ap "retailPlusHalf: #{desc(to_dict['retailPlusHalf'])}"
 
     # Four
-    equalsFour = to_dict["retailPlusHalf"] * (to_dict["jewelryPercentage"] / 100.0)
-    to_dict["equalsFour"] = equalsFour
+    to_dict["equalsFour"] = BigDecimal.new(to_dict["retailPlusHalf"] * (to_dict["jewelryPercentage"] / 100.0))
+    ap "equalsFour: #{desc(to_dict['equalsFour'])}"
 
     # Total Hostess Benefits
-    totalHostessBenefitsSix = equalsFour + to_dict["awardValueTotal5"]
-    to_dict["totalHostessBenefitsSix"] = totalHostessBenefitsSix
+    to_dict["totalHostessBenefitsSix"] = to_dict["equalsFour"] + to_dict["awardValueTotal5"]
+    ap "totalHostessBenefitsSix: #{desc(to_dict['totalHostessBenefitsSix'])}"
 
     # Subtotal One A+B+C
-    subtotalOneABC = half_price_total + free_total + h.shipping
-    to_dict["subtotalOneABC"] = subtotalOneABC
+    to_dict["subtotalOneABC"] = half_price_total + free_total + h.shipping
+    ap "subtotalOneABC: #{desc(to_dict['subtotalOneABC'])}"
 
     # Tax
     # Determine if shipping is taxed or not
     shipping_tax = 0.0
     if h.taxShipping == false
-      shipping_tax = (h.shipping.to_f * (getTaxRate / 100))
+      shipping_tax = (h.shipping.to_f * tax_rate)
       # DLog("Subtract this much if shipping isn't taxed: %f", shipping_tax)
     end
 
-    taxTotalUnrounded = NSNumber.numberWithFloat((subtotalOneABC.floatValue * h.tax_rate / 100.0) - shipping_tax)
+    taxTotalUnrounded = NSNumber.numberWithFloat((to_dict["subtotalOneABC"].floatValue * tax_rate) - shipping_tax)
     taxTotal = taxTotalUnrounded.currencyRound
     to_dict["taxTotal"] = taxTotal
 
     # Subtotal 2
-    subtotalTwo = BigDecimal.new(taxTotal) + subtotalOneABC
+    subtotalTwo = BigDecimal.new(taxTotal) + to_dict["subtotalOneABC"]
     to_dict["subtotalTwo"] = subtotalTwo
 
-    if totalHostessBenefitsSix < free_total.to_f
-      minusToGetTotal = BigDecimal.new(totalHostessBenefitsSix)
+    if to_dict["totalHostessBenefitsSix"] < free_total.to_f
+      minusToGetTotal = BigDecimal.new(to_dict["totalHostessBenefitsSix"])
     else
       minusToGetTotal = free_total
     end
@@ -152,9 +152,9 @@ class Brain
 
   def totalRetail
 	   h.showTotal
-   end
+  end
 
-   def desc(value)
-    ap "#{value} (#{value.class})"
-   end
+  def desc(value)
+    "#{value} (#{value.class})"
+  end
 end
