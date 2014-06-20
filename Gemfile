@@ -18,8 +18,7 @@ gem 'motion-blitz' # SVProgressHUD
 gem 'pro_motion_slide_menu', github: 'markrickert/promotion_slide_menu', branch: 'ECSlidingViewController'
 
 # Core Data
-gem 'cdq'
-gem 'ruby-xcdm'
+gem 'cdq', path: '../cdq'
 
 # Development
 gem 'awesome_print_motion', github: 'MohawkApps/awesome_print_motion', branch: 'bubblewrap-debug'

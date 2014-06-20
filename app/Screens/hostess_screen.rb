@@ -60,9 +60,9 @@ class HostessScreen < PM::TableScreen
         h = Hostess.create(
           name: a.plain_text_field.text,
           createdDate: Time.now,
-          shipping: App::Persistence['kShippingRate'],
+          shipping: BigDecimal.new(App::Persistence['kShippingRate']).to_f,
           taxEnabled: App::Persistence['kTaxEnabled'],
-          taxRate: App::Persistence['kTaxRate'],
+          taxRate: BigDecimal.new(App::Persistence['kTaxRate']).to_f,
           taxShipping: App::Persistence['kTaxShipping']
         )
         cdq.save

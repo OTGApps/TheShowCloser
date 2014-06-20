@@ -43,9 +43,9 @@ class HomeShowScreen < Formotion::FormController
     serialized[:created_date] = Time.at(serialized[:created_date])
     serialized[:jewelry_percentage] = serialized[:jewelry_percentage].to_i
 
-    # Stringify
+    # Floatify
     [:tax_rate, :shipping, :show_total, :addtl_discount, :addtl_charge].each do |sym|
-      serialized[sym] = serialized[sym].to_s
+      serialized[sym] = BigDecimal.new(serialized[sym]).to_f
     end
 
     ap serialized

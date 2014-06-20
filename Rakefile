@@ -64,6 +64,4 @@ Motion::Project::App.setup do |app|
     app.provisioning_profile = "./provisioning/adhoc.mobileprovision"
   end
 
-  task :"build:simulator" => :"schema:build" # For CDQ
-
 end

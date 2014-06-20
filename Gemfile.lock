@@ -43,6 +43,13 @@ PATH
     ProMotion (2.0.0)
       methadone (~> 1.4)
 
+PATH
+  remote: ../cdq
+  specs:
+    cdq (0.1.9)
+      motion-yaml
+      ruby-xcdm (~> 0.0, >= 0.0.6)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -51,9 +58,6 @@ GEM
       multi_json (~> 1.0)
     bubble-wrap-http (1.6.0)
     builder (3.2.2)
-    cdq (0.1.9)
-      motion-yaml
-      ruby-xcdm (~> 0.0, >= 0.0.6)
     claide (0.6.1)
     cocoapods (0.33.1)
       activesupport (>= 3.2.15, < 4)
@@ -121,7 +125,7 @@ DEPENDENCIES
   ProMotion!
   awesome_print_motion!
   bubble-wrap!
-  cdq
+  cdq!
   cocoapods
   formotion!
   motion-blitz
@@ -130,4 +134,3 @@ DEPENDENCIES
   pro_motion_slide_menu!
   rake
   rm_vendor
-  ruby-xcdm
