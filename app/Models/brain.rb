@@ -34,11 +34,11 @@ class Brain
   end
 
   def calculateFreeJewelryLeft
-    to_dict["totalHostessBenefitsSix"] - free_total
+    to_dict[:totalHostessBenefitsSix] - free_total
   end
 
   def grandTotal
-	  to_dict["totalDue"]
+	  to_dict[:totalDue]
   end
 
   def jewelry_percentage
@@ -71,37 +71,37 @@ class Brain
     to_dict = {}
 
     # Jewelry Percentage
-    to_dict["jewelryPercentage"] = BigDecimal.new(jewelry_percentage)
-    ap "jewelryPercentage: #{desc(to_dict['jewelryPercentage'])}"
+    to_dict[:jewelryPercentage] = BigDecimal.new(jewelry_percentage)
+    ap "jewelryPercentage: #{desc(to_dict[:jewelryPercentage])}"
 
     # Bonuses
     bonusTotal = 0
-    if to_dict["jewelryPercentage"] != 20 # Don't calculate bonuses on a catalog show.
+    if to_dict[:jewelryPercentage] != 20 # Don't calculate bonuses on a catalog show.
       [h.bonus1, h.bonus2, h.bonus3, h.bonus4].each do |bonus|
         bonusTotal = bonusTotal + 1 if bonus == true
       end
     end
-    ap "Total Bonuses: #{desc(to_dict['bonusTotal'])}"
+    ap "Total Bonuses: #{desc(to_dict[:bonusTotal])}"
 
     # Calculate the total award value
-    to_dict["awardValueTotal5"] = BigDecimal.new((h.bonusValue * bonusTotal) + h.bonusExtra)
-    ap "awardValueTotal5: #{desc(to_dict['awardValueTotal5'])}"
+    to_dict[:awardValueTotal5] = BigDecimal.new((h.bonusValue * bonusTotal) + h.bonusExtra)
+    ap "awardValueTotal5: #{desc(to_dict[:awardValueTotal5])}"
 
     # Total Retail + Half price selections (3)
-    to_dict["retailPlusHalf"] = BigDecimal.new(h.showTotal) + half_price_total
-    ap "retailPlusHalf: #{desc(to_dict['retailPlusHalf'])}"
+    to_dict[:retailPlusHalf] = BigDecimal.new(h.showTotal) + half_price_total
+    ap "retailPlusHalf: #{desc(to_dict[:retailPlusHalf])}"
 
     # Four
-    to_dict["equalsFour"] = BigDecimal.new(to_dict["retailPlusHalf"]) * (to_dict["jewelryPercentage"] / 100.0)
-    ap "equalsFour: #{desc(to_dict['equalsFour'])}"
+    to_dict[:equalsFour] = BigDecimal.new(to_dict[:retailPlusHalf]) * (to_dict[:jewelryPercentage] / 100.0)
+    ap "equalsFour: #{desc(to_dict[:equalsFour])}"
 
     # Total Hostess Benefits
-    to_dict["totalHostessBenefitsSix"] = to_dict["equalsFour"] + to_dict["awardValueTotal5"]
-    ap "totalHostessBenefitsSix: #{desc(to_dict['totalHostessBenefitsSix'])}"
+    to_dict[:totalHostessBenefitsSix] = to_dict[:equalsFour] + to_dict[:awardValueTotal5]
+    ap "totalHostessBenefitsSix: #{desc(to_dict[:totalHostessBenefitsSix])}"
 
     # Subtotal One A+B+C
-    to_dict["subtotalOneABC"] = half_price_total + free_total + h.shipping
-    ap "subtotalOneABC: #{desc(to_dict['subtotalOneABC'])}"
+    to_dict[:subtotalOneABC] = half_price_total + free_total + h.shipping
+    ap "subtotalOneABC: #{desc(to_dict[:subtotalOneABC])}"
 
     # Tax
     # Determine if shipping is taxed or not
@@ -111,32 +111,32 @@ class Brain
       # DLog("Subtract this much if shipping isn't taxed: %f", shipping_tax)
     end
 
-    to_dict["taxTotal"] = ((to_dict["subtotalOneABC"] * tax_rate) - shipping_tax).currencyRound
-    ap "taxTotal: #{desc(to_dict['taxTotal'])}"
+    to_dict[:taxTotal] = ((to_dict[:subtotalOneABC] * tax_rate) - shipping_tax).currencyRound
+    ap "taxTotal: #{desc(to_dict[:taxTotal])}"
 
     # Subtotal 2
-    to_dict["subtotalTwo"] = to_dict["taxTotal"] + to_dict["subtotalOneABC"]
-    ap "subtotalTwo: #{desc(to_dict['subtotalTwo'])}"
+    to_dict[:subtotalTwo] = to_dict[:taxTotal] + to_dict[:subtotalOneABC]
+    ap "subtotalTwo: #{desc(to_dict[:subtotalTwo])}"
 
-    if to_dict["totalHostessBenefitsSix"] < free_total.to_f
-      minusToGetTotal = BigDecimal.new(to_dict["totalHostessBenefitsSix"])
+    if to_dict[:totalHostessBenefitsSix] < free_total.to_f
+      minusToGetTotal = BigDecimal.new(to_dict[:totalHostessBenefitsSix])
     else
       minusToGetTotal = free_total
     end
 
-    to_dict["minusToGetTotal"] = minusToGetTotal
-    ap "minusToGetTotal: #{desc(to_dict['minusToGetTotal'])}"
+    to_dict[:minusToGetTotal] = minusToGetTotal
+    ap "minusToGetTotal: #{desc(to_dict[:minusToGetTotal])}"
 
     # Discount
     finalDiscount = (BigDecimal.new(h.addtlDiscount) > 0) ? BigDecimal.new(h.addtlDiscount) : BigDecimal.new(0)
-    to_dict["finalDiscount"] = finalDiscount
+    to_dict[:finalDiscount] = finalDiscount
 
     # Charge
     finalCharge = (BigDecimal.new(h.addtlCharge) > 0) ? BigDecimal.new(h.addtlCharge) : BigDecimal.new(0)
-    to_dict["finalCharge"] = finalCharge
+    to_dict[:finalCharge] = finalCharge
 
-    totalDue = to_dict["subtotalTwo"] - to_dict["minusToGetTotal"] - finalDiscount + finalCharge
-    to_dict['totalDue'] = totalDue
+    totalDue = to_dict[:subtotalTwo] - to_dict[:minusToGetTotal] - finalDiscount + finalCharge
+    to_dict[:totalDue] = totalDue
 
     to_dict
   end

@@ -1,7 +1,7 @@
 GIT
   remote: git://github.com/MohawkApps/awesome_print_motion.git
-  revision: c1f519ce93e5ee6dbdee39663516f4b4fb1fa2b4
-  branch: bubblewrap-debug
+  revision: af1f904e6cea5737b6a8f4453a6730e620ee4588
+  branch: mine
   specs:
     awesome_print_motion (0.1.0)
 

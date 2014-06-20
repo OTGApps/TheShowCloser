@@ -69,7 +69,7 @@ class ReceiptScreen < PM::WebScreen
 
     brain = Brain.new
     report_data = brain.to_dict
-    puts report_data
+    ap report_data
 
     html.sub!('[[[DATE]]]', Time.now.full_date) # Put the date on the receipt
     html.sub!('[[[SHOW_DATE]]]', ch.createdDate.full_date)
@@ -133,7 +133,7 @@ class ReceiptScreen < PM::WebScreen
     html.sub!('[[[AWARD_COUNT]]]', bonus_count.to_i.to_s)
 
     # Bonus values
-    bonus_html = dolarize(report_data['awardValueTotal5'])
+    bonus_html = dolarize(report_data[:awardValueTotal5])
     bonus_html << " (+#{dolarize(h.bonusExtra)})" if ch.bonusExtra > 0
     html.sub!('[[[AWARD_VALUE_TOTAL]]]', bonus_html)
 

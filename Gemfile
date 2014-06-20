@@ -21,5 +21,5 @@ gem 'pro_motion_slide_menu', github: 'markrickert/promotion_slide_menu', branch:
 gem 'cdq', path: '../cdq'
 
 # Development
-gem 'awesome_print_motion', github: 'MohawkApps/awesome_print_motion', branch: 'bubblewrap-debug'
+gem 'awesome_print_motion', github: 'MohawkApps/awesome_print_motion', branch: 'mine'
 gem 'motion-hockeyapp', github: 'rromanchuk/motion-hockeyapp', branch: 'sdk-from-cocoapods'
