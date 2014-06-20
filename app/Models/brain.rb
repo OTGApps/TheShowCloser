@@ -20,7 +20,7 @@ class Brain
     ap 'Calculating half price total.'
     total = BigDecimal.new(0)
     h.halfprice_items.each do |item|
-      total = total + (item.qtyHalfPrice * item.price)
+      total = (BigDecimal.new(item.price) * item.qtyHalfPrice) + total
     end
     total / 2
   end
@@ -28,7 +28,7 @@ class Brain
   def free_total
     total = BigDecimal.new(0)
     h.free_items.each do |item|
-      total = total + (item.qtyFree * item.price)
+      total = (BigDecimal.new(item.price) * item.qtyFree) + total
     end
     total
   end
@@ -74,47 +74,49 @@ class Brain
     formatter = NSNumberFormatter.alloc.init
     formatter.setMaximumFractionDigits(2)
     formatter.setRoundingMode(NSNumberFormatterRoundHalfUp)
-
     # NSString *numberString = [formatter stringFromNumber:[NSNumber numberWithFloat:roundedValue]];
 
+    # Init Hash
     to_dict = {}
+
+    # Jewelry Percentage
+    to_dict["jewelryPercentage"] = jewelry_percentage
+    ap "jewelryPercentage: #{desc(to_dict['jewelryPercentage'])}"
 
     # Bonuses
     bonusTotal = 0
-
-    if jewelry_percentage != 20 # Don't calculate bonuses on a catalog show.
+    if to_dict["jewelryPercentage"] != 20 # Don't calculate bonuses on a catalog show.
       [h.bonus1, h.bonus2, h.bonus3, h.bonus4].each do |bonus|
         bonusTotal = bonusTotal + 1 if bonus == true
       end
     end
+    ap "Total Bonuses: #{bonusTotal}"
 
-    awardValueTotal5 = (h.bonusValue * bonusTotal) + h.bonusExtra
-    to_dict["awardValueTotal5"] = awardValueTotal5
+    # Calculate the total award value
+    to_dict["awardValueTotal5"] = BigDecimal.new((h.bonusValue * bonusTotal) + h.bonusExtra)
+    ap "awardValueTotal5: #{desc(to_dict['awardValueTotal5'])}"
 
     # Total Retail + Half price selections (3)
-    retailPlusHalf = BigDecimal.new(h.showTotal) + half_price_total
-    to_dict["retailPlusHalf"] = retailPlusHalf
-
-    # Jewelry Percentage
-    to_dict["jewelryPercentage"] = jewelry_percentage
+    to_dict["retailPlusHalf"] = BigDecimal.new(h.showTotal) + half_price_total
+    ap "retailPlusHalf: #{desc(to_dict['retailPlusHalf'])}"
 
     # Four
-    equalsFour = retailPlusHalf * (jewelry_percentage / 100.0)
+    equalsFour = to_dict["retailPlusHalf"] * (to_dict["jewelryPercentage"] / 100.0)
     to_dict["equalsFour"] = equalsFour
 
     # Total Hostess Benefits
-    totalHostessBenefitsSix = equalsFour + awardValueTotal5
+    totalHostessBenefitsSix = equalsFour + to_dict["awardValueTotal5"]
     to_dict["totalHostessBenefitsSix"] = totalHostessBenefitsSix
 
     # Subtotal One A+B+C
-    subtotalOneABC = half_price_total + free_total + getShippingRate
+    subtotalOneABC = half_price_total + free_total + h.shipping
     to_dict["subtotalOneABC"] = subtotalOneABC
 
     # Tax
     # Determine if shipping is taxed or not
     shipping_tax = 0.0
     if h.taxShipping == false
-      shipping_tax = (getShippingRate.to_f * (getTaxRate / 100))
+      shipping_tax = (h.shipping.to_f * (getTaxRate / 100))
       # DLog("Subtract this much if shipping isn't taxed: %f", shipping_tax)
     end
 
@@ -150,5 +152,9 @@ class Brain
 
   def totalRetail
 	   h.showTotal
+   end
+
+   def desc(value)
+    ap "#{value} (#{value.class})"
    end
 end
