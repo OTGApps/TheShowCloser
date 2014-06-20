@@ -14,4 +14,8 @@ class BigDecimal
   def to_ll
     self.longLongValue
   end
+
+  def currencyRound
+    BigDecimal.new(NSNumber.numberWithFloat(self.to_f).currencyRound)
+  end
 end

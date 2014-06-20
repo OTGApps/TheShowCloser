@@ -34,15 +34,11 @@ class Brain
   end
 
   def calculateFreeJewelryLeft
-    totalFreeWithBenefits - free_total
+    to_dict["totalHostessBenefitsSix"] - free_total
   end
 
   def grandTotal
 	  to_dict["totalDue"]
-  end
-
-  def totalFreeWithBenefits
-	  to_dict["totalHostessBenefitsSix"]
   end
 
   def jewelry_percentage
@@ -71,16 +67,11 @@ class Brain
   end
 
   def to_dict
-    formatter = NSNumberFormatter.alloc.init
-    formatter.setMaximumFractionDigits(2)
-    formatter.setRoundingMode(NSNumberFormatterRoundHalfUp)
-    # NSString *numberString = [formatter stringFromNumber:[NSNumber numberWithFloat:roundedValue]];
-
     # Init Hash
     to_dict = {}
 
     # Jewelry Percentage
-    to_dict["jewelryPercentage"] = jewelry_percentage
+    to_dict["jewelryPercentage"] = BigDecimal.new(jewelry_percentage)
     ap "jewelryPercentage: #{desc(to_dict['jewelryPercentage'])}"
 
     # Bonuses
@@ -101,7 +92,7 @@ class Brain
     ap "retailPlusHalf: #{desc(to_dict['retailPlusHalf'])}"
 
     # Four
-    to_dict["equalsFour"] = BigDecimal.new(to_dict["retailPlusHalf"] * (to_dict["jewelryPercentage"] / 100.0))
+    to_dict["equalsFour"] = BigDecimal.new(to_dict["retailPlusHalf"]) * (to_dict["jewelryPercentage"] / 100.0)
     ap "equalsFour: #{desc(to_dict['equalsFour'])}"
 
     # Total Hostess Benefits
@@ -120,13 +111,12 @@ class Brain
       # DLog("Subtract this much if shipping isn't taxed: %f", shipping_tax)
     end
 
-    taxTotalUnrounded = NSNumber.numberWithFloat((to_dict["subtotalOneABC"].floatValue * tax_rate) - shipping_tax)
-    taxTotal = taxTotalUnrounded.currencyRound
-    to_dict["taxTotal"] = taxTotal
+    to_dict["taxTotal"] = ((to_dict["subtotalOneABC"] * tax_rate) - shipping_tax).currencyRound
+    ap "taxTotal: #{desc(to_dict['taxTotal'])}"
 
     # Subtotal 2
-    subtotalTwo = BigDecimal.new(taxTotal) + to_dict["subtotalOneABC"]
-    to_dict["subtotalTwo"] = subtotalTwo
+    to_dict["subtotalTwo"] = to_dict["taxTotal"] + to_dict["subtotalOneABC"]
+    ap "subtotalTwo: #{desc(to_dict['subtotalTwo'])}"
 
     if to_dict["totalHostessBenefitsSix"] < free_total.to_f
       minusToGetTotal = BigDecimal.new(to_dict["totalHostessBenefitsSix"])
@@ -135,6 +125,7 @@ class Brain
     end
 
     to_dict["minusToGetTotal"] = minusToGetTotal
+    ap "minusToGetTotal: #{desc(to_dict['minusToGetTotal'])}"
 
     # Discount
     finalDiscount = (BigDecimal.new(h.addtlDiscount) > 0) ? BigDecimal.new(h.addtlDiscount) : BigDecimal.new(0)
@@ -144,7 +135,7 @@ class Brain
     finalCharge = (BigDecimal.new(h.addtlCharge) > 0) ? BigDecimal.new(h.addtlCharge) : BigDecimal.new(0)
     to_dict["finalCharge"] = finalCharge
 
-    totalDue = subtotalTwo - minusToGetTotal - finalDiscount + finalCharge
+    totalDue = to_dict["subtotalTwo"] - to_dict["minusToGetTotal"] - finalDiscount + finalCharge
     to_dict['totalDue'] = totalDue
 
     to_dict
