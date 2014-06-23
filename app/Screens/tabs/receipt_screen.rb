@@ -71,7 +71,7 @@ class ReceiptScreen < PM::WebScreen
 
     # Put the tax & shipping rates on the receipt
     html.sub!('[[[TAX_RATE]]]', ch.tax_rate.to_s)
-    html.sub!('[[[SHIPPING_RATE]]]', dolarize(ch.shipping_rate.to_s))
+    html.sub!('[[[SHIPPING_RATE]]]', dolarize(ch.shipping_rate))
 
     # Hostess half Price selections
     half_price_html = ''
@@ -89,7 +89,7 @@ class ReceiptScreen < PM::WebScreen
 
     html.sub!('[[[HALF_PRICE_SELECTIONS]]]', half_price_html)
     ap "half price total: #{brain.half_price_total}"
-    html.gsub!('[[[HALF_PRICE_TOTAL]]]', dolarize(brain.half_price_total.to_s))
+    html.gsub!('[[[HALF_PRICE_TOTAL]]]', dolarize(brain.half_price_total))
 
 	  # Bonuses
     bonuses_total, bonus_count = 0, 0

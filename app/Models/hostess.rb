@@ -126,11 +126,11 @@ class Hostess < CDQManagedObject
   end
 
   def tax_rate
-    BigDecimal.new(taxRate || 0.0)
+    BigDecimal.new(taxRate.round(3) || 0.0)
   end
 
   def shipping_rate
-    BigDecimal.new(shipping || 0.0)
+    BigDecimal.new(shipping.round(3) || 0.0)
   end
 
   def method_missing(meth, *args)

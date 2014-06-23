@@ -45,6 +45,7 @@ class HomeShowScreen < Formotion::FormController
 
     # Floatify
     [:tax_rate, :shipping, :show_total, :addtl_discount, :addtl_charge].each do |sym|
+      serialized[sym] = "0" if serialized[sym].is_a?(String) && serialized[sym].empty?
       serialized[sym] = BigDecimal.new(serialized[sym]).to_f
     end
 
@@ -152,7 +153,7 @@ class HomeShowScreen < Formotion::FormController
           title: "Tax Rate (%)",
           key: :tax_rate,
           type: :number,
-          value: ch.taxRate,
+          value: ch.tax_rate,
           input_accessory: :done,
           done_action: default_done_action
         },{
@@ -160,7 +161,7 @@ class HomeShowScreen < Formotion::FormController
           key: :shipping,
           type: :currency,
           input_accessory: :done,
-          value: ch.shipping,
+          value: ch.shipping_rate,
           done_action: default_done_action
         },{
           title: "Tax Shipping?",
