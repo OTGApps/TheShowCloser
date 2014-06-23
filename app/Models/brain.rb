@@ -5,11 +5,11 @@ class Brain
   end
 
   def tax_rate
-    BigDecimal.new(h.tax_enabled? ? h.taxRate : 0.0) / 100.0
+    ((h.tax_enabled?) ? h.tax_rate : BigDecimal.new(0.0)) / 100.00
   end
 
   def shipping_rate
-    BigDecimal.new(h.shipping)
+    h.shipping_rate
   end
 
   def shipping_total
@@ -107,11 +107,12 @@ class Brain
     # Determine if shipping is taxed or not
     shipping_tax = 0.0
     if h.taxShipping == false
-      shipping_tax = (h.shipping.to_f * tax_rate)
-      # DLog("Subtract this much if shipping isn't taxed: %f", shipping_tax)
+      shipping_tax = shipping_rate * tax_rate
+      ap "Subtract this much if shipping isn't taxed: #{shipping_tax}"
     end
 
-    to_dict[:taxTotal] = ((to_dict[:subtotalOneABC] * tax_rate) - shipping_tax).currencyRound
+    to_dict[:taxTotal] = ((to_dict[:subtotalOneABC] * tax_rate).round(3) - shipping_tax).currency_round
+    ap "Calculation: (#{to_dict[:subtotalOneABC]} * #{tax_rate}) - #{shipping_tax}"
     ap "taxTotal: #{desc(to_dict[:taxTotal])}"
 
     # Subtotal 2

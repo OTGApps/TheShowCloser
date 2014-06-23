@@ -28,7 +28,6 @@ Motion::Project::App.setup do |app|
     pod 'FlurrySDK'
     pod 'Appirater'
     pod 'Harpy'
-    pod 'MRCurrencyRound'
     pod 'ActionSheetPicker-3.0'
 
     pod 'HockeySDK'
