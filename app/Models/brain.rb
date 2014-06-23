@@ -78,7 +78,7 @@ class Brain
     bonusTotal = 0
     if to_dict[:jewelryPercentage] != 20 # Don't calculate bonuses on a catalog show.
       [h.bonus1, h.bonus2, h.bonus3, h.bonus4].each do |bonus|
-        bonusTotal = bonusTotal + 1 if bonus == true
+        bonusTotal = bonusTotal + 1 if bonus.to_bool == true
       end
     end
     ap "Total Bonuses: #{desc(to_dict[:bonusTotal])}"

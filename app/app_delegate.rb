@@ -39,7 +39,7 @@ class AppDelegate < PM::Delegate
       FreeScreen.new(nav_bar:true),
       HalfPriceScreen.new(nav_bar:true),
       GenieScreen.new(nav_bar:true),
-      ReceiptScreen.new(nav_bar:true, external_links: false)
+      ReceiptScreen.new(nav_bar:true, external_links: false, scale_to_fit: true)
     )
 
     open_slide_menu @tab_bar, left: hostess_screen

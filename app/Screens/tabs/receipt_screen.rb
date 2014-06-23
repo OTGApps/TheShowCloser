@@ -1,9 +1,6 @@
 class ReceiptScreen < PM::WebScreen
-  title "Receipt"
+  title "Total: "
   tab_bar_item icon: "receipt", title: "Receipt"
-
-  KHTMLCheckboxChecked = "&#x2611;"
-  KHTMLCheckboxUnchecked = "&#x2610;"
 
   def content
     parsed_html
@@ -14,15 +11,9 @@ class ReceiptScreen < PM::WebScreen
       <td>#{item}</td>
       <td>#{qty}</td>
       <td>#{name}</td>
-      <td class='ral'>$#{price}</td>
-      <td class='ral strong'>$#{total}</td>
+      <td class='ral'>#{dolarize(price)}</td>
+      <td class='ral strong'>#{dolarize(total)}</td>
     </tr>"
-  end
-
-  def on_init
-    super
-    web.scalesPageToFit = true
-	  web.dataDetectorTypes = UIDataDetectorTypeNone
   end
 
   def on_load
@@ -78,10 +69,9 @@ class ReceiptScreen < PM::WebScreen
 
     html.sub!('[[[TOTAL_RETAIL]]]', dolarize(ch.showTotal))
 
-    # Put the tax rate on the receipt
+    # Put the tax & shipping rates on the receipt
     html.sub!('[[[TAX_RATE]]]', ch.tax_rate.to_s)
-	   # Put the shipping rate on the receipt
-    html.sub!('[[[SHIPPING_RATE]]]', ch.shipping_rate.to_s)
+    html.sub!('[[[SHIPPING_RATE]]]', dolarize(ch.shipping_rate.to_s))
 
     # Hostess half Price selections
     half_price_html = ''
@@ -89,7 +79,8 @@ class ReceiptScreen < PM::WebScreen
       ap "#{ch.halfprice_items.count} half price items."
 
       ch.halfprice_items.each do |item|
-        half_price_html << jewelry_template(item.item, item.qtyHalfPrice, item.name || '', BigDecimal.new(item.price), BigDecimal.new(item.price) / 2)
+        big_d_item = BigDecimal.new(item.price)
+        half_price_html << jewelry_template(item.item, item.qtyHalfPrice, item.name || '', big_d_item, big_d_item / 2)
       end
     else
       ap "No half price items."
@@ -97,23 +88,31 @@ class ReceiptScreen < PM::WebScreen
     end
 
     html.sub!('[[[HALF_PRICE_SELECTIONS]]]', half_price_html)
-    ap "half price total: "
-    ap brain.half_price_total.to_s
-    html.sub!('[[[HALF_PRICE_TOTAL]]]', brain.half_price_total.to_s)
+    ap "half price total: #{brain.half_price_total}"
+    html.gsub!('[[[HALF_PRICE_TOTAL]]]', dolarize(brain.half_price_total.to_s))
 
 	  # Bonuses
-    bonuses_total = 0
+    bonuses_total, bonus_count = 0, 0
     is_catalog_show = (brain.jewelry_percentage == 20) ? true : false
+    ap "Is catalog show? #{is_catalog_show}"
 
     unless is_catalog_show
-      bonus_count = 1
+
+      ap "New hostess plan? #{ch.new_hostess_plan?}"
       [ch.bonus1, ch.bonus2, ch.bonus3, ch.bonus4].each do |bonus|
-        next if ch.new_hostess_plan? && bonus_count > 2
+        break if ch.new_hostess_plan? && bonus_count > 1
+
+        bonus = bonus.to_bool
+        ap "Bonus #{bonus_count}: #{bonus}"
+
         if bonus == true
-          html.sub!("[[[BONUS_#{bonus_count}]]]", KHTMLCheckboxChecked)
+          checkbox = "&#x2611;"
+          bonuses_total = bonuses_total + 1
         else
-          html.sub!("[[[BONUS_#{bonus_count}]]]", KHTMLCheckboxUnchecked)
+          checkbox = "&#x2610;"
         end
+
+        html.sub!("[[[BONUS_#{bonus_count + 1}]]]", checkbox)
         bonus_count = bonus_count + 1
       end
     end
@@ -122,7 +121,8 @@ class ReceiptScreen < PM::WebScreen
     free_html = ''
     if ch.free_items.count > 0
       ch.free_items.each do |item|
-        free_html << jewelry_template(item.item, item.qtyFree, item.name || '', BigDecimal.new(item.price), BigDecimal.new(item.price) / 2)
+        big_d_item = BigDecimal.new(item.price)
+        free_html << jewelry_template(item.item, item.qtyFree, item.name || '', big_d_item, big_d_item)
       end
     else
       free_html << jewelry_template
@@ -130,59 +130,42 @@ class ReceiptScreen < PM::WebScreen
 
     html.sub!('[[[BENEFIT_SELECTIONS]]]', free_html)
     html.sub!('[[[BENEFIT_TOTAL]]]', dolarize(brain.free_total))
-    html.sub!('[[[AWARD_COUNT]]]', bonus_count.to_i.to_s)
+    html.sub!('[[[AWARD_COUNT]]]', bonuses_total.to_s)
 
     # Bonus values
     bonus_html = dolarize(report_data[:awardValueTotal5])
-    bonus_html << " (+#{dolarize(h.bonusExtra)})" if ch.bonusExtra > 0
+    bonus_html << " (+#{dolarize(ch.bonusExtra)})" if ch.bonusExtra > 0
     html.sub!('[[[AWARD_VALUE_TOTAL]]]', bonus_html)
 
     html.sub!('[[[AWARD_VALUE]]]', dolarize(ch.bonusValue))
+    html.sub!('[[[RETAIL_PLUS_HALF]]]', dolarize(report_data[:retailPlusHalf]))
+    html.sub!('[[[JEWELRY_PERCENTAGE]]]', report_data[:jewelryPercentage].to_s)
+    html.sub!('[[[EQUALS_FOUR]]]', dolarize(report_data[:equalsFour]))
+    html.sub!('[[[TOTAL_HOSTESS_BENEFITS]]]', dolarize(report_data[:totalHostessBenefitsSix]))
+    html.sub!('[[[SUBTOTAL_ONE_ABC]]]', dolarize(report_data[:subtotalOneABC]))
+    html.sub!('[[[TAX_AMOUNT]]]', dolarize(report_data[:taxTotal]))
+    html.sub!('[[[SUBTOTAL_TWO]]]', dolarize(report_data[:subtotalTwo]))
 
-	# template = [template stringByReplacingOccurrencesOfString:@"[[[RETAIL_PLUS_HALF]]]" withString:[NSString stringWithFormat:@"$%@", [report_data objectForKey:@"retailPlusHalf"]]];
-	# template = [template stringByReplacingOccurrencesOfString:@"[[[JEWELRY_PERCENTAGE]]]" withString:[NSString stringWithFormat:@"%u", [[report_data objectForKey:@"jewelryPercentage"] intValue]]];
-	# template = [template stringByReplacingOccurrencesOfString:@"[[[EQUALS_FOUR]]]" withString:[NSString stringWithFormat:@"$%.2f", [[report_data objectForKey:@"equalsFour"] floatValue]]];
-	# template = [template stringByReplacingOccurrencesOfString:@"[[[TOTAL_HOSTESS_BENEFITS]]]" withString:[NSString stringWithFormat:@"$%.2f", [[report_data objectForKey:@"totalHostessBenefitsSix"] floatValue]]];
-	# template = [template stringByReplacingOccurrencesOfString:@"[[[SUBTOTAL_ONE_ABC]]]" withString:[NSString stringWithFormat:@"$%.2f", [[report_data objectForKey:@"subtotalOneABC"] floatValue]]];
-	# template = [template stringByReplacingOccurrencesOfString:@"[[[TAX_AMOUNT]]]" withString:[NSString stringWithFormat:@"$%.2f", [[report_data objectForKey:@"taxTotal"] floatValue]]];
-	# template = [template stringByReplacingOccurrencesOfString:@"[[[SUBTOTAL_TWO]]]" withString:[NSString stringWithFormat:@"$%.2f", [[report_data objectForKey:@"subtotalTwo"] floatValue]]];
+    if report_data[:totalHostessBenefitsSix] < brain.free_total
+      html.sub!('[[[WHICHEVER_IS_LESS]]]', dolarize(report_data[:totalHostessBenefitsSix]))
+    else
+      html.sub!('[[[WHICHEVER_IS_LESS]]]', dolarize(brain.free_total))
+    end
 
-	# if([[report_data objectForKey:@"totalHostessBenefitsSix"] floatValue] < [[jb free_total] floatValue])
-	# {
-	# 	template = [template stringByReplacingOccurrencesOfString:@"[[[WHICHEVER_IS_LESS]]]" withString:[NSString stringWithFormat:@"$%.2f", [[report_data objectForKey:@"totalHostessBenefitsSix"] floatValue]]];
-	# }
-	# else
-	# {
-	# 	template = [template stringByReplacingOccurrencesOfString:@"[[[WHICHEVER_IS_LESS]]]" withString:[NSString stringWithFormat:@"$%.2f", [[jb free_total] floatValue]]];
-	# }
+    # Additional Discounts & Charges
+    html.sub!('[[[SPECIAL_DISCOUNT]]]', special_discount_string(report_data[:finalDiscount]))
+    html.sub!('[[[SPECIAL_CHARGE]]]', special_charge_string(report_data[:finalCharge]))
 
-	# //Discount
- #    NSString *specialDiscountString = @"</tr><tr><th style=\"font-weight: normal;text-align: right\">Discount:</th>"
- #    "<th style=\"font-weight: normal;text-align: right\">-</th>"
- #    "<td style=\"border: none;text-align: right;border-bottom: 1px solid #CCC\">$%.2f</td>";
- #    if([[report_data objectForKey:@"finalDiscount"] floatValue] > 0)
-	# 	template = [template stringByReplacingOccurrencesOfString:@"[[[SPECIAL_DISCOUNT]]]" withString:[NSString stringWithFormat:specialDiscountString, [[report_data objectForKey:@"finalDiscount"] floatValue]]];
- #    else
-	# 	template = [template stringByReplacingOccurrencesOfString:@"[[[SPECIAL_DISCOUNT]]]" withString:@""];
+    # Total
+    html.sub!('[[[TOTAL_DUE]]]', dolarize(report_data[:totalDue]))
 
-	# //Charge
- #    NSString *specialChargeString = @"</tr><tr><th style=\"font-weight: normal;text-align: right\">Charge:</th>"
- #    "<th style=\"font-weight: normal;text-align: right\">+</th>"
- #    "<td style=\"border: none;text-align: right;border-bottom: 1px solid #CCC\">$%.2f</td>";
- #    if([[report_data objectForKey:@"finalCharge"] floatValue] > 0)
-	# 	template = [template stringByReplacingOccurrencesOfString:@"[[[SPECIAL_CHARGE]]]" withString:[NSString stringWithFormat:specialChargeString, [[report_data objectForKey:@"finalCharge"] floatValue]]];
- #    else
-	# 	template = [template stringByReplacingOccurrencesOfString:@"[[[SPECIAL_CHARGE]]]" withString:@""];
-
- #    //Total
- #    template = [template stringByReplacingOccurrencesOfString:@"[[[TOTAL_DUE]]]" withString:[NSString stringWithFormat:@"$%.2f", [[report_data objectForKey:@"totalDue"] floatValue]]];
-
-	# self.navigationController.navigationBar.topItem.title = [NSString stringWithFormat:@"Total: $%.2f", [[report_data objectForKey:@"totalDue"] floatValue]];
+    self.navigationController.navigationBar.topItem.title = "Total: #{dolarize(report_data[:totalDue])}"
 
     html
   end
 
   def dolarize(number)
+    return number if number.is_a?(String)
     d = sprintf("$%.2f", number)
     if d.end_with?('.00')
       d[0...-3]
@@ -191,4 +174,19 @@ class ReceiptScreen < PM::WebScreen
     end
   end
 
+  def special_discount_string(d)
+    (d > 0) ? discount_charge_string('Discount', dolarize(d)) : ''
+  end
+
+  def special_charge_string(c)
+    (c > 0) ? discount_charge_string('Charge', dolarize(c)) : ''
+  end
+
+  def discount_charge_string(d_or_c, value)
+    "</tr>
+     <tr>
+       <th style='font-weight: normal;text-align: right'>#{d_or_c}:</th>
+       <th style='font-weight: normal;text-align: right'>-</th>
+       <td style='border: none;text-align: right;border-bottom: 1px solid #CCC'>#{value}</td>"
+  end
 end
