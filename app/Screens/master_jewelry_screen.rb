@@ -69,7 +69,7 @@ class MasterJewelryScreen < PM::TableScreen
     cell_data(data).merge({
       action: :toggle_free,
       long_press_action: :show_free_qty_picker,
-      image: ch.has_free?(data['item']) ? UIImage.cellImageWithText(ch.free_count(data['item'])) : 'normal',
+      image: ch.has_free?(data['item']) ? "num_#{ch.free_count(data['item'])}" : 'normal',
     })
   end
 
@@ -79,7 +79,7 @@ class MasterJewelryScreen < PM::TableScreen
     cell_data(data).merge({
       action: :toggle_halfprice,
       long_press_action: :show_halfprice_qty_picker,
-      image: ch.has_halfprice?(data['item']) ? UIImage.cellImageWithText(ch.halfprice_count(data['item'])) : 'normal',
+      image: ch.has_halfprice?(data['item']) ? "num_#{ch.halfprice_count(data['item'])}" : 'normal',
     })
   end
 
