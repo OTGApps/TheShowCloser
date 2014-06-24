@@ -28,7 +28,6 @@ class ReceiptScreen < PM::WebScreen
     @set_background_color ||= begin
       web.setBackgroundColor(UIColor.whiteColor)
       web.setOpaque(false)
-      true
     end
   end
 
