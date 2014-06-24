@@ -6,7 +6,7 @@ class HomeShowScreen < Formotion::FormController
     super
     App.notification_center.observe "PickedHostessNotification" do |notification|
       ap "PickedHostessNotification"
-      ap Hostesses.shared_hostess.current_hostess
+      ap ch
       reinit
       self.tableView.scrollRectToVisible(CGRectMake(0, 0, 1, 1), animated:false)
     end
@@ -16,7 +16,7 @@ class HomeShowScreen < Formotion::FormController
     self.form = build_form
     self.form.controller = self
 
-    self.title = 'Home Show'
+    self.title = title
     self.navigationController.tabBarItem.title = "Show"
     self.navigationController.tabBarItem.image = UIImage.imageNamed('homeshow')
 
@@ -33,16 +33,16 @@ class HomeShowScreen < Formotion::FormController
   def show_all_hostesses
     App.delegate.slide_menu.show(:right)
     unobserve_all
-    Hostesses.shared_hostess.current_hostess = nil
+    ch = nil
   end
 
   def update_and_save_hostess(key = nil)
-    return if Hostesses.shared_hostess.current_hostess.nil?
+    return if ch.nil?
     ap 'Saving Hostess Data'
 
     serialized = form.render
     serialized[:created_date] = Time.at(serialized[:created_date])
-    serialized[:jewelry_percentage] = serialized[:jewelry_percentage].to_i
+    serialized[:jewelry_percentage] = serialized[:jewelry_percentage][0...-1].to_i
 
     # Floatify
     [:tax_rate, :shipping, :show_total, :addtl_discount, :addtl_charge].each do |sym|
@@ -52,11 +52,11 @@ class HomeShowScreen < Formotion::FormController
 
     ap serialized
 
-    Hostesses.shared_hostess.current_hostess.set_and_save(serialized)
+    ch.set_and_save(serialized)
   end
 
   def observe_switches
-    return if Hostesses.shared_hostess.current_hostess.nil?
+    return if ch.nil?
 
     # Observe all switches in the form.
     self.form.sections.each_with_index do |s, si|
@@ -71,7 +71,6 @@ class HomeShowScreen < Formotion::FormController
   end
 
   def form_data
-    ch = Hostesses.shared_hostess.current_hostess
     {
       sections: [{
         title: "Show Results:",
@@ -111,7 +110,7 @@ class HomeShowScreen < Formotion::FormController
           input_accessory: :done,
           done_action: default_done_action
         },{
-          title: "Notes:",
+          title: "Notes",
           key: :notes,
           type: :text,
           value: ch.notes,
@@ -121,11 +120,11 @@ class HomeShowScreen < Formotion::FormController
       },{
         title: "Hostess Benefits:",
         rows: [{
-          title: "Free Jewelry (%)",
+          title: "Free Jewelry",
           key: :jewelry_percentage,
           type: :picker,
-          items: ['20', '30', '40', '50'],
-          value: ch.jewelryPercentage.to_s,
+          items: ['20%', '30%', '40%', '50%'],
+          value: "#{ch.jewelryPercentage.to_s}%",
           input_accessory: :done,
           done_action: default_done_action
         },{
@@ -192,7 +191,7 @@ class HomeShowScreen < Formotion::FormController
   end
 
   def build_form
-    return Formotion::Form.new() if Hostesses.shared_hostess.current_hostess.nil?
+    return Formotion::Form.new() if ch.nil?
     Formotion::Form.new(form_data)
   end
 
@@ -202,5 +201,14 @@ class HomeShowScreen < Formotion::FormController
 
   def default_done_action
     -> { update_and_save_hostess }
+  end
+
+  def title
+    t = "Home Show"
+    (ch.nil? || ch.first_name.nil?) ? t : "#{ch.first_name}'s " << t
+  end
+
+  def ch
+    Hostesses.shared_hostess.current_hostess
   end
 end

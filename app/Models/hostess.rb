@@ -130,6 +130,11 @@ class Hostess < CDQManagedObject
     BigDecimal.new(shipping.round(3) || 0.0)
   end
 
+  def first_name
+    s = name.split(' ')
+    (s.count > 1) ? s[0] : nil
+  end
+
   def method_missing(meth, *args)
     obj_c_meth = "set" << meth.split('_').inject([]){ |buffer,e| buffer.push(e.capitalize) }.join.delete("=")
     if respond_to?(obj_c_meth)
