@@ -37,7 +37,7 @@ class HostessScreen < PM::TableScreen
     Hostess.sort_by(:createdDate, order: :descending).collect do |h|
       {
         title: h.name,
-        subtitle: "Show: #{h.createdDate.short_date}",
+        subtitle: subtitle(h),
         cell_style: UITableViewCellStyleSubtitle,
         accessory_type: :disclosure_indicator,
         selection_style: :gray,
@@ -48,6 +48,13 @@ class HostessScreen < PM::TableScreen
         }
       }
     end
+  end
+
+  def subtitle(hostess)
+    s = []
+    s << hostess.createdDate.short_date
+    s << Dolarizer.d(hostess.showTotal) if hostess.showTotal > 0
+    s.join(" - ")
   end
 
   def add_hostess
