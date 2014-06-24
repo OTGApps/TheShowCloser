@@ -16,7 +16,7 @@ Motion::Project::App.setup do |app|
 # app.device_family = [:iphone, :ipad]
   app.interface_orientations = [:portrait, :portrait_upside_down]
   app.version = '18'
-  app.short_version = '3.0.0b1'
+  app.short_version = '3.0.0b2'
   app.icons = Dir.glob("resources/Icon*.png").map{|icon| icon.split("/").last}
   app.info_plist['FULL_APP_NAME'] = 'The Show Closer'
   app.info_plist['APP_STORE_ID'] = 483940964
@@ -55,7 +55,7 @@ Motion::Project::App.setup do |app|
       set :status, "2"
       set :notify, "0"
       set :notes_type, "1"
-      set is_cocoapod: true
+      set :is_cocoapod, true
     end
     app.entitlements['get-task-allow'] = false
     app.identifier = 'com.mohawkapps.TheShowCloserBeta'
