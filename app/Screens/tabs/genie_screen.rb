@@ -1,7 +1,7 @@
 class GenieScreen < MasterJewelryScreen
   longpressable
   title "Jewelry Genie"
-  tab_bar_item icon: "tab_genie", title: "Genie"
+  tab_bar_item item: "tab_genie", title: "Genie"
 
   def on_load
     super

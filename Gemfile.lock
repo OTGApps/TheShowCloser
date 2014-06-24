@@ -40,7 +40,7 @@ PATH
 PATH
   remote: ../ProMotion
   specs:
-    ProMotion (2.0.0)
+    ProMotion (2.0.0.rc2)
       methadone (~> 1.4)
 
 PATH
