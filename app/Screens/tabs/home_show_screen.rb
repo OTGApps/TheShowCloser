@@ -8,6 +8,7 @@ class HomeShowScreen < Formotion::FormController
       ap "PickedHostessNotification"
       ap Hostesses.shared_hostess.current_hostess
       reinit
+      self.tableView.scrollRectToVisible(CGRectMake(0, 0, 1, 1), animated:false)
     end
   end
 
@@ -148,7 +149,7 @@ class HomeShowScreen < Formotion::FormController
           title: "Enable Tax?",
           key: :tax_enabled,
           type: :switch,
-          value: ch.taxEnabled
+          value: ch.tax_enabled?
         },{
           title: "Tax Rate (%)",
           key: :tax_rate,
@@ -167,7 +168,7 @@ class HomeShowScreen < Formotion::FormController
           title: "Tax Shipping?",
           key: :tax_shipping,
           type: :switch,
-          value: ch.taxShipping
+          value: ch.tax_shipping?
         }]
       },{
         title: "Special Discounts / Charges:",
