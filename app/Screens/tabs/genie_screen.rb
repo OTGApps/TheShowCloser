@@ -26,6 +26,7 @@ class GenieScreen < MasterJewelryScreen
 
   def start_calculations
     ap "Starting Calculations"
+    open_modal GenieProcessorScreen.new(nav_bar: true)
   end
 
   def table_data
