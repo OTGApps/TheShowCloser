@@ -54,10 +54,11 @@ class Hostess < CDQManagedObject
 
   def clean_up_item(item_number)
     i = item(item_number)
-    return if i.nil?
-    if i.qtyFree == 0 && i.qtyHalfPrice == 0
-      i.destroy
-      cdq.save
+    unless i.nil?
+      if i.qtyFree == 0 && i.qtyHalfPrice == 0
+        i.destroy
+        cdq.save
+      end
     end
     App.notification_center.post 'ReloadJewelryTableNotification'
   end
@@ -66,9 +67,7 @@ class Hostess < CDQManagedObject
   def clear_free
     items.each do |i|
       i.qtyFree = 0
-      if i.qtyFree == 0 && i.qtyHalfPrice == 0
-        i.destroy
-      end
+      i.destroy if i.qtyFree == 0 && i.qtyHalfPrice == 0
     end
     cdq.save
     App.notification_center.post 'ReloadJewelryTableNotification'
@@ -77,9 +76,7 @@ class Hostess < CDQManagedObject
   def clear_halfprice
     items.each do |i|
       i.qtyHalfPrice = 0
-      if i.qtyFree == 0 && i.qtyHalfPrice == 0
-        i.destroy
-      end
+      i.destroy if i.qtyFree == 0 && i.qtyHalfPrice == 0
     end
     cdq.save
     App.notification_center.post 'ReloadJewelryTableNotification'

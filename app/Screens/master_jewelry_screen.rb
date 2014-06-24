@@ -35,15 +35,6 @@ class MasterJewelryScreen < PM::TableScreen
     update_table_data
   end
 
-  def build_cell(data)
-    {
-      title: cell_title(data),
-      subtitle: cell_subtitle(data),
-      cell_style: UITableViewCellStyleSubtitle,
-      selection_style: UITableViewCellSelectionStyleNone
-    }
-  end
-
   def cell_title(data)
     data['name']
   end
@@ -65,6 +56,12 @@ class MasterJewelryScreen < PM::TableScreen
   end
 
   # Cell data
+
+  def build_cell(data)
+    cell_data(data).merge({
+      selection_style: UITableViewCellSelectionStyleNone
+    })
+  end
 
   def build_free_cell(data)
     ch = Hostesses.shared_hostess.current_hostess
@@ -90,6 +87,7 @@ class MasterJewelryScreen < PM::TableScreen
     {
       title: cell_title(data),
       subtitle: cell_subtitle(data),
+      search_text: data['item'],
       cell_style: UITableViewCellStyleSubtitle,
       selection_style: UITableViewCellSelectionStyleDefault,
       arguments: {
