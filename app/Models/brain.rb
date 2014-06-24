@@ -1,5 +1,10 @@
 class Brain
 
+  def self.app_brain
+    Dispatch.once { @instance ||= new }
+    @instance
+  end
+
   def h
     Hostesses.shared_hostess.current_hostess
   end
@@ -33,8 +38,20 @@ class Brain
     total
   end
 
-  def calculateFreeJewelryLeft
+  def free_left
     to_dict[:totalHostessBenefitsSix] - free_total
+  end
+
+  def free_left_dollars
+    fl = free_left
+    str = "#{Dolarizer.d(free_left.abs)} "
+
+    if fl > 0
+      str << "left"
+    else
+      str << "over"
+    end
+    str
   end
 
   def grandTotal
@@ -81,7 +98,7 @@ class Brain
         bonusTotal = bonusTotal + 1 if bonus.to_bool == true
       end
     end
-    ap "Total Bonuses: #{desc(to_dict[:bonusTotal])}"
+    ap "Total Bonuses: #{desc(bonusTotal)}"
 
     # Calculate the total award value
     to_dict[:awardValueTotal5] = BigDecimal.new((h.bonusValue * bonusTotal) + h.bonusExtra)
@@ -106,7 +123,7 @@ class Brain
     # Tax
     # Determine if shipping is taxed or not
     shipping_tax = 0.0
-    if h.taxShipping == false
+    if h.tax_shipping? == false
       shipping_tax = shipping_rate * tax_rate
       ap "Subtract this much if shipping isn't taxed: #{shipping_tax}"
     end

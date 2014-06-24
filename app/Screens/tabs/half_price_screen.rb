@@ -12,4 +12,10 @@ class HalfPriceScreen < MasterJewelryScreen
   def build_cell(data)
     build_halfprice_cell(data)
   end
+
+  def cells
+    super
+    self.navigationController.navigationBar.topItem.title = "1/2 Price: #{Brain.app_brain.free_left_dollars}"
+  end
+
 end

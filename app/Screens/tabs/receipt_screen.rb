@@ -56,9 +56,7 @@ class ReceiptScreen < PM::WebScreen
 
     html = File.read(File.join(App.resources_path, "ReceiptTemplate.html"))
 
-    ap "Setting html contents"
-
-    brain = Brain.new
+    brain = Brain.app_brain
     report_data = brain.to_dict
     ap report_data
 
@@ -165,13 +163,7 @@ class ReceiptScreen < PM::WebScreen
   end
 
   def dolarize(number)
-    return number if number.is_a?(String)
-    d = sprintf("$%.2f", number)
-    if d.end_with?('.00')
-      d[0...-3]
-    else
-      d
-    end
+    Dolarizer.d(number)
   end
 
   def special_discount_string(d)
