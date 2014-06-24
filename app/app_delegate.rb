@@ -38,7 +38,7 @@ class AppDelegate < PM::Delegate
       UINavigationController.alloc.initWithRootViewController(HomeShowScreen.alloc.init),
       FreeScreen.new(nav_bar:true),
       HalfPriceScreen.new(nav_bar:true),
-      GenieScreen.new(nav_bar:true),
+      GenieScreen.new(nav_bar:true, toolbar: true),
       ReceiptScreen.new(nav_bar:true, external_links: false, scale_to_fit: true)
     )
 

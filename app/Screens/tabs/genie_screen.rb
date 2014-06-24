@@ -14,6 +14,18 @@ class GenieScreen < MasterJewelryScreen
     @halfprice_data ||= placeholder
 
     set_nav_bar_button :right, title: "Clear All", action: :clear_all, system_item: :trash
+    set_toolbar_items [{
+      system_item: :flexible_space
+    },{
+      title: "Calculate Best Deal",
+      action: :start_calculations
+    },{
+      system_item: :flexible_space
+    }]
+  end
+
+  def start_calculations
+    ap "Starting Calculations"
   end
 
   def table_data
