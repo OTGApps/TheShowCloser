@@ -18,11 +18,13 @@ class Hostess < CDQManagedObject
 
   # Count
   def free_count(item_number)
-    (free_item(item_number).nil?) ? 0 : free_item(item_number).qtyFree
+    item = free_item(item_number)
+    (item.nil?) ? 0 : item.qtyFree
   end
 
   def halfprice_count(item_number)
-    (halfprice_item(item_number).nil?) ? 0 : halfprice_item(item_number).qtyHalfPrice
+    item = halfprice_item(item_number)
+    (item.nil?) ? 0 : item.qtyHalfPrice
   end
 
   # Set
