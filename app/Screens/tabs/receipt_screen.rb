@@ -17,12 +17,19 @@ class ReceiptScreen < PM::WebScreen
   end
 
   def on_load
-    view.backgroundColor = UIColor.whiteColor
     set_nav_bar_button :right, {
       title: "Email Receipt",
       system_item: :reply,
       action: :email_receipt
     }
+  end
+
+  def will_appear
+    @set_background_color ||= begin
+      web.setBackgroundColor(UIColor.whiteColor)
+      web.setOpaque(false)
+      true
+    end
   end
 
   def on_appear

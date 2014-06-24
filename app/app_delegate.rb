@@ -4,6 +4,7 @@ class AppDelegate < PM::Delegate
 
   def on_load(app, options)
     cdq.setup
+    set_appearance
 
     # 3rd Party integrations
     BW.debug = true unless App.info_plist['AppStoreRelease'] == true
@@ -45,6 +46,13 @@ class AppDelegate < PM::Delegate
     open_slide_menu @tab_bar, left: hostess_screen
     slide_menu.anchorRightRevealAmount = Device.screen.width
     slide_menu.show_right(false)
+  end
+
+  def set_appearance
+    purple = "#7B4289".to_color
+
+    UISwitch.appearance.setOnTintColor(purple)
+    UIBarButtonItem.appearance.setTintColor(purple)
   end
 
   #Flurry exception handler
