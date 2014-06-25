@@ -131,7 +131,7 @@ class MasterJewelryScreen < PM::TableScreen
       message = 'Are you sure you want to clear all half price hostess selections?'
     else
       title = 'Clear all items?'
-      message = 'Are you sure you want to clear all hostess selections? This can not be undone.'
+      message = "Are you sure you want to clear all hostess selections?\nThis can not be undone."
     end
 
     BW::UIAlertView.new({
