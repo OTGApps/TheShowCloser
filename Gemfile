@@ -16,6 +16,7 @@ gem 'formotion', github: 'clayallsopp/formotion', branch: 'master'
 gem 'rm_vendor' # IAP
 gem 'motion-blitz' # SVProgressHUD
 gem 'pro_motion_slide_menu', github: 'markrickert/promotion_slide_menu', branch: 'ECSlidingViewController'
+gem 'ruby_motion_query'
 
 # Core Data
 gem 'cdq', path: '../cdq'

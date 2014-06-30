@@ -113,6 +113,7 @@ GEM
       activesupport (~> 3.2)
       builder (~> 3.2)
       plist (~> 3.1)
+    ruby_motion_query (0.5.7)
     sugarcube (1.6.3)
     xcodeproj (0.17.0)
       activesupport (~> 3.0)
@@ -134,3 +135,4 @@ DEPENDENCIES
   pro_motion_slide_menu!
   rake
   rm_vendor
+  ruby_motion_query
