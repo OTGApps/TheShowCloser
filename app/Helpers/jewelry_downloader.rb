@@ -1,24 +1,31 @@
 class JewelryDownloader
 
-  def initialize
-    @jn = App::Persistence['jeweler_number']
-  end
-
-  def check
-    ap "Checking for Jewelry DB update for Jeweler Number: #{@jn}"
+  def check(alert = false)
+    ap "Checking for Jewelry DB update for Jeweler Number: #{App::Persistence['jeweler_number']}"
 
     JewelryAPI.version_info do |json_data, error|
       if error.nil?
-        decide(json_data)
+        decide(json_data, alert)
       else
         NSLog "Error retrieving data from the #{App.name} server."
       end
     end
-
   end
 
-  def decide(version)
-    return if !version.is_a?(Hash) || eql_to?(version)
+  def decide(version, alert)
+    return if !version.is_a?(Hash)
+
+    equal = eql_to?(version)
+    if alert == true && equal
+      BW::UIAlertView.new({
+        title: 'Up To Date!',
+        message: 'You have the most recent catalog data on your device.',
+        buttons: ['OK']
+      }).show
+      return
+    elsif equal
+      return
+    end
 
     if version['free_update']
       free_upgrade
@@ -46,7 +53,7 @@ class JewelryDownloader
   end
 
   def purchase_upgrade
-    Motion::Blitz.show('Purchasing Catalog Update')
+    Motion::Blitz.show('Purchasing Catalog Update', :gradient)
 
     @product = Vendor::Product.new(:id => @version['major'])
     @product.purchase do |product|
@@ -54,16 +61,16 @@ class JewelryDownloader
       p "Purchase transaction: #{product.transaction}"
 
       if product.success
-        Motion::Blitz.show('Thank you for your purchase. Downloading catalog update.')
+        Motion::Blitz.show('Thank you for your purchase. Downloading catalog update.', :gradient)
         download_and_save
       else
-        Motion::Blitz.error('Transaction Cancelled.')
+        Motion::Blitz.error('Transaction Cancelled.', :gradient)
       end
     end
   end
 
   def free_upgrade
-    Motion::Blitz.show('Downloading FREE Catalog Update')
+    Motion::Blitz.show('Downloading FREE Catalog Update', :gradient)
     download_and_save
   end
 
@@ -91,7 +98,7 @@ class JewelryDownloader
     App::Persistence['db_version']
   end
 
-  def eql_to? version
+  def eql_to?(version)
     return false if current_version.nil?
     (current_version['major'] == version['major']) && (current_version['minor'] == version['minor'])
   end

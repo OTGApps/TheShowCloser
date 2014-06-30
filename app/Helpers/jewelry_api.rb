@@ -23,7 +23,6 @@ class JewelryAPI
       end
       block.call json, error
     end
-
   end
 
   def self.get_jewelry(&block)

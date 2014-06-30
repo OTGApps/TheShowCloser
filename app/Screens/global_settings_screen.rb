@@ -42,11 +42,27 @@ class GlobalSettingsScreen < Formotion::FormController
           key: :kReceiptName,
           type: :text,
           value: App::Persistence['kReceiptName']
+        },{
+          title: "Jeweler Number",
+          type: :static,
+          value: App::Persistence['jeweler_number']
         }, {
           title: "Lock in portrait orientation",
           key: :kLockPortraitMode,
           type: :switch,
           value: App::Persistence['kLockPortraitMode']
+        }]
+      },{
+        title: "Jewelry Database:",
+        rows: [{
+          # TODO - Make this refresh when a free update or paid update is completely downloaded.
+          title: "Version:",
+          type: :static,
+          value: version_string
+        }, {
+          title: "Check For Update",
+          key: :check_for_update,
+          type: :button
         }]
       }, {
         title: "#{App.name} is open source:",
@@ -126,6 +142,12 @@ class GlobalSettingsScreen < Formotion::FormController
         }]
       }]
     })
+
+    @form.row(:check_for_update).on_tap do |row|
+      jd = JewelryDownloader.new
+      jd.check(true)
+    end
+
     super.initWithForm(@form)
   end
 
@@ -146,6 +168,10 @@ class GlobalSettingsScreen < Formotion::FormController
     end
 
     dismissModalViewControllerAnimated(true)
+  end
+
+  def version_string
+    "#{App::Persistence['db_version']['friendly']} #{App::Persistence['db_version']['minor']}"
   end
 
 end
