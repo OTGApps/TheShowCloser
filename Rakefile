@@ -3,7 +3,6 @@ $:.unshift("/Library/RubyMotion/lib")
 require 'motion/project/template/ios'
 
 begin
-  require 'vendor'
   require 'bundler'
   Bundler.require
 rescue LoadError
@@ -19,6 +18,7 @@ Motion::Project::App.setup do |app|
   app.version = '18'
   app.short_version = '3.0.0b2'
   app.icons = Dir.glob("resources/Icon*.png").map{|icon| icon.split("/").last}
+  app.seed_id = 'DW9QQZR4ZL'
   app.info_plist['FULL_APP_NAME'] = 'The Show Closer'
   app.info_plist['APP_STORE_ID'] = 483940964
 
@@ -34,12 +34,18 @@ Motion::Project::App.setup do |app|
   end
 
   # Beta
-  app.identifier = 'com.mohawkapps.TheShowCloserBeta'
-  app.provisioning_profile = "./provisioning/beta.mobileprovision"
+  # app.identifier = 'com.mohawkapps.TheShowCloserBeta'
+  # app.provisioning_profile = "./provisioning/beta.mobileprovision"
 
   # Non-Beta
   app.identifier = 'com.mohawkapps.TheShowCloser'
   app.provisioning_profile = "./provisioning/development.mobileprovision"
+
+  app.entitlements['keychain-access-groups'] = [
+    app.seed_id + '.' + app.identifier
+  ]
+  app.entitlements['com.apple.developer.ubiquity-kvstore-identifier']     =  app.seed_id + '.' + app.identifier
+  app.entitlements['com.apple.developer.ubiquity-container-identifiers']  = [app.seed_id + '.' + app.identifier]
 
   app.release do
     app.info_plist['AppStoreRelease'] = true

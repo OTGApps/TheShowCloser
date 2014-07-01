@@ -55,18 +55,31 @@ class JewelryDownloader
   def purchase_upgrade
     Motion::Blitz.show('Purchasing Catalog Update', :gradient)
 
-    @product = Vendor::Product.new([:id => @version['major']])
-    @product.purchase do |product|
-      p "Purchase successful: #{product.success}"
-      p "Purchase transaction: #{product.transaction}"
+    NSLog "Starting purchase process."
 
-      if product.success
-        Motion::Blitz.show('Thank you for your purchase. Downloading catalog update!', :gradient)
-        download_and_save
+    @iap_helper = IAPHelper.new(NSSet.setWithArray([@version['major']]))
+    @iap_helper.cancelled = cancelled_transaction
+    @iap_helper.success = transaction_successful
+    @iap_helper.requestProductInfo do |success, products|
+      if success && products.is_a?(Array) && products.count == 1
+        @iap_helper.buyProduct(products.first)
       else
-        Motion::Blitz.error('Transaction Cancelled.', :gradient)
+        Motion::Blitz.error('There was a problem. Please try again later.')
       end
     end
+  end
+
+  def cancelled_transaction
+    lambda {
+      Motion::Blitz.error('Transaction Cancelled.')
+    }
+  end
+
+  def transaction_successful
+    lambda {
+      Motion::Blitz.show('Thank you for your purchase. Downloading catalog update!', :gradient)
+      download_and_save
+    }
   end
 
   def free_upgrade

@@ -31,8 +31,9 @@ GIT
   specs:
     motion-hockeyapp (1.1.6)
 
-PATH
-  remote: ../BubbleWrap
+GIT
+  remote: git://github.com/rubymotion/BubbleWrap.git
+  revision: 90bcc7936153340adb5e9ab47954cbe7de063637
   specs:
     bubble-wrap (1.6.0)
       bubble-wrap-http (= 1.6.0)
@@ -108,16 +109,11 @@ GEM
     open4 (1.3.4)
     plist (3.1.0)
     rake (10.3.2)
-    rm_vendor (0.3.3)
-      bubble-wrap
-      motion-cocoapods
-      sugarcube
     ruby-xcdm (0.0.7)
       activesupport (~> 3.2)
       builder (~> 3.2)
       plist (~> 3.1)
     ruby_motion_query (0.6.0)
-    sugarcube (1.6.3)
     xcodeproj (0.17.0)
       activesupport (~> 3.0)
       colored (~> 1.2)
@@ -138,5 +134,4 @@ DEPENDENCIES
   motion-hockeyapp!
   pro_motion_slide_menu!
   rake
-  rm_vendor
   ruby_motion_query
