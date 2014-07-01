@@ -100,6 +100,8 @@ class IAPHelper
     NSLog("failedTransaction...")
     if transaction.error.code != SKErrorPaymentCancelled
       NSLog("Transaction error: %@", transaction.error.localizedDescription)
+      @completion_handler.call(false, nil) unless @completion_handler.nil?
+      @completion_handler = nil
     else
       @cancelled.call unless @cancelled.nil?
     end

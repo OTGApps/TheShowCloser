@@ -33,7 +33,6 @@ class JewelryDownloader
       @version = version
       paid_upgrade
     end
-
   end
 
   def paid_upgrade
@@ -60,8 +59,10 @@ class JewelryDownloader
     @iap_helper = IAPHelper.new(NSSet.setWithArray([@version['major']]))
     @iap_helper.cancelled = cancelled_transaction
     @iap_helper.success = transaction_successful
+    # Verify that the product exists and can be purchased
     @iap_helper.request_product_info do |success, products|
       if success && products.is_a?(Array) && products.count == 1
+        # Purchase the product
         @iap_helper.buy_product(products.first)
       else
         Motion::Blitz.error('There was a problem. Please try again later.')
@@ -101,6 +102,7 @@ class JewelryDownloader
   end
 
   private
+
   def done_downloading
     ap 'Done Downloading'
     ap JewelryData.file_data['db']
