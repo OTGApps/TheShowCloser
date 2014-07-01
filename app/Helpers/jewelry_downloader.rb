@@ -55,13 +55,13 @@ class JewelryDownloader
   def purchase_upgrade
     Motion::Blitz.show('Purchasing Catalog Update', :gradient)
 
-    @product = Vendor::Product.new(:id => @version['major'])
+    @product = Vendor::Product.new([:id => @version['major']])
     @product.purchase do |product|
       p "Purchase successful: #{product.success}"
       p "Purchase transaction: #{product.transaction}"
 
       if product.success
-        Motion::Blitz.show('Thank you for your purchase. Downloading catalog update.', :gradient)
+        Motion::Blitz.show('Thank you for your purchase. Downloading catalog update!', :gradient)
         download_and_save
       else
         Motion::Blitz.error('Transaction Cancelled.', :gradient)
@@ -75,9 +75,10 @@ class JewelryDownloader
   end
 
   def download_and_save
-    JewelryAPI.get_jewelry do |json_text, error|
+    JewelryAPI.get_jewelry do |json, error|
       if error.nil?
-        File.open(JewelryData.file_location, 'w') { |file| file.write(json_text) }
+        jewelry_string = BW::JSON.generate(json)
+        File.open(JewelryData.file_location, 'w') { |file| file.write(jewelry_string) }
         done_downloading
       else
         Motion::Blitz.error('Download failed. Please try again later.')
