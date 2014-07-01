@@ -3,6 +3,7 @@ $:.unshift("/Library/RubyMotion/lib")
 require 'motion/project/template/ios'
 
 begin
+  require 'vendor'
   require 'bundler'
   Bundler.require
 rescue LoadError
@@ -10,7 +11,7 @@ end
 
 Motion::Project::App.setup do |app|
   # Use `rake config' to see complete project settings.
-  app.name = 'Closer'
+  app.name = 'ShowCloser'
   app.deployment_target = "7.0"
   app.device_family = [:iphone]
 # app.device_family = [:iphone, :ipad]

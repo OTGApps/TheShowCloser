@@ -64,8 +64,6 @@ class MasterJewelryScreen < PM::TableScreen
   end
 
   def build_free_cell(data)
-    ch = Hostesses.shared_hostess.current_hostess
-
     cell_data(data).merge({
       action: :toggle_free,
       long_press_action: :show_free_qty_picker,
@@ -74,8 +72,6 @@ class MasterJewelryScreen < PM::TableScreen
   end
 
   def build_halfprice_cell(data)
-    ch = Hostesses.shared_hostess.current_hostess
-
     cell_data(data).merge({
       action: :toggle_halfprice,
       long_press_action: :show_halfprice_qty_picker,
@@ -107,8 +103,6 @@ class MasterJewelryScreen < PM::TableScreen
   end
 
   def toggle_item(item, free)
-    ch = Hostesses.shared_hostess.current_hostess
-
     if free
       qty = (ch.has_free?(item)) ? 0 : 1
       ch.set_free(item, qty)
@@ -143,12 +137,12 @@ class MasterJewelryScreen < PM::TableScreen
       unless alert.clicked_button.cancel?
         case kind
         when :free
-          Hostesses.shared_hostess.current_hostess.clear_free
+          ch.clear_free
         when :halfprice
-          Hostesses.shared_hostess.current_hostess.clear_halfprice
+          ch.clear_halfprice
         else
-          Hostesses.shared_hostess.current_hostess.clear_free
-          Hostesses.shared_hostess.current_hostess.clear_halfprice
+          ch.clear_free
+          ch.clear_halfprice
         end
         update_table_data
       end
@@ -178,8 +172,6 @@ class MasterJewelryScreen < PM::TableScreen
   end
 
   def show_qty_picker(item, free)
-    ch = Hostesses.shared_hostess.current_hostess
-
     # Get the initial index for the picker
     initial_index = 0
     if free && ch.has_free?(item)
@@ -206,5 +198,9 @@ class MasterJewelryScreen < PM::TableScreen
         ap "Canceled the picker"
       },
       origin: self.view)
+  end
+
+  def ch
+    Hostesses.shared_hostess.current_hostess
   end
 end

@@ -8,8 +8,9 @@ gem 'motion-cocoapods'
 gem 'cocoapods'
 
 # RubyMotion
-gem 'bubble-wrap', path: '../BubbleWrap', require: ['bubble-wrap/core', 'bubble-wrap/http', 'bubble-wrap/mail']
-# gem 'bubble-wrap', github: 'rubymotion/BubbleWrap', require: ['bubble-wrap/core', 'bubble-wrap/http', 'bubble-wrap/mail']
+gem 'bubble-wrap', path: '../BubbleWrap', require: ['bubble-wrap/core', 'bubble-wrap/mail']
+gem "afmotion"
+# gem 'bubble-wrap', github: 'rubymotion/BubbleWrap', require: ['bubble-wrap/core', 'bubble-wrap/mail']
 gem 'ProMotion', path: '../ProMotion'
 # gem 'ProMotion', github: 'clearsightstudio/ProMotion', branch: 'pm2'
 gem 'formotion', github: 'clayallsopp/formotion', branch: 'master'

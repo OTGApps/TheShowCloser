@@ -12,31 +12,32 @@ class JewelryAPI
   end
 
   def self.version_info(&block)
-    BW::HTTP.post(VERSION_URL, {payload: JewelryAPI.post_data}) do |response|
+    AFMotion::JSON.post(VERSION_URL, JewelryAPI.post_data) do |response|
       json = nil
       error = nil
 
-      if response.ok?
-        json = BW::JSON.parse(response.body.to_str)
+      if response.success?
+        json = response.object
       else
-        error = {error: "Failed to get system version numbers"}
+        error = { error: "Failed to get system version numbers" }
       end
+
       block.call json, error
     end
   end
 
   def self.get_jewelry(&block)
-    BW::HTTP.post(JEWELRY_URL, { payload: JewelryAPI.post_data} ) do |response|
-      text = nil
+    AFMotion::JSON.post(JEWELRY_URL, JewelryAPI.post_data) do |response|
+      json = nil
       error = nil
 
-      if response.ok?
-        text = response.body.to_s
+      if response.success?
+        json = response.object
       else
-        error = {error: "sorry"}
+        error = {error: "Could not download jewelry database at this time. Please try again later."}
       end
 
-      block.call text, error
+      block.call json, error
     end
   end
 

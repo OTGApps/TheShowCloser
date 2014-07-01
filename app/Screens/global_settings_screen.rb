@@ -171,7 +171,11 @@ class GlobalSettingsScreen < Formotion::FormController
   end
 
   def version_string
-    "#{App::Persistence['db_version']['friendly']} #{App::Persistence['db_version']['minor']}"
+    if App::Persistence['db_version']
+      "#{App::Persistence['db_version']['friendly']} #{App::Persistence['db_version']['minor']}"
+    else
+      'None'
+    end
   end
 
 end
