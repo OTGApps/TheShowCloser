@@ -1,21 +1,21 @@
 # http://www.raywenderlich.com/21081/introduction-to-in-app-purchases-in-ios-6-tutorial
 class IAPHelper
-  attr_accessor :productsRequest, :completionHandler, :productIdentifiers, :purchasedProductIdentifiers
+  attr_accessor :products_request, :completion_handler, :product_identifiers, :purchased_product_identifiers
   attr_accessor :cancelled, :success
 
-  def initialize(productIdentifiers)
+  def initialize(product_identifiers)
     # Store product identifiers
-    @productIdentifiers = productIdentifiers
+    @product_identifiers = product_identifiers
 
     #Check for previously purchased products
-    @purchasedProductIdentifiers = NSMutableSet.set
-    @productIdentifiers.each do |productIdentifier|
-      productPurchased = NSUserDefaults.standardUserDefaults.boolForKey(productIdentifier)
-      if productPurchased
-        @purchasedProductIdentifiers.addObject(productIdentifier)
-        NSLog("Previously purchased: %@", productIdentifier)
+    @purchased_product_identifiers = NSMutableSet.set
+    @product_identifiers.each do |product_identifier|
+      product_purchased = NSUserDefaults.standardUserDefaults.boolForKey(product_identifier)
+      if product_purchased
+        @purchased_product_identifiers.addObject(product_identifier)
+        NSLog("Previously purchased: %@", product_identifier)
       else
-        NSLog("Not purchased: %@", productIdentifier)
+        NSLog("Not purchased: %@", product_identifier)
       end
     end
 
@@ -23,47 +23,47 @@ class IAPHelper
     SKPaymentQueue.defaultQueue.addTransactionObserver(self)
   end
 
-  def requestProductInfo(&block)
+  def request_product_info(&block)
     NSLog('Requesting product information')
-    @completionHandler = block
+    @completion_handler = block
 
-    @productsRequest = SKProductsRequest.alloc.initWithProductIdentifiers(@productIdentifiers)
-    @productsRequest.delegate = self
-    @productsRequest.start
+    @products_request = sk_products_request.alloc.initWithproduct_identifiers(@product_identifiers)
+    @products_request.delegate = self
+    @products_request.start
   end
 
-  def productPurchased(productIdentifier)
-    @purchasedProductIdentifiers.containsObject(productIdentifier)
+  def product_purchased?(product_identifier)
+    @purchased_product_identifiers.containsObject(product_identifier)
   end
 
-  def buyProduct(product)
-    NSLog("Buying %@...", product.productIdentifier)
+  def buy_product(product)
+    NSLog("Buying %@...", product.product_identifier)
 
     payment = SKPayment.paymentWithProduct(product)
     SKPaymentQueue.defaultQueue.addPayment(payment)
   end
 
-  #pragma mark - SKProductsRequestDelegate
+  #pragma mark - sk_products_requestDelegate
 
-  def productsRequest(request, didReceiveResponse:response)
+  def products_request(request, didReceiveResponse:response)
     NSLog("Loaded list of products...")
-    @productsRequest = nil
+    @products_request = nil
 
-    skProducts = response.products
-    skProducts.each do |skProduct|
-      NSLog("Found product: %@ %@ %0.2", skProduct.productIdentifier, skProduct.localizedTitle, skProduct.price.floatValue)
+    sk_products = response.products
+    sk_products.each do |sk_product|
+      NSLog("Found product: %@ %@ %0.2", sk_product.product_identifier, sk_product.localizedTitle, sk_product.price.floatValue)
     end
 
-    @completionHandler.call(true, skProducts)
-    @completionHandler = nil
+    @completion_handler.call(true, sk_products)
+    @completion_handler = nil
   end
 
   def request(request, didFailWithError:error)
     NSLog("Failed to load list of products.")
-    @productsRequest = nil
+    @products_request = nil
 
-    @completionHandler.call(false, nil)
-    @completionHandler = nil
+    @completion_handler.call(false, nil)
+    @completion_handler = nil
   end
 
 #pragma mark SKPaymentTransactionObserver
@@ -85,14 +85,14 @@ class IAPHelper
   def completeTransaction(transaction)
     NSLog("completeTransaction...")
 
-    self.provideContentForProductIdentifier(transaction.payment.productIdentifier)
+    self.provide_content(transaction.payment.product_identifier)
     SKPaymentQueue.defaultQueue.finishTransaction(transaction)
   end
 
   def restoreTransaction(transaction)
     NSLog("restoreTransaction...")
 
-    self.provideContentForProductIdentifier(transaction.originalTransaction.payment.productIdentifier)
+    self.provide_content(transaction.originalTransaction.payment.product_identifier)
     SKPaymentQueue.defaultQueue.finishTransaction(transaction)
   end
 
@@ -106,11 +106,10 @@ class IAPHelper
     SKPaymentQueue.defaultQueue.finishTransaction(transaction)
   end
 
-  def provideContentForProductIdentifier(productIdentifier)
-    @purchasedProductIdentifiers.addObject(productIdentifier)
-    NSUserDefaults.standardUserDefaults.setBool(true, forKey:productIdentifier)
+  def provide_content(product_identifier)
+    @purchased_product_identifiers.addObject(product_identifier)
+    NSUserDefaults.standardUserDefaults.setBool(true, forKey:product_identifier)
     NSUserDefaults.standardUserDefaults.synchronize
-    #NSNotificationCenter.defaultCenter.postNotificationName('IAPHelperProductPurchasedNotification', object:productIdentifier, userInfo:nil)
     @success.call unless @success.nil?
   end
 
