@@ -43,7 +43,7 @@ class IAPHelper
     SKPaymentQueue.defaultQueue.addPayment(payment)
   end
 
-  #pragma mark - sk_products_requestDelegate
+  #pragma mark - SKProductsRequestDelegate
 
   def products_request(request, didReceiveResponse:response)
     NSLog("Loaded list of products...")
@@ -66,7 +66,7 @@ class IAPHelper
     @completion_handler = nil
   end
 
-#pragma mark SKPaymentTransactionObserver
+  #pragma mark SKPaymentTransactionObserver
 
   def paymentQueue(queue, updatedTransactions:transactions)
     transactions.each do |transaction|

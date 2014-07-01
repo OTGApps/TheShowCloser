@@ -7,13 +7,20 @@ class GenieProcessorScreen < PM::Screen
     rmq.stylesheet = GenieProcessorStylesheet
     rmq(self.view).apply_style :root_view
 
-    @small_stars = rmq.append(UIImageView, :small_stars)
-    @small_stars_2 = rmq.append(UIImageView, :small_stars2)
-    @big_stars = rmq.append(UIImageView, :big_stars)
-    rmq.append(UIImageView, :wand)
+    @container = rmq.append(UIView, :container)
 
-    rmq.append(UILabel, :working_magic)
-    @progress = rmq.append(UIProgressView, :progress)
+    @small_stars = rmq(:container).append(UIImageView, :small_stars)
+    @small_stars_2 = rmq(:container).append(UIImageView, :small_stars2)
+    @big_stars = rmq(:container).append(UIImageView, :big_stars)
+    rmq(:container).append(UIImageView, :wand)
+
+    rmq(:container).append(UILabel, :working_magic)
+    @progress = rmq(:container).append(UIProgressView.alloc.initWithProgressViewStyle(UIProgressViewStyleDefault), :progress)
+    @progress.get.progressTintColor = "#7B4289".to_color
+    @progress.get.setProgress(0.5, animated:true)
+
+    # rmq(:container).layout(centered: :vertical)
+
   end
 
   def will_appear
