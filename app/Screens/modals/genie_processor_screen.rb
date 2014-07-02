@@ -16,7 +16,8 @@ class GenieProcessorScreen < PM::Screen
 
     container.append(UILabel, :working_magic)
     @progress = container.append(UIProgressView.alloc.initWithProgressViewStyle(UIProgressViewStyleDefault), :progress)
-    @progress.get.setProgress(0.5, animated:true)
+
+    process
   end
 
   def will_appear
@@ -47,4 +48,21 @@ class GenieProcessorScreen < PM::Screen
     ap "Canceling process."
     close
   end
+
+  def process
+    ap "Start Processing"
+    Dispatch::Queue.concurrent.async do
+      complete = 0.0
+      # Do a long running process here
+      while complete < 1
+        sleep 1
+        complete = complete + 0.15
+
+        Dispatch::Queue.main.sync do
+          @progress.get.setProgress(complete, animated:true)
+        end
+      end
+    end
+  end
+
 end

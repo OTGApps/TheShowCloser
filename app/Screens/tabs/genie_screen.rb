@@ -26,7 +26,14 @@ class GenieScreen < MasterJewelryScreen
 
   def start_calculations
     ap "Starting Calculations"
-    open_modal GenieProcessorScreen.new(nav_bar: true)
+
+    if Hostesses.shared_hostess.current_hostess.items.count > 0
+      open_modal GenieProcessorScreen.new(nav_bar: true)
+    else
+      App.alert("Please Add Some Items!", {
+        message: "You need to add at least two items to the wishlist before you do this."
+      })
+    end
   end
 
   def table_data
