@@ -40,7 +40,7 @@ class GenieProcessorStylesheet < RubyMotionQuery::Stylesheet
 
   def progress(st)
     st.progress_tint_color = "#7B4289".to_color
-    st.frame = {l: 0, bp: 15, fr:0, h: 10}
+    st.frame = {l: 10, bp: 15, fr:10, h: 10}
   end
 
   def image_frame
