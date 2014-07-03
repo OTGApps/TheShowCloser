@@ -46,6 +46,7 @@ class GenieProcessorScreen < PM::Screen
 
   def cancel
     ap "Canceling process."
+    Brain.app_brain.tmp_jewelry_combo = nil
     close
   end
 
@@ -67,6 +68,7 @@ class GenieProcessorScreen < PM::Screen
 
     jewelry_set = []
     costs = []
+    total_cost_orig = Brain.app_brain.grandTotal
 
     # Loop through all the free jewelry and store copies of the objects
     ch.items.each do |item|
@@ -79,7 +81,7 @@ class GenieProcessorScreen < PM::Screen
     end
 
     Dispatch::Queue.concurrent.async do
-      start_timer = NSDate.date
+      start_time = NSDate.date
       ap "Wishlist Array #{jewelry_set}"
 
       # Now that we have the array, we need to loop through every combination
@@ -131,7 +133,9 @@ class GenieProcessorScreen < PM::Screen
         next if free_left > 0
         if !best_combo || best_combo[:free_left] < free_left
           best_combo = Brain.app_brain.tmp_jewelry_combo.merge({
-            free_left: free_left
+            free_left: free_left,
+            total_cost: total_cost,
+            previous_total: total_cost_orig
           })
         end
       end
@@ -142,26 +146,21 @@ class GenieProcessorScreen < PM::Screen
       # Set the brain back to the real data
       Brain.app_brain.tmp_jewelry_combo = nil
 
-      stop_time_interval = start_timer.timeIntervalSinceNow
+      stop_time = NSDate.date
+      execution_time_sec = stop_time.timeIntervalSinceDate(start_time)
       timer_info = {
-        time_to_complete: stop_time_interval,
+        time_to_complete: execution_time_sec,
         valid_permutations_count: total_combos
       }
       # Flurry.logEvent("GENIE_FINISHED_WITH_TIME", withParameters:timer_info) unless BW.debug?
 
       Dispatch::Queue.main.sync do
         # Show the summary screen.
-        # [self performSelectorOnMainThread:@selector(pushNewController:) withObject:nil waitUntilDone:YES];
+        open GenieResultScreen.new(results: best_combo, info: timer_info)
       end
     end
   end
 
-def product_hash(hsh)
-  attrs   = hsh.values
-  keys    = hsh.keys
-  product = attrs[0].product(*attrs[1..-1])
-  product.map{ |p| Hash[keys.zip p] }
-end
   def ch
     Hostesses.shared_hostess.current_hostess
   end

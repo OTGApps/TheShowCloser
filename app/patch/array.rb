@@ -1,4 +1,5 @@
 class Array
+  # Credit where credit is due: http://stackoverflow.com/questions/15737065/unique-permutations-for-large-sets/15737305#15737305
   def cartesian_power(n)
     current = [0] * n
     last = [size - 1] * n

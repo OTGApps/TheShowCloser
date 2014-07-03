@@ -1,4 +1,4 @@
-class GenieProcessorStylesheet < RubyMotionQuery::Stylesheet
+class GenieProcessorStylesheet < ApplicationStylesheet
   def root_view(st)
     st.background_color = color.white
   end
@@ -39,7 +39,7 @@ class GenieProcessorStylesheet < RubyMotionQuery::Stylesheet
   end
 
   def progress(st)
-    st.progress_tint_color = "#7B4289".to_color
+    st.progress_tint_color = color.purple
     st.frame = {l: 10, bp: 15, fr:10, h: 10}
   end
 
