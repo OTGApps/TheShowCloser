@@ -68,7 +68,7 @@ class GenieProcessorScreen < PM::Screen
     jewelry_set = []
     costs = []
 
-    # Loop through all the free jewelry
+    # Loop through all the free jewelry and store copies of the objects
     ch.items.each do |item|
       item.qtyFree.to_i.times do |loop|
         jewelry_set << item.copy
@@ -87,12 +87,6 @@ class GenieProcessorScreen < PM::Screen
       # amount of overage
 
       n = jewelry_set.count
-      # jewelry_set.sort_by!{|j| j.price.to_f }.reverse!
-      # ap jewelry_set
-      # if n > 20
-      #   n = 20
-      #   overage_is_accurate = false
-      # end
 
       total_retail = Brain.app_brain.totalRetail
 
@@ -102,13 +96,23 @@ class GenieProcessorScreen < PM::Screen
 
       total_combos = combinations.count
       best_combo = false
+      ap "Total combos: #{total_combos}"
+
       combinations.each_with_index do |combo, i|
         # Here's where the magic happens!
 
         # Set the brain's "fake" data
-        Brain.app_brain.tmp_jewelry_combo = {combo: combo, items: jewelry_set}
+        if Brain.app_brain.tmp_jewelry_combo.nil?
+          Brain.app_brain.tmp_jewelry_combo = {
+            combo: combo,
+            items: jewelry_set
+          }
+        else
+          Brain.app_brain.tmp_jewelry_combo[:combo] = combo
+        end
+
         ap "Processing Combo:"
-        ap combo
+        ap Brain.app_brain.tmp_jewelry_combo[:combo]
 
         # Get the total price
         b_dict = Brain.app_brain.to_dict
@@ -117,6 +121,12 @@ class GenieProcessorScreen < PM::Screen
 
         ap "Free Left: #{free_left}"
 
+        Dispatch::Queue.main.sync do
+          p = (i + 1) / total_combos.to_f
+          ap "Setting Progress: #{p} (#{i} / #{total_combos})"
+          @progress.setProgress(p, animated:false)
+        end
+
         # Compare it to the best combo
         next if free_left > 0
         if !best_combo || best_combo[:free_left] < free_left
@@ -124,26 +134,25 @@ class GenieProcessorScreen < PM::Screen
             free_left: free_left
           })
         end
-
-        Dispatch::Queue.main.sync do
-          @progress.setProgress((i + 1) / total_combos.to_f, animated:false)
-        end
       end
 
+      ap "Best Combo:"
       ap best_combo
 
       # Set the brain back to the real data
       Brain.app_brain.tmp_jewelry_combo = nil
 
+      stop_time_interval = start_timer.timeIntervalSinceNow
+      timer_info = {
+        time_to_complete: stop_time_interval,
+        valid_permutations_count: total_combos
+      }
+      # Flurry.logEvent("GENIE_FINISHED_WITH_TIME", withParameters:timer_info) unless BW.debug?
 
-
-      #     NSTimeInterval stopTimeInterval = [startTimer timeIntervalSinceNow];
-      #     NSMutableDictionary *timerInfo = [[NSMutableDictionary alloc] initWithCapacity:2];
-      #     [timerInfo setValue:[NSNumber numberWithInteger:stopTimeInterval] forKey:@"time_to_complete"];
-      #     [timerInfo setValue:[NSNumber numberWithInt:[costs count]] forKey:@"valid_permutations_count"];
-      #     [Flurry logEvent:@"GENIE_FINISHED_WITH_TIME" withParameters:timerInfo];
-
-      # [self performSelectorOnMainThread:@selector(pushNewController:) withObject:nil waitUntilDone:YES];
+      Dispatch::Queue.main.sync do
+        # Show the summary screen.
+        # [self performSelectorOnMainThread:@selector(pushNewController:) withObject:nil waitUntilDone:YES];
+      end
     end
   end
 
