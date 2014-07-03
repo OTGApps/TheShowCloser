@@ -156,7 +156,12 @@ class GenieProcessorScreen < PM::Screen
 
       Dispatch::Queue.main.sync do
         # Show the summary screen.
-        open GenieResultScreen.new(results: best_combo, info: timer_info)
+        open GenieResultScreen.new(
+          external_links: false,
+          scale_to_fit: true,
+          results: best_combo,
+          info: timer_info
+        )
       end
     end
   end
