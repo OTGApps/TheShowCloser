@@ -1,5 +1,18 @@
 class WishlistItem < CDQManagedObject
 
+  def copyWithZone(zone)
+    ap self
+    Jewelry.allocWithZone(zone).init.tap do |j|
+      j.item = self.item.copy
+      j.name = self.name.copy
+      j.price = self.price.copy
+      j.pages = self.pages.copy
+      j.type = self.type.copy
+      j.retired = (self.retired || 0).boolValue
+      j.stopSell = (self.stopSell || 0).boolValue
+    end
+  end
+
   def method_missing(meth, *args)
     obj_c_meth = "set" << meth.split('_').inject([]){ |buffer,e| buffer.push(e.capitalize) }.join.delete("=")
     if respond_to?(obj_c_meth)
