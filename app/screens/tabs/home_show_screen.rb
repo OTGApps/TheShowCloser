@@ -16,9 +16,7 @@ class HomeShowScreen < Formotion::FormController
     self.form = build_form
     self.form.controller = self
 
-    self.title = title
-    self.navigationController.tabBarItem.title = "Show"
-    self.navigationController.tabBarItem.image = UIImage.imageNamed('homeshow')
+    reinit_titles
 
     set_nav_bar_button :left, {
       title: "Hostesses",
@@ -30,7 +28,14 @@ class HomeShowScreen < Formotion::FormController
     observe_switches
   end
 
+  def reinit_titles
+    self.setTitle(named_title)
+    self.navigationController.tabBarItem.title = "Show"
+    self.navigationController.tabBarItem.image = UIImage.imageNamed('homeshow')
+  end
+
   def show_all_hostesses
+    App.delegate.slide_menu.anchorRightRevealAmount = Device.screen.width_for_orientation(:landscape_left)
     App.delegate.slide_menu.show(:right)
     unobserve_all
     ch = nil
@@ -53,6 +58,7 @@ class HomeShowScreen < Formotion::FormController
     ap serialized
 
     ch.set_and_save(serialized)
+    reinit_titles
   end
 
   def observe_switches
@@ -203,9 +209,12 @@ class HomeShowScreen < Formotion::FormController
     -> { update_and_save_hostess }
   end
 
-  def title
-    t = "Home Show"
-    (ch.nil? || ch.first_name.nil?) ? t : "#{ch.first_name}'s " << t
+  def named_title
+    return 'Home Show' if ch.nil? || ch.first_name.nil?
+
+    t = "#{ch.first_name}'s Home Show"
+    t << " on #{ch.createdDate.short_date}" if Device.ipad?
+    t
   end
 
   def ch
