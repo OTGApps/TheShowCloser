@@ -27,7 +27,7 @@ class GenieScreen < MasterJewelryScreen
   def start_calculations
     ap "Starting Calculations"
 
-    if Hostesses.shared_hostess.current_hostess.items.count > 0
+    if ch.free_items.count > 0 || ch.halfprice_items.count > 0
       open_modal GenieProcessorScreen.new(nav_bar: true)
     else
       App.alert("Please Add Some Items!", {
@@ -67,4 +67,7 @@ class GenieScreen < MasterJewelryScreen
     update_table_data
   end
 
+  def ch
+    Hostesses.shared_hostess.current_hostess
+  end
 end
