@@ -5,7 +5,7 @@ class GenieResultScreen < PM::WebScreen
 
   def on_load
     self.navigationItem.setHidesBackButton(true) # Hide the back button
-    set_nav_bar_button :right, system_item: :stop, action: :cancel
+    set_nav_bar_button :right, system_item: :stop, action: :close_modal
 
     rmq.stylesheet = GenieResultStylesheet
 
@@ -17,7 +17,7 @@ class GenieResultScreen < PM::WebScreen
     @view_set_up ||= begin
       rmq(web).apply_style :web_view
 
-      apply_button = rmq(self.view).append(UIButton, :apply_button).on(:tap) do |sender|
+      rmq(self.view).append(UIButton, :apply_button).on(:tap) do |sender|
         apply
       end
     end
@@ -42,19 +42,33 @@ class GenieResultScreen < PM::WebScreen
     html.empty? ? "<li>No changes.</li>" : html
   end
 
-  def cancel
+  def close_modal
     self.navigationController.dismissModalViewControllerAnimated(true)
   end
 
   def apply
     ap "Applying"
 
-    @results[:combo].each_with_index do |h_f, i|
-
+    # Reset all the items to zero
+    ch.items.each do |i|
+      ch.set_halfprice(i.item, 0, false)
+      ch.set_free(i.item, 0, false)
     end
 
+    # Apply the changes to the wishlist
+    @results[:combo].each_with_index do |h_f, i|
+      changing_item = @results[:items][i]
+      current_item = ch.item(changing_item.item)
 
-    cancel
+      if h_f == :free
+        ch.set_free(current_item.item, (current_item.qtyFree + 1), false)
+      elsif h_f == :half # Explicit FTW!
+        ch.set_halfprice(current_item.item, (current_item.qtyHalfPrice + 1), false)
+      end
+    end
+    App.notification_center.post 'ReloadJewelryTableNotification'
+
+    close_modal
   end
 
   def ch
