@@ -15,9 +15,9 @@ class GenieProcessorScreen < PM::Screen
     container.append(UIImageView, :wand)
 
     container.append(UILabel, :working_magic)
-    @progress = container.append(UIProgressView.alloc.initWithProgressViewStyle(UIProgressViewStyleDefault), :progress)
+    @progress = container.append(UIProgressView.alloc.initWithProgressViewStyle(UIProgressViewStyleDefault), :progress).get
 
-    process
+    perform_calculations
   end
 
   def will_appear
@@ -49,20 +49,112 @@ class GenieProcessorScreen < PM::Screen
     close
   end
 
-  def process
-    ap "Start Processing"
-    Dispatch::Queue.concurrent.async do
-      complete = 0.0
-      # Do a long running process here
-      while complete < 1
-        sleep 1
-        complete = complete + 0.15
+  # Determine if the free/half_price combo should be processed or not
+  def should_process?(combo, retail)
+    half_count = combo.select{|c| c == :half}.count
+    if (half_count > 8) || (half_count > 6 && retail < 500) || (half_count > 4 && retail < 300)
+      # These combos break the rules of half price items.
+      false
+    else
+      true
+    end
+  end
 
-        Dispatch::Queue.main.sync do
-          @progress.get.setProgress(complete, animated:true)
-        end
+  def perform_calculations
+    ap "Start Processing"
+
+    @progress.setProgress(0.0, animated:false)
+
+    jewelry_set = []
+    costs = []
+
+    # Loop through all the free jewelry
+    ch.items.each do |item|
+      item.qtyFree.to_i.times do |loop|
+        jewelry_set << item.copy
+      end
+      item.qtyHalfPrice.to_i.times do |loop|
+        jewelry_set << item.copy
       end
     end
+
+    Dispatch::Queue.concurrent.async do
+      start_timer = NSDate.date
+      ap "Wishlist Array #{jewelry_set}"
+
+      # Now that we have the array, we need to loop through every combination
+      # that exists and calculate which is the cheapest or leaves the least
+      # amount of overage
+
+      n = jewelry_set.count
+      # jewelry_set.sort_by!{|j| j.price.to_f }.reverse!
+      # ap jewelry_set
+      # if n > 20
+      #   n = 20
+      #   overage_is_accurate = false
+      # end
+
+      total_retail = Brain.app_brain.totalRetail
+
+      combinations = []
+      [:free, :half].cartesian_power(n){ |l| combinations << l }
+      combinations.select!{|c| should_process?(c, total_retail) }
+
+      total_combos = combinations.count
+      best_combo = false
+      combinations.each_with_index do |combo, i|
+        # Here's where the magic happens!
+
+        # Set the brain's "fake" data
+        Brain.app_brain.tmp_jewelry_combo = {combo: combo, items: jewelry_set}
+        ap "Processing Combo:"
+        ap combo
+
+        # Get the total price
+        b_dict = Brain.app_brain.to_dict
+        free_left = b_dict[:totalHostessBenefitsSix] - b_dict[:freeTotal]
+        total_cost = b_dict[:totalDue]
+
+        ap "Free Left: #{free_left}"
+
+        # Compare it to the best combo
+        next if free_left > 0
+        if !best_combo || best_combo[:free_left] < free_left
+          best_combo = Brain.app_brain.tmp_jewelry_combo.merge({
+            free_left: free_left
+          })
+        end
+
+        Dispatch::Queue.main.sync do
+          @progress.setProgress((i + 1) / total_combos.to_f, animated:false)
+        end
+      end
+
+      ap best_combo
+
+      # Set the brain back to the real data
+      Brain.app_brain.tmp_jewelry_combo = nil
+
+
+
+      #     NSTimeInterval stopTimeInterval = [startTimer timeIntervalSinceNow];
+      #     NSMutableDictionary *timerInfo = [[NSMutableDictionary alloc] initWithCapacity:2];
+      #     [timerInfo setValue:[NSNumber numberWithInteger:stopTimeInterval] forKey:@"time_to_complete"];
+      #     [timerInfo setValue:[NSNumber numberWithInt:[costs count]] forKey:@"valid_permutations_count"];
+      #     [Flurry logEvent:@"GENIE_FINISHED_WITH_TIME" withParameters:timerInfo];
+
+      # [self performSelectorOnMainThread:@selector(pushNewController:) withObject:nil waitUntilDone:YES];
+    end
+  end
+
+def product_hash(hsh)
+  attrs   = hsh.values
+  keys    = hsh.keys
+  product = attrs[0].product(*attrs[1..-1])
+  product.map{ |p| Hash[keys.zip p] }
+end
+  def ch
+    Hostesses.shared_hostess.current_hostess
   end
 
 end

@@ -10,6 +10,8 @@ class WishlistItem < CDQManagedObject
       j.type = self.type.copy
       j.retired = (self.retired || 0).boolValue
       j.stopSell = (self.stopSell || 0).boolValue
+      j.qtyHalfPrice = 0
+      j.qtyFree = 0
     end
   end
 

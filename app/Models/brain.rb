@@ -1,4 +1,5 @@
 class Brain
+  attr_accessor :tmp_jewelry_combo
 
   def self.app_brain
     Dispatch.once { @instance ||= new }
@@ -21,25 +22,58 @@ class Brain
     (h.tax_shipping?) ? shipping_rate * (tax_rate + 1) : shipping_rate
   end
 
+  def halfprice_items
+    if tmp_jewelry_combo.nil?
+      h.halfprice_items
+    else
+      tmp_jewelry_combo[:items].each_index do |i|
+        tmp_jewelry_combo[:items][i].qtyFree = 0
+        tmp_jewelry_combo[:items][i].qtyHalfPrice = 0
+        tmp_jewelry_combo[:items][i].qtyHalfPrice = 1 if tmp_jewelry_combo[:combo][i] == :half
+      end
+
+      tmp_jewelry_combo[:items].select{|i| i.qtyHalfPrice > 0}
+    end
+  end
+
   def half_price_total
-    ap 'Calculating half price total.'
     total = BigDecimal.new(0)
-    h.halfprice_items.each do |item|
+    ap "Half Price Items:"
+    ap halfprice_items
+    halfprice_items.each do |item|
       total = (BigDecimal.new(item.price) * item.qtyHalfPrice) + total
     end
+    ap "Calculating half price total: #{total / 2}"
     total / 2
+  end
+
+  def free_items
+    if tmp_jewelry_combo.nil?
+      h.free_items
+    else
+      tmp_jewelry_combo[:items].each_index do |i|
+        tmp_jewelry_combo[:items][i].qtyFree = 0
+        tmp_jewelry_combo[:items][i].qtyHalfPrice = 0
+        tmp_jewelry_combo[:items][i].qtyFree = 1 if tmp_jewelry_combo[:combo][i] == :free
+      end
+
+      tmp_jewelry_combo[:items].select{|i| i.qtyFree > 0}
+    end
   end
 
   def free_total
     total = BigDecimal.new(0)
-    h.free_items.each do |item|
+    ap "Free Items:"
+    ap free_items
+    free_items.each do |item|
       total = (BigDecimal.new(item.price) * item.qtyFree) + total
     end
+    ap "Calculating free total: #{total}"
     total
   end
 
   def free_left
-    to_dict[:totalHostessBenefitsSix] - free_total
+    to_dict[:totalHostessBenefitsSix] - to_dict[:freeTotal]
   end
 
   def free_left_dollars
@@ -55,7 +89,7 @@ class Brain
   end
 
   def grandTotal
-	  to_dict[:totalDue]
+    to_dict[:totalDue]
   end
 
   def jewelry_percentage
@@ -116,8 +150,10 @@ class Brain
     to_dict[:totalHostessBenefitsSix] = to_dict[:equalsFour] + to_dict[:awardValueTotal5]
     ap "totalHostessBenefitsSix: #{desc(to_dict[:totalHostessBenefitsSix])}"
 
+    to_dict[:freeTotal] = free_total
+
     # Subtotal One A+B+C
-    to_dict[:subtotalOneABC] = half_price_total + free_total + h.shipping
+    to_dict[:subtotalOneABC] = half_price_total + to_dict[:freeTotal] + h.shipping
     ap "subtotalOneABC: #{desc(to_dict[:subtotalOneABC])}"
 
     # Tax
@@ -136,10 +172,10 @@ class Brain
     to_dict[:subtotalTwo] = to_dict[:taxTotal] + to_dict[:subtotalOneABC]
     ap "subtotalTwo: #{desc(to_dict[:subtotalTwo])}"
 
-    if to_dict[:totalHostessBenefitsSix] < free_total.to_f
+    if to_dict[:totalHostessBenefitsSix] < to_dict[:freeTotal].to_f
       minusToGetTotal = BigDecimal.new(to_dict[:totalHostessBenefitsSix])
     else
-      minusToGetTotal = free_total
+      minusToGetTotal = to_dict[:freeTotal]
     end
 
     to_dict[:minusToGetTotal] = minusToGetTotal
