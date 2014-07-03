@@ -134,11 +134,11 @@ class GlobalSettingsScreen < Formotion::FormController
           enabled: false,
           selection_style: :none,
           text_alignment: NSTextAlignmentCenter
-        },{
-          type: :static_image,
-          value: "nc",
-          enabled: false,
-          selection_style: :none
+        # },{
+        #   type: :static_image,
+        #   value: "nc",
+        #   enabled: false,
+        #   selection_style: :none
         }]
       }]
     })
