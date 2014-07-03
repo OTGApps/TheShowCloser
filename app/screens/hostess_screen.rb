@@ -34,7 +34,7 @@ class HostessScreen < PM::TableScreen
   end
 
   def all_hostesses
-    Hostess.sort_by(:createdDate, order: :descending).collect do |h|
+    Hostess.sort_by(:createdDate).collect do |h|
       {
         title: h.name,
         subtitle: subtitle(h),
@@ -47,7 +47,7 @@ class HostessScreen < PM::TableScreen
           hostess: h
         }
       }
-    end
+    end.reverse
   end
 
   def subtitle(hostess)
