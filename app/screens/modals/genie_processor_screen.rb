@@ -158,7 +158,6 @@ class GenieProcessorScreen < PM::Screen
         # Show the summary screen.
         open GenieResultScreen.new(
           external_links: false,
-          scale_to_fit: true,
           results: best_combo,
           info: timer_info
         )

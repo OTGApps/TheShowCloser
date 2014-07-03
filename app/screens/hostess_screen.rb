@@ -114,7 +114,7 @@ class HostessScreen < PM::TableScreen
   end
 
   def show_quick_lookup
-    open_modal QuickLookupScreen.new nav_bar:true
+    open_modal QuickLookupScreen.new(nav_bar:true, presentation_style: UIModalPresentationFormSheet)
   end
 
   def db_update_check

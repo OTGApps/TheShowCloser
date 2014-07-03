@@ -28,7 +28,7 @@ class GenieScreen < MasterJewelryScreen
     ap "Starting Calculations"
 
     if ch.free_items.count > 0 || ch.halfprice_items.count > 0
-      open_modal GenieProcessorScreen.new(nav_bar: true)
+      open_modal GenieProcessorScreen.new(nav_bar: true, presentation_style: UIModalPresentationFormSheet)
     else
       App.alert("Please Add Some Items!", {
         message: "You need to add at least two items to the wishlist before you do this."
