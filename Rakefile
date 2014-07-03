@@ -9,12 +9,10 @@ rescue LoadError
 end
 
 Motion::Project::App.setup do |app|
-  # Use `rake config' to see complete project settings.
   app.name = 'ShowCloser'
   app.deployment_target = "7.0"
-  app.device_family = [:iphone]
-# app.device_family = [:iphone, :ipad]
-  app.interface_orientations = [:portrait, :portrait_upside_down]
+  app.device_family = [:iphone, :ipad]
+  app.interface_orientations = [:portrait, :portrait_upside_down, :landscape_left, :landscape_right]
   app.version = '18'
   app.short_version = '3.0.0b2'
   app.icons = Dir.glob("resources/Icon*.png").map{|icon| icon.split("/").last}

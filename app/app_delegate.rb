@@ -40,7 +40,8 @@ class AppDelegate < PM::Delegate
     )
 
     open_slide_menu @tab_bar, left: hostess_screen
-    slide_menu.anchorRightRevealAmount = Device.screen.width
+
+    slide_menu.anchorRightRevealAmount = Device.screen.width_for_orientation(:landscape_left)
     slide_menu.show_right(false)
   end
 
