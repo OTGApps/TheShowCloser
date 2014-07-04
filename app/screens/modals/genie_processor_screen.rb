@@ -113,23 +113,23 @@ class GenieProcessorScreen < PM::Screen
           Brain.app_brain.tmp_jewelry_combo[:combo] = combo
         end
 
-        ap "Processing Combo:"
-        ap Brain.app_brain.tmp_jewelry_combo[:combo]
+        # p "Processing Combo:"
+        # p Brain.app_brain.tmp_jewelry_combo[:combo].inspect
 
         # Get the total price
         b_dict = Brain.app_brain.calculate
         free_left = b_dict[:totalHostessBenefitsSix] - b_dict[:freeTotal]
         total_cost = b_dict[:totalDue]
 
-        ap "Free Left: #{free_left}"
+        # p "Free Left: #{free_left}"
 
         Dispatch::Queue.main.sync do
           @progress.setProgress((i + 1) / total_combos.to_f, animated:false)
         end
 
         # Compare it to the best combo
-        next if free_left > 0
-        if !best_combo || best_combo[:free_left] < free_left
+        # next if free_left > 5.0
+        if !best_combo || total_cost < best_combo[:total_cost]
           best_combo = Brain.app_brain.tmp_jewelry_combo.merge({
             free_left: free_left,
             total_cost: total_cost,

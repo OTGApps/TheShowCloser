@@ -43,7 +43,7 @@ class Brain
     halfprice_items.each do |item|
       total = (BigDecimal.new(item.price) * item.qtyHalfPrice) + total
     end
-    ap "Calculating half price total: #{total / 2}"
+    p "Calculating half price total: #{total / 2}"
     total / 2
   end
 
