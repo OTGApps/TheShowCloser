@@ -40,13 +40,14 @@ class GenieProcessorScreen < PM::Screen
     rotation_animation.cumulative = true
 
     rotation_animation.repeatCount = Float::MAX
-    @small_stars.get.layer.addAnimation(rotation_animation, forKey:"rotation_animation")
+    key = 'rotation_animation'
+    @small_stars.get.layer.addAnimation(rotation_animation, forKey:key)
 
     rotation_animation.duration = 4.25
-    @small_stars2.get.layer.addAnimation(rotation_animation, forKey:"rotation_animation")
+    @small_stars2.get.layer.addAnimation(rotation_animation, forKey:key)
 
     rotation_animation.duration = 8.25
-    @big_stars.get.layer.addAnimation(rotation_animation, forKey:"rotation_animation")
+    @big_stars.get.layer.addAnimation(rotation_animation, forKey:key)
   end
 
   def cancel
