@@ -19,10 +19,7 @@ class GenieProcessorScreen < PM::Screen
     container.append(UILabel, :working_magic)
     @progress = container.append(UIProgressView.alloc.initWithProgressViewStyle(UIProgressViewStyleDefault), :progress).get
 
-    @brain = BrainGenie.new
-    @brain.h = Hostesses.shared_hostess.current_hostess.copy
-    puts "Hostess"
-    ap @brain.h
+    Brain.app_brain.hostess = Hostesses.shared_hostess.current_hostess.copy
     perform_calculations
   end
 
@@ -57,21 +54,15 @@ class GenieProcessorScreen < PM::Screen
 
   def cancel
     p 'Canceling process.'
-    @should_break = true
-    @brain = nil
+    cleanup
     close
   end
 
-  # Determine if the free/half_price combo should be processed or not
-  def should_process?(combo)
-    half_count = combo.select{|c| c == :half}.count
-    retail = @brain.h.showTotal
-    if (half_count > 8) || (half_count > 6 && retail < 500) || (half_count > 4 && retail < 300)
-      # These combos break the rules of half price items.
-      false
-    else
-      true
-    end
+  def cleanup
+    @should_break = true
+    # Set the brain back to the real data
+    Brain.app_brain.jewelry_combo = nil
+    Brain.app_brain.hostess = nil
   end
 
   def perform_calculations
@@ -82,7 +73,7 @@ class GenieProcessorScreen < PM::Screen
     @jewelry_set = []
 
     # Loop through all the free jewelry and store copies of the objects
-    ch.items.each do |item|
+    Hostesses.shared_hostess.current_hostess.items.each do |item|
       item.qtyFree.to_i.times do |loop|
         @jewelry_set << item.copy
       end
@@ -95,28 +86,22 @@ class GenieProcessorScreen < PM::Screen
 
     Dispatch::Queue.concurrent('com.mohawkapps.theshowcloser.genie').async do
       start_time = NSDate.date
-      p "Wishlist Array #{@jewelry_set}"
+      # p "Wishlist Array #{@jewelry_set}"
 
       # Now that we have the array, we need to loop through every combination
       # that exists and calculate which is the cheapest or leaves the least
       # amount of overage
 
       n = @jewelry_set.count
-      p 'A'
-      p n
 
       combinations = [:free, :half].cartesian_power(n)
-      p 'B'
-      ap @brain.h.showTotal
       # Remove all combos that are not allowed
       combinations = combinations.reject do |c|
         half_count = c.select{|i| i == :half}.count
-        (half_count > 8) || (half_count > 6 && @brain.h.showTotal < 500) || (half_count > 4 && @brain.h.showTotal < 300)
+        (half_count > 8) || (half_count > 6 && Brain.app_brain.h.showTotal < 500) || (half_count > 4 && Brain.app_brain.h.showTotal < 300)
       end
-      p 'C'
       # Limit total calculations to 5000
       combinations = combinations.sample(5000)
-      p 'D'
 
       total_combos = combinations.count
       p "Total combos: #{total_combos}"
@@ -126,26 +111,25 @@ class GenieProcessorScreen < PM::Screen
         # Here's where the magic happens!
 
         # Set the brain's "fake" data
-        if @brain.jewelry_combo.nil?
-          @brain.jewelry_combo = {
+        if Brain.app_brain.jewelry_combo.nil?
+          Brain.app_brain.jewelry_combo = {
             combo: combo,
             items: @jewelry_set
           }
         else
-          @brain.jewelry_combo[:combo] = combo
+          Brain.app_brain.jewelry_combo[:combo] = combo
         end
 
         # Get the totals
-        @b_dict = @brain.calculate
-        ap @b_dict
+        @b_dict = Brain.app_brain.calculate
 
         Dispatch::Queue.main.sync do
           @progress.setProgress((i + 1) / total_combos.to_f, animated:false)
         end
 
-        # # Compare it to the best combo
+        # Compare it to the best combo
         if @best_combo.nil? || @b_dict[:totalDue] < @best_combo[:total_cost]
-          @best_combo = @brain.jewelry_combo.merge({
+          @best_combo = Brain.app_brain.jewelry_combo.merge({
             free_left: @b_dict[:totalHostessBenefitsSix] - @b_dict[:freeTotal],
             total_cost: @b_dict[:totalDue]
           })
@@ -153,10 +137,9 @@ class GenieProcessorScreen < PM::Screen
 
       end
 
-      # Set the brain back to the real data
       if @should_break == false
-        p 'Best Combo:'
-        p @best_combo.inspect
+        # p 'Best Combo:'
+        # p @best_combo.inspect
 
         stop_time = NSDate.date
         execution_time_sec = stop_time.timeIntervalSinceDate(start_time)
@@ -167,6 +150,8 @@ class GenieProcessorScreen < PM::Screen
         # Flurry.logEvent("GENIE_FINISHED_WITH_TIME", withParameters:timer_info) unless BW.debug?
 
         Dispatch::Queue.main.sync do
+          cleanup
+
           # Show the summary screen.
           open GenieResultScreen.new(
             external_links: false,
@@ -176,10 +161,6 @@ class GenieProcessorScreen < PM::Screen
         end
       end
     end
-  end
-
-  def ch
-    Hostesses.shared_hostess.current_hostess
   end
 
   def shouldAutorotate

@@ -124,14 +124,6 @@ class Hostess < CDQManagedObject
     taxShipping.to_bool
   end
 
-  def tax_rate
-    BigDecimal.new(taxRate.round(3) || 0.0)
-  end
-
-  def shipping_rate
-    BigDecimal.new(shipping.round(3) || 0.0)
-  end
-
   def first_name
     s = name.split(' ')
     (s.count > 1) ? s[0] : nil

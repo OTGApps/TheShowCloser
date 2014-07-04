@@ -160,7 +160,7 @@ class HomeShowScreen < Formotion::FormController
           title: "Tax Rate (%)",
           key: :tax_rate,
           type: :number,
-          value: ch.tax_rate,
+          value: Brain.app_brain.tax_rate_whole,
           input_accessory: :done,
           done_action: default_done_action
         },{
@@ -168,7 +168,7 @@ class HomeShowScreen < Formotion::FormController
           key: :shipping,
           type: :currency,
           input_accessory: :done,
-          value: ch.shipping_rate,
+          value: Brain.app_brain.shipping_rate,
           done_action: default_done_action
         },{
           title: "Tax Shipping?",

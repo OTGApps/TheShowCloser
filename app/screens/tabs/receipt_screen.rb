@@ -75,8 +75,8 @@ class ReceiptScreen < PM::WebScreen
     html.sub!('[[[TOTAL_RETAIL]]]', dolarize(ch.showTotal))
 
     # Put the tax & shipping rates on the receipt
-    html.sub!('[[[TAX_RATE]]]', ch.tax_rate.to_s)
-    html.sub!('[[[SHIPPING_RATE]]]', dolarize(ch.shipping_rate))
+    html.sub!('[[[TAX_RATE]]]', Brain.app_brain.tax_rate_whole.to_s)
+    html.sub!('[[[SHIPPING_RATE]]]', dolarize(Brain.app_brain.shipping_rate))
 
     # Hostess half Price selections
     half_price_html = ''
