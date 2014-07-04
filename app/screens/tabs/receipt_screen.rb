@@ -63,7 +63,7 @@ class ReceiptScreen < PM::WebScreen
     html = File.read(File.join(App.resources_path, "ReceiptTemplate.html"))
 
     brain = Brain.app_brain
-    report_data = brain.to_dict
+    report_data = brain.calculate
     ap report_data
 
     html.sub!('[[[DATE]]]', Time.now.full_date) # Put the date on the receipt

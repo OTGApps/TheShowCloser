@@ -117,7 +117,7 @@ class GenieProcessorScreen < PM::Screen
         ap Brain.app_brain.tmp_jewelry_combo[:combo]
 
         # Get the total price
-        b_dict = Brain.app_brain.to_dict
+        b_dict = Brain.app_brain.calculate
         free_left = b_dict[:totalHostessBenefitsSix] - b_dict[:freeTotal]
         total_cost = b_dict[:totalDue]
 

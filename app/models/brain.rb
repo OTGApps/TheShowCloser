@@ -73,7 +73,8 @@ class Brain
   end
 
   def free_left
-    to_dict[:totalHostessBenefitsSix] - to_dict[:freeTotal]
+    data = calculate
+    data[:totalHostessBenefitsSix] - data[:freeTotal]
   end
 
   def free_left_dollars
@@ -89,7 +90,7 @@ class Brain
   end
 
   def grandTotal
-    to_dict[:totalDue]
+    calculate[:totalDue]
   end
 
   def jewelry_percentage
@@ -117,7 +118,7 @@ class Brain
     jp
   end
 
-  def to_dict
+  def calculate
     # Init Hash
     to_dict = {}
 
