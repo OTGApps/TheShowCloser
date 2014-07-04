@@ -3,8 +3,9 @@ class GenieProcessorScreen < PM::Screen
   title "Calculating Best Deal..."
 
   def on_load
-    set_nav_bar_button :right, system_item: :stop, action: :cancel
     @should_break = false
+
+    set_nav_bar_button :right, system_item: :stop, action: :cancel
     rmq.stylesheet = GenieProcessorStylesheet
     rmq(self.view).apply_style :root_view
 
@@ -53,7 +54,9 @@ class GenieProcessorScreen < PM::Screen
   def cancel
     p 'Canceling process.'
     @should_break = true
-    Brain.app_brain.tmp_jewelry_combo = nil
+    @genie_process.suspend!
+    @genie_process = nil
+    @brain = nil
     close
   end
 
@@ -70,34 +73,39 @@ class GenieProcessorScreen < PM::Screen
 
   def perform_calculations
     p 'Start Processing'
+    @brain = BrainGenie.new
+    @brain.h = Hostesses.shared_hostess.current_hostess.copy
 
     @progress.setProgress(0.0, animated:false)
 
-    jewelry_set = []
-    costs = []
-    total_cost_orig = Brain.app_brain.grandTotal
+    @jewelry_set = []
 
     # Loop through all the free jewelry and store copies of the objects
     ch.items.each do |item|
       item.qtyFree.to_i.times do |loop|
-        jewelry_set << item.copy
+        @jewelry_set << item.copy
       end
       item.qtyHalfPrice.to_i.times do |loop|
-        jewelry_set << item.copy
+        @jewelry_set << item.copy
       end
     end
+    # puts "Jewelry Set:"
+    # ap @jewelry_set
 
-    Dispatch::Queue.concurrent('com.mohawkapps.theshowcloser.genie').async do
+    @genie_process = Dispatch::Queue.concurrent('com.mohawkapps.theshowcloser.genie')
+    @genie_process.async do
       start_time = NSDate.date
-      p "Wishlist Array #{jewelry_set}"
+      p "Wishlist Array #{@jewelry_set}"
 
       # Now that we have the array, we need to loop through every combination
       # that exists and calculate which is the cheapest or leaves the least
       # amount of overage
 
-      n = jewelry_set.count
+      n = @jewelry_set.count
+      p 'A'
 
-      total_retail = Brain.app_brain.totalRetail
+      total_retail = @brain.h.showTotal
+      p 'B'
 
       combinations = []
       [:free, :half].cartesian_power(n){ |l| combinations << l }
@@ -114,17 +122,17 @@ class GenieProcessorScreen < PM::Screen
         # Here's where the magic happens!
 
         # Set the brain's "fake" data
-        if Brain.app_brain.tmp_jewelry_combo.nil?
-          Brain.app_brain.tmp_jewelry_combo = {
+        if @brain.jewelry_combo.nil?
+          @brain.jewelry_combo = {
             combo: combo,
-            items: jewelry_set
+            items: @jewelry_set
           }
         else
-          Brain.app_brain.tmp_jewelry_combo[:combo] = combo
+          @brain.jewelry_combo[:combo] = combo
         end
 
         # Get the totals
-        @b_dict = Brain.app_brain.calculate
+        @b_dict = @brain.calculate
 
         Dispatch::Queue.main.sync do
           @progress.setProgress((i + 1) / total_combos.to_f, animated:false)
@@ -132,17 +140,15 @@ class GenieProcessorScreen < PM::Screen
 
         # Compare it to the best combo
         if @best_combo.nil? || @b_dict[:totalDue] < @best_combo[:total_cost]
-          @best_combo = Brain.app_brain.tmp_jewelry_combo.merge({
+          @best_combo = @brain.jewelry_combo.merge({
             free_left: @b_dict[:totalHostessBenefitsSix] - @b_dict[:freeTotal],
-            total_cost: @b_dict[:totalDue],
-            previous_total: total_cost_orig
+            total_cost: @b_dict[:totalDue]
           })
         end
 
       end
 
       # Set the brain back to the real data
-      Brain.app_brain.tmp_jewelry_combo = nil
       return if @should_break == true
 
       p 'Best Combo:'
