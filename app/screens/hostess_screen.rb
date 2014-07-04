@@ -106,14 +106,14 @@ class HostessScreen < PM::TableScreen
 
   def show_registration
     options_screen = RegistrationScreen.alloc.init
-    options = PortraitNavigationController.alloc.initWithRootViewController(options_screen)
+    options = UINavigationController.alloc.initWithRootViewController(options_screen)
     options.modalPresentationStyle = UIModalPresentationFullScreen
     self.presentModalViewController(options, animated:false)
   end
 
   def show_global_options
     options_screen = GlobalSettingsScreen.alloc.init
-    options = PortraitNavigationController.alloc.initWithRootViewController(options_screen)
+    options = UINavigationController.alloc.initWithRootViewController(options_screen)
     options.modalPresentationStyle = UIModalPresentationFormSheet
     self.presentModalViewController(options, animated:true)
   end
