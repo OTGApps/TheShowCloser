@@ -44,6 +44,6 @@ class GenieProcessorStylesheet < ApplicationStylesheet
   end
 
   def image_frame
-    {l:94, t:0, w:175, h:175}
+    {t:0, w:175, h:175, centered: :horizontal}
   end
 end

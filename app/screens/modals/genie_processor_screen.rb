@@ -10,7 +10,7 @@ class GenieProcessorScreen < PM::Screen
     container = rmq.append(UIView, :container)
 
     @small_stars = container.append(UIImageView, :small_stars)
-    @small_stars_2 = container.append(UIImageView, :small_stars2)
+    @small_stars2 = container.append(UIImageView, :small_stars2)
     @big_stars = container.append(UIImageView, :big_stars)
     container.append(UIImageView, :wand)
 
@@ -22,6 +22,10 @@ class GenieProcessorScreen < PM::Screen
 
   def will_appear
     @view_set_up ||= begin
+      [:small_stars, :small_stars2, :big_stars].each do |s|
+        rmq(s).nudge(r: 30)
+      end
+
       start_animating
     end
   end
@@ -38,7 +42,7 @@ class GenieProcessorScreen < PM::Screen
     @small_stars.get.layer.addAnimation(rotation_animation, forKey:"rotation_animation")
 
     rotation_animation.duration = 4.25
-    @small_stars_2.get.layer.addAnimation(rotation_animation, forKey:"rotation_animation")
+    @small_stars2.get.layer.addAnimation(rotation_animation, forKey:"rotation_animation")
 
     rotation_animation.duration = 8.25
     @big_stars.get.layer.addAnimation(rotation_animation, forKey:"rotation_animation")

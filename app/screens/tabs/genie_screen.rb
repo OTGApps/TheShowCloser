@@ -28,7 +28,9 @@ class GenieScreen < MasterJewelryScreen
     p 'Starting Calculations'
 
     if ch.free_items.count > 0 || ch.halfprice_items.count > 0
-      open_modal GenieProcessorScreen.new(nav_bar: true, presentation_style: UIModalPresentationFormSheet)
+      open_modal GenieProcessorScreen.new(nav_bar: true)
+      # TODO - Once RMQ is fixed with modal positioning, make this modal again.
+      # open_modal GenieProcessorScreen.new(nav_bar: true, presentation_style: UIModalPresentationFormSheet)
     else
       App.alert("Please Add Some Items!", {
         message: "You need to add at least two items to the wishlist before you do this."
