@@ -1,6 +1,6 @@
 class BrainMaster
   def tax_rate
-    ((h.tax_enabled?) ? h.tax_rate : BigDecimal.new(0.0)) / 100.00
+    ((tax_enabled?) ? h.tax_rate : BigDecimal.new(0.0)) / 100.0
   end
 
   def shipping_rate
@@ -8,7 +8,7 @@ class BrainMaster
   end
 
   def shipping_total
-    (h.tax_shipping?) ? shipping_rate * (tax_rate + 1) : shipping_rate
+    (tax_shipping?) ? shipping_rate * (tax_rate + 1) : shipping_rate
   end
 
   def half_price_total
@@ -54,7 +54,7 @@ class BrainMaster
     # If it's a catalog show, completely ignore if 30-40-50 is on.
     return jp if jp == 20
 
-    if h.promotion304050.to_bool == true
+    if promotion304050?
       # Get the levels and the total retail+1/2 price
       showTotalWithHalfPrice = h.showTotal + half_price_total
       fourtyPctTrigger = h.promotion304050Trigger40
@@ -109,13 +109,13 @@ class BrainMaster
     to_dict[:freeTotal] = free_total
 
     # Subtotal One A+B+C
-    to_dict[:subtotalOneABC] = half_price_total + to_dict[:freeTotal] + h.shipping
+    to_dict[:subtotalOneABC] = half_price_total + to_dict[:freeTotal] + shipping_rate
     # p "subtotalOneABC: #{to_dict[:subtotalOneABC]}"
 
     # Tax
     # Determine if shipping is taxed or not
     shipping_tax = 0.0
-    if h.tax_shipping? == false
+    if tax_shipping? == false
       shipping_tax = shipping_rate * tax_rate
       # p "Subtract this much if shipping isn't taxed: #{shipping_tax}"
     end
@@ -154,4 +154,17 @@ class BrainMaster
   def totalRetail
     h.showTotal
   end
+
+  def tax_enabled?
+    h.taxEnabled.to_bool
+  end
+
+  def tax_shipping?
+    h.taxShipping.to_bool
+  end
+
+  def promotion304050?
+    h.promotion304050.to_bool
+  end
+
 end

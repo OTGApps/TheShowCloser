@@ -2,8 +2,6 @@ class BrainGenie < BrainMaster
   attr_accessor :h, :jewelry_combo
 
   def halfprice_items
-    puts 'getting half price items'
-    ap @jewelry_combo
     @jewelry_combo[:items].each_index do |i|
       @jewelry_combo[:items][i].qtyFree = 0
       @jewelry_combo[:items][i].qtyHalfPrice = (@jewelry_combo[:combo][i] == :half) ? 1 : 0
@@ -16,7 +14,7 @@ class BrainGenie < BrainMaster
       @jewelry_combo[:items][i].qtyHalfPrice = 0
       @jewelry_combo[:items][i].qtyFree = (@jewelry_combo[:combo][i] == :free) ? 1 : 0
     end
-    @jewelry_combo[:items].select{|i| i.qtyFree == 1 }
+    i = @jewelry_combo[:items].select{|i| i.qtyFree == 1 }
   end
 
   def tax_rate
@@ -25,10 +23,6 @@ class BrainGenie < BrainMaster
 
   def shipping_rate
     BigDecimal.new(h.shipping.round(3) || 0.0)
-  end
-
-  def shipping_total
-    (h.taxShipping.to_bool == true) ? shipping_rate * (tax_rate + 1) : shipping_rate
   end
 
 end

@@ -1,5 +1,5 @@
 class GenieProcessorScreen < PM::Screen
-  attr_accessor :should_break
+  attr_accessor :should_break, :brain
   title "Calculating Best Deal..."
 
   def on_load
@@ -19,6 +19,10 @@ class GenieProcessorScreen < PM::Screen
     container.append(UILabel, :working_magic)
     @progress = container.append(UIProgressView.alloc.initWithProgressViewStyle(UIProgressViewStyleDefault), :progress).get
 
+    @brain = BrainGenie.new
+    @brain.h = Hostesses.shared_hostess.current_hostess.copy
+    puts "Hostess"
+    ap @brain.h
     perform_calculations
   end
 
@@ -54,15 +58,14 @@ class GenieProcessorScreen < PM::Screen
   def cancel
     p 'Canceling process.'
     @should_break = true
-    @genie_process.suspend!
-    @genie_process = nil
     @brain = nil
     close
   end
 
   # Determine if the free/half_price combo should be processed or not
-  def should_process?(combo, retail)
+  def should_process?(combo)
     half_count = combo.select{|c| c == :half}.count
+    retail = @brain.h.showTotal
     if (half_count > 8) || (half_count > 6 && retail < 500) || (half_count > 4 && retail < 300)
       # These combos break the rules of half price items.
       false
@@ -73,8 +76,6 @@ class GenieProcessorScreen < PM::Screen
 
   def perform_calculations
     p 'Start Processing'
-    @brain = BrainGenie.new
-    @brain.h = Hostesses.shared_hostess.current_hostess.copy
 
     @progress.setProgress(0.0, animated:false)
 
@@ -92,8 +93,7 @@ class GenieProcessorScreen < PM::Screen
     # puts "Jewelry Set:"
     # ap @jewelry_set
 
-    @genie_process = Dispatch::Queue.concurrent('com.mohawkapps.theshowcloser.genie')
-    @genie_process.async do
+    Dispatch::Queue.concurrent('com.mohawkapps.theshowcloser.genie').async do
       start_time = NSDate.date
       p "Wishlist Array #{@jewelry_set}"
 
@@ -103,16 +103,20 @@ class GenieProcessorScreen < PM::Screen
 
       n = @jewelry_set.count
       p 'A'
+      p n
 
-      total_retail = @brain.h.showTotal
+      combinations = [:free, :half].cartesian_power(n)
       p 'B'
-
-      combinations = []
-      [:free, :half].cartesian_power(n){ |l| combinations << l }
+      ap @brain.h.showTotal
       # Remove all combos that are not allowed
-      combinations.select!{|c| should_process?(c, total_retail) }
+      combinations = combinations.reject do |c|
+        half_count = c.select{|i| i == :half}.count
+        (half_count > 8) || (half_count > 6 && @brain.h.showTotal < 500) || (half_count > 4 && @brain.h.showTotal < 300)
+      end
+      p 'C'
       # Limit total calculations to 5000
       combinations = combinations.sample(5000)
+      p 'D'
 
       total_combos = combinations.count
       p "Total combos: #{total_combos}"
@@ -133,12 +137,13 @@ class GenieProcessorScreen < PM::Screen
 
         # Get the totals
         @b_dict = @brain.calculate
+        ap @b_dict
 
         Dispatch::Queue.main.sync do
           @progress.setProgress((i + 1) / total_combos.to_f, animated:false)
         end
 
-        # Compare it to the best combo
+        # # Compare it to the best combo
         if @best_combo.nil? || @b_dict[:totalDue] < @best_combo[:total_cost]
           @best_combo = @brain.jewelry_combo.merge({
             free_left: @b_dict[:totalHostessBenefitsSix] - @b_dict[:freeTotal],
@@ -149,26 +154,26 @@ class GenieProcessorScreen < PM::Screen
       end
 
       # Set the brain back to the real data
-      return if @should_break == true
+      if @should_break == false
+        p 'Best Combo:'
+        p @best_combo.inspect
 
-      p 'Best Combo:'
-      p @best_combo.inspect
+        stop_time = NSDate.date
+        execution_time_sec = stop_time.timeIntervalSinceDate(start_time)
+        timer_info = {
+          time_to_complete: execution_time_sec,
+          valid_permutations_count: total_combos
+        }
+        # Flurry.logEvent("GENIE_FINISHED_WITH_TIME", withParameters:timer_info) unless BW.debug?
 
-      stop_time = NSDate.date
-      execution_time_sec = stop_time.timeIntervalSinceDate(start_time)
-      timer_info = {
-        time_to_complete: execution_time_sec,
-        valid_permutations_count: total_combos
-      }
-      # Flurry.logEvent("GENIE_FINISHED_WITH_TIME", withParameters:timer_info) unless BW.debug?
-
-      Dispatch::Queue.main.sync do
-        # Show the summary screen.
-        open GenieResultScreen.new(
-          external_links: false,
-          results: @best_combo,
-          info: timer_info
-        )
+        Dispatch::Queue.main.sync do
+          # Show the summary screen.
+          open GenieResultScreen.new(
+            external_links: false,
+            results: @best_combo,
+            info: timer_info
+          )
+        end
       end
     end
   end
