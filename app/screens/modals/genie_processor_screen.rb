@@ -107,7 +107,7 @@ class GenieProcessorScreen < PM::Screen
       p "Total combos: #{total_combos}"
 
       combinations.each_with_index do |combo, i|
-        break if @should_break == true
+        break if @should_break
         # Here's where the magic happens!
 
         # Set the brain's "fake" data
@@ -137,7 +137,7 @@ class GenieProcessorScreen < PM::Screen
 
       end
 
-      if @should_break == false
+      unless @should_break
         # p 'Best Combo:'
         # p @best_combo.inspect
 
