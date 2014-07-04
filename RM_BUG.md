@@ -17,20 +17,14 @@ Wait for the Database to download from the web and hit the "+" button.
 
 Enter a name of someone.
 
-Change the "Show Total" to 500
+Change the "Show Total" to 500.
 
-Go to the "FREE" tab and tap about 5 rows.
+Go to the "FREE" tab and tap about 5 rows so that there's a (1) next to them.
 
-Go to the genie tab and tap the "best deal" button at the bottom
+Go to the genie tab and tap the "best deal" button at the bottom.
 
 Immediately cancel.
 
-Go to the FREE tab and tap a new row to add it.
-
-Go to the genie tab and hit the button & cancel immediately again.
-
-Tap the row on the genie screen that corresponds with the item you just added to remove it.
-
-Tap the best deal button again.
+Do this 2 more times.
 
 Crash.
