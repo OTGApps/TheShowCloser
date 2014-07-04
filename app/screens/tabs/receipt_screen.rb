@@ -70,6 +70,7 @@ class ReceiptScreen < PM::WebScreen
     html.sub!('[[[SHOW_DATE]]]', ch.createdDate.full_date)
     html.sub!('[[[HOSTESS_NAME]]]', ch.name)
     html.sub!('[[[JEWELER_NAME]]]', App::Persistence['kReceiptName'])
+    html.sub!('[[[JEWELER_NUMBER]]]', App::Persistence['jeweler_number'].to_s)
 
     html.sub!('[[[TOTAL_RETAIL]]]', dolarize(ch.showTotal))
 
