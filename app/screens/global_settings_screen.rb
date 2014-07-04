@@ -46,11 +46,11 @@ class GlobalSettingsScreen < Formotion::FormController
           title: "Jeweler Number",
           type: :static,
           value: App::Persistence['jeweler_number']
-        }, {
-          title: "Lock in portrait orientation",
-          key: :kLockPortraitMode,
-          type: :switch,
-          value: App::Persistence['kLockPortraitMode']
+        # }, {
+        #   title: "Lock in portrait orientation",
+        #   key: :kLockPortraitMode,
+        #   type: :switch,
+        #   value: App::Persistence['kLockPortraitMode']
         }]
       },{
         title: "Jewelry Database:",

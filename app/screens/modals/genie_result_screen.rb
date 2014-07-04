@@ -75,4 +75,16 @@ class GenieResultScreen < PM::WebScreen
     Hostesses.shared_hostess.current_hostess
   end
 
+  def shouldAutorotate
+    false
+  end
+
+  def supportedInterfaceOrientations
+    UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationMaskPortraitUpsideDown
+  end
+
+  def preferredInterfaceOrientationForPresentation
+    UIInterfaceOrientationPortrait
+  end
+
 end
