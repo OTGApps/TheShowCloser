@@ -17,8 +17,6 @@ class JewelryData
 
   def self.item_data(number)
     i = file_data['database'].find{|item| item['item'] == number.to_s}
-    ap i.class
-    ap i
 
     res = {}
     i.each do |k,v|

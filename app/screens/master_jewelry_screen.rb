@@ -185,7 +185,7 @@ class MasterJewelryScreen < PM::TableScreen
       rows: (0..10).to_a.map{ |i| i.to_s },
       initialSelection: initial_index,
       doneBlock: -> picker, index, value {
-        ap "Picked Qty: #{value}"
+        p "Picked Qty: #{value}"
 
         if free
           ch.set_free(item, value)
@@ -195,7 +195,7 @@ class MasterJewelryScreen < PM::TableScreen
         update_table_data
       },
       cancelBlock: -> picker {
-        ap "Canceled the picker"
+        p 'Canceled the picker'
       },
       origin: self.view)
   end

@@ -5,8 +5,9 @@ class HomeShowScreen < Formotion::FormController
   def viewDidLoad
     super
     App.notification_center.observe "PickedHostessNotification" do |notification|
-      ap "PickedHostessNotification"
+      p 'PickedHostessNotification'
       ap ch
+
       reinit
       self.tableView.scrollRectToVisible(CGRectMake(0, 0, 1, 1), animated:false)
     end
@@ -43,7 +44,7 @@ class HomeShowScreen < Formotion::FormController
 
   def update_and_save_hostess(key = nil)
     return if ch.nil?
-    ap 'Saving Hostess Data'
+    p 'Saving Hostess Data'
 
     serialized = form.render
     serialized[:created_date] = Time.at(serialized[:created_date])

@@ -25,7 +25,7 @@ class GenieScreen < MasterJewelryScreen
   end
 
   def start_calculations
-    ap "Starting Calculations"
+    p 'Starting Calculations'
 
     if ch.free_items.count > 0 || ch.halfprice_items.count > 0
       open_modal GenieProcessorScreen.new(nav_bar: true, presentation_style: UIModalPresentationFormSheet)

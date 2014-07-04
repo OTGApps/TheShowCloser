@@ -45,7 +45,7 @@ class GenieProcessorScreen < PM::Screen
   end
 
   def cancel
-    ap "Canceling process."
+    p 'Canceling process.'
     Brain.app_brain.tmp_jewelry_combo = nil
     close
   end
@@ -62,7 +62,7 @@ class GenieProcessorScreen < PM::Screen
   end
 
   def perform_calculations
-    ap "Start Processing"
+    p 'Start Processing'
 
     @progress.setProgress(0.0, animated:false)
 
@@ -82,7 +82,7 @@ class GenieProcessorScreen < PM::Screen
 
     Dispatch::Queue.concurrent.async do
       start_time = NSDate.date
-      ap "Wishlist Array #{jewelry_set}"
+      p "Wishlist Array #{jewelry_set}"
 
       # Now that we have the array, we need to loop through every combination
       # that exists and calculate which is the cheapest or leaves the least
@@ -98,7 +98,7 @@ class GenieProcessorScreen < PM::Screen
 
       total_combos = combinations.count
       best_combo = false
-      ap "Total combos: #{total_combos}"
+      # p "Total combos: #{total_combos}"
 
       combinations.each_with_index do |combo, i|
         # Here's where the magic happens!
@@ -124,9 +124,7 @@ class GenieProcessorScreen < PM::Screen
         ap "Free Left: #{free_left}"
 
         Dispatch::Queue.main.sync do
-          p = (i + 1) / total_combos.to_f
-          ap "Setting Progress: #{p} (#{i} / #{total_combos})"
-          @progress.setProgress(p, animated:false)
+          @progress.setProgress((i + 1) / total_combos.to_f, animated:false)
         end
 
         # Compare it to the best combo
@@ -138,13 +136,14 @@ class GenieProcessorScreen < PM::Screen
             previous_total: total_cost_orig
           })
         end
-      end
 
-      ap "Best Combo:"
-      ap best_combo
+      end
 
       # Set the brain back to the real data
       Brain.app_brain.tmp_jewelry_combo = nil
+
+      p 'Best Combo:'
+      p best_combo.inspect
 
       stop_time = NSDate.date
       execution_time_sec = stop_time.timeIntervalSinceDate(start_time)

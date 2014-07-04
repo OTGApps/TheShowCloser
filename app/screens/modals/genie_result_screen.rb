@@ -47,7 +47,7 @@ class GenieResultScreen < PM::WebScreen
   end
 
   def apply
-    ap "Applying"
+    p 'Applying'
 
     # Reset all the items to zero
     ch.items.each do |i|

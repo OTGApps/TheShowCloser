@@ -13,7 +13,7 @@ class HostessScreen < PM::TableScreen
         title: "Global Settings",
         action: :show_global_options,
       }]
-    # ap Hostess.destroy_all!
+    # Hostess.destroy_all! # For Testing ONLY
   end
 
   def on_appear
@@ -64,14 +64,12 @@ class HostessScreen < PM::TableScreen
   end
 
   def add_hostess
-    ap "Adding new hostess"
+    p "Adding new hostess"
 
     return missing_db_alert unless JewelryData.exists?
 
     alert = BW::UIAlertView.plain_text_input(title: 'Enter Hostess Name:') do |a|
       if alert.clicked_button.index > 0
-        ap "Got: #{a.plain_text_field.text}"
-
         h = Hostess.create(
           name: a.plain_text_field.text,
           createdDate: Time.now,
@@ -95,7 +93,6 @@ class HostessScreen < PM::TableScreen
   end
 
   def pick_hostess(args)
-    ap args
     Hostesses.shared_hostess.current_hostess = args[:hostess]
     App.notification_center.post "PickedHostessNotification"
     App.delegate.slide_menu.hide
@@ -127,7 +124,7 @@ class HostessScreen < PM::TableScreen
   end
 
   def db_update_check
-    ap "Checking for a database update."
+    p "Checking for a database update."
     jd = JewelryDownloader.new
     jd.check
   end

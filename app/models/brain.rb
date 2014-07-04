@@ -38,8 +38,8 @@ class Brain
 
   def half_price_total
     total = BigDecimal.new(0)
-    ap "Half Price Items:"
-    ap halfprice_items
+    p "Half Price Items:"
+    p halfprice_items
     halfprice_items.each do |item|
       total = (BigDecimal.new(item.price) * item.qtyHalfPrice) + total
     end
@@ -63,12 +63,12 @@ class Brain
 
   def free_total
     total = BigDecimal.new(0)
-    ap "Free Items:"
-    ap free_items
+    p "Free Items:"
+    p free_items
     free_items.each do |item|
       total = (BigDecimal.new(item.price) * item.qtyFree) + total
     end
-    ap "Calculating free total: #{total}"
+    p "Calculating free total: #{total}"
     total
   end
 
