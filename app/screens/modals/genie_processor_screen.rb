@@ -3,9 +3,17 @@ class GenieProcessorScreen < PM::Screen
   title "Calculating Best Deal..."
 
   def on_load
+    set_nav_bar_button :right, system_item: :stop, action: :cancel
+
     @should_break = false
 
-    set_nav_bar_button :right, system_item: :stop, action: :cancel
+    setup_views
+
+    Brain.app_brain.hostess = Hostesses.shared_hostess.current_hostess.copy
+    perform_calculations
+  end
+
+  def setup_views
     rmq.stylesheet = GenieProcessorStylesheet
     rmq(self.view).apply_style :root_view
 
@@ -18,9 +26,6 @@ class GenieProcessorScreen < PM::Screen
 
     container.append(UILabel, :working_magic)
     @progress = container.append(UIProgressView.alloc.initWithProgressViewStyle(UIProgressViewStyleDefault), :progress).get
-
-    Brain.app_brain.hostess = Hostesses.shared_hostess.current_hostess.copy
-    perform_calculations
   end
 
   def will_appear
@@ -50,19 +55,6 @@ class GenieProcessorScreen < PM::Screen
 
     rotation_animation.duration = 8.25
     @big_stars.get.layer.addAnimation(rotation_animation, forKey:key)
-  end
-
-  def cancel
-    p 'Canceling process.'
-    cleanup
-    close
-  end
-
-  def cleanup
-    @should_break = true
-    # Set the brain back to the real data
-    Brain.app_brain.jewelry_combo = nil
-    Brain.app_brain.hostess = nil
   end
 
   def perform_calculations
@@ -102,9 +94,7 @@ class GenieProcessorScreen < PM::Screen
       end
       # Limit total calculations to 5000
       combinations = combinations.sample(5000)
-
       total_combos = combinations.count
-      p "Total combos: #{total_combos}"
 
       combinations.each_with_index do |combo, i|
         break if @should_break
@@ -138,18 +128,15 @@ class GenieProcessorScreen < PM::Screen
       end
 
       unless @should_break
-        # p 'Best Combo:'
-        # p @best_combo.inspect
-
         stop_time = NSDate.date
         execution_time_sec = stop_time.timeIntervalSinceDate(start_time)
         timer_info = {
           time_to_complete: execution_time_sec,
           valid_permutations_count: total_combos
         }
-        # Flurry.logEvent("GENIE_FINISHED_WITH_TIME", withParameters:timer_info) unless BW.debug?
 
         Dispatch::Queue.main.sync do
+          # Flurry.logEvent("GENIE_FINISHED_WITH_TIME", withParameters:timer_info) unless BW.debug?
           cleanup
 
           # Show the summary screen.
@@ -161,6 +148,21 @@ class GenieProcessorScreen < PM::Screen
         end
       end
     end
+  end
+
+  def cancel
+    p 'Canceling process.'
+    cleanup
+    close
+  end
+
+  def cleanup
+    # Break out of the async process if it's still running
+    @should_break = true
+
+    # Set the brain back to the real data
+    Brain.app_brain.jewelry_combo = nil
+    Brain.app_brain.hostess = nil
   end
 
   def shouldAutorotate
