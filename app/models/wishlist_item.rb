@@ -1,7 +1,7 @@
 class WishlistItem < CDQManagedObject
 
   def copyWithZone(zone)
-    ap self
+    # ap self
     Jewelry.allocWithZone(zone).init.tap do |j|
       j.item = self.item.copy
       j.name = self.name.copy

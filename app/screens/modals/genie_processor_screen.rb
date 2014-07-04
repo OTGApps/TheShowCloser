@@ -4,7 +4,7 @@ class GenieProcessorScreen < PM::Screen
 
   def on_load
     set_nav_bar_button :right, system_item: :stop, action: :cancel
-
+    @should_break = false
     rmq.stylesheet = GenieProcessorStylesheet
     rmq(self.view).apply_style :root_view
 
@@ -53,8 +53,6 @@ class GenieProcessorScreen < PM::Screen
   def cancel
     p 'Canceling process.'
     @should_break = true
-    @genie_process.suspend!
-    @genie_process = nil if @genie_process.suspended?
     Brain.app_brain.tmp_jewelry_combo = nil
     close
   end
