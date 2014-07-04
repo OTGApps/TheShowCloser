@@ -87,8 +87,7 @@ class GenieProcessorScreen < PM::Screen
       end
     end
 
-    @genie_process = Dispatch::Queue.concurrent('com.mohawkapps.theshowcloser.genie')
-    @genie_process.async do
+    Dispatch::Queue.concurrent('com.mohawkapps.theshowcloser.genie').async do
       start_time = NSDate.date
       p "Wishlist Array #{jewelry_set}"
 
