@@ -39,22 +39,22 @@ class GenieProcessorScreen < PM::Screen
   end
 
   def start_animating
-    rotation_transform = CATransform3DMakeRotation(1.0 * Math::PI / 2, 0, 0, 1.0)
+    transform = CATransform3DMakeRotation(1.0 * Math::PI / 2, 0, 0, 1.0)
 
-    rotation_animation = CABasicAnimation.animationWithKeyPath('transform')
-    rotation_animation.toValue = NSValue.valueWithCATransform3D(rotation_transform)
-    rotation_animation.duration = 2.25
-    rotation_animation.cumulative = true
+    animation = CABasicAnimation.animationWithKeyPath('transform')
+    animation.toValue = NSValue.valueWithCATransform3D(transform)
+    animation.duration = 2.25
+    animation.cumulative = true
 
-    rotation_animation.repeatCount = Float::MAX
+    animation.repeatCount = Float::MAX
     key = 'rotation_animation'
-    @small_stars.get.layer.addAnimation(rotation_animation, forKey:key)
+    @small_stars.get.layer.addAnimation(animation, forKey:key)
 
-    rotation_animation.duration = 4.25
-    @small_stars2.get.layer.addAnimation(rotation_animation, forKey:key)
+    animation.duration = 4.25
+    @small_stars2.get.layer.addAnimation(animation, forKey:key)
 
-    rotation_animation.duration = 8.25
-    @big_stars.get.layer.addAnimation(rotation_animation, forKey:key)
+    animation.duration = 8.25
+    @big_stars.get.layer.addAnimation(animation, forKey:key)
   end
 
   def perform_calculations
