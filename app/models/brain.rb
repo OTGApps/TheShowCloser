@@ -26,24 +26,19 @@ class Brain
     if tmp_jewelry_combo.nil?
       h.halfprice_items
     else
-      tmp_jewelry_combo[:items].each_index do |i|
-        tmp_jewelry_combo[:items][i].qtyFree = 0
-        tmp_jewelry_combo[:items][i].qtyHalfPrice = 0
-        tmp_jewelry_combo[:items][i].qtyHalfPrice = 1 if tmp_jewelry_combo[:combo][i] == :half
+      @tmp_jewelry_combo[:items].each_index do |i|
+        @tmp_jewelry_combo[:items][i].qtyFree = 0
+        @tmp_jewelry_combo[:items][i].qtyHalfPrice = (@tmp_jewelry_combo[:combo][i] == :half) ? 1 : 0
       end
-
-      tmp_jewelry_combo[:items].select{|i| i.qtyHalfPrice > 0}
+      @tmp_jewelry_combo[:items].select{|i| i.qtyHalfPrice == 1 }
     end
   end
 
   def half_price_total
     total = BigDecimal.new(0)
-    p "Half Price Items:"
-    p halfprice_items
     halfprice_items.each do |item|
       total = (BigDecimal.new(item.price) * item.qtyHalfPrice) + total
     end
-    p "Calculating half price total: #{total / 2}"
     total / 2
   end
 
@@ -51,24 +46,19 @@ class Brain
     if tmp_jewelry_combo.nil?
       h.free_items
     else
-      tmp_jewelry_combo[:items].each_index do |i|
-        tmp_jewelry_combo[:items][i].qtyFree = 0
-        tmp_jewelry_combo[:items][i].qtyHalfPrice = 0
-        tmp_jewelry_combo[:items][i].qtyFree = 1 if tmp_jewelry_combo[:combo][i] == :free
+      @tmp_jewelry_combo[:items].each_index do |i|
+        @tmp_jewelry_combo[:items][i].qtyHalfPrice = 0
+        @tmp_jewelry_combo[:items][i].qtyFree = (@tmp_jewelry_combo[:combo][i] == :free) ? 1 : 0
       end
-
-      tmp_jewelry_combo[:items].select{|i| i.qtyFree > 0}
+      @tmp_jewelry_combo[:items].select{|i| i.qtyFree == 1 }
     end
   end
 
   def free_total
     total = BigDecimal.new(0)
-    p "Free Items:"
-    p free_items
     free_items.each do |item|
       total = (BigDecimal.new(item.price) * item.qtyFree) + total
     end
-    p "Calculating free total: #{total}"
     total
   end
 
@@ -124,7 +114,7 @@ class Brain
 
     # Jewelry Percentage
     to_dict[:jewelryPercentage] = BigDecimal.new(jewelry_percentage)
-    ap "jewelryPercentage: #{desc(to_dict[:jewelryPercentage])}"
+    # p "jewelryPercentage: #{to_dict[:jewelryPercentage]}"
 
     # Bonuses
     bonusTotal = 0
@@ -133,45 +123,45 @@ class Brain
         bonusTotal = bonusTotal + 1 if bonus.to_bool == true
       end
     end
-    ap "Total Bonuses: #{desc(bonusTotal)}"
+    # p "Total Bonuses: #{bonusTotal}"
 
     # Calculate the total award value
     to_dict[:awardValueTotal5] = BigDecimal.new((h.bonusValue * bonusTotal) + h.bonusExtra)
-    ap "awardValueTotal5: #{desc(to_dict[:awardValueTotal5])}"
+    # p "awardValueTotal5: #{to_dict[:awardValueTotal5]}"
 
     # Total Retail + Half price selections (3)
     to_dict[:retailPlusHalf] = BigDecimal.new(h.showTotal) + half_price_total
-    ap "retailPlusHalf: #{desc(to_dict[:retailPlusHalf])}"
+    # p "retailPlusHalf: #{to_dict[:retailPlusHalf]}"
 
     # Four
     to_dict[:equalsFour] = BigDecimal.new(to_dict[:retailPlusHalf]) * (to_dict[:jewelryPercentage] / 100.0)
-    ap "equalsFour: #{desc(to_dict[:equalsFour])}"
+    # p "equalsFour: #{to_dict[:equalsFour]}"
 
     # Total Hostess Benefits
     to_dict[:totalHostessBenefitsSix] = to_dict[:equalsFour] + to_dict[:awardValueTotal5]
-    ap "totalHostessBenefitsSix: #{desc(to_dict[:totalHostessBenefitsSix])}"
+    # p "totalHostessBenefitsSix: #{to_dict[:totalHostessBenefitsSix]}"
 
     to_dict[:freeTotal] = free_total
 
     # Subtotal One A+B+C
     to_dict[:subtotalOneABC] = half_price_total + to_dict[:freeTotal] + h.shipping
-    ap "subtotalOneABC: #{desc(to_dict[:subtotalOneABC])}"
+    # p "subtotalOneABC: #{to_dict[:subtotalOneABC]}"
 
     # Tax
     # Determine if shipping is taxed or not
     shipping_tax = 0.0
     if h.tax_shipping? == false
       shipping_tax = shipping_rate * tax_rate
-      ap "Subtract this much if shipping isn't taxed: #{shipping_tax}"
+      # p "Subtract this much if shipping isn't taxed: #{shipping_tax}"
     end
 
     to_dict[:taxTotal] = ((to_dict[:subtotalOneABC] * tax_rate).round(3) - shipping_tax).currency_round
-    ap "Calculation: (#{to_dict[:subtotalOneABC]} * #{tax_rate}) - #{shipping_tax}"
-    ap "taxTotal: #{desc(to_dict[:taxTotal])}"
+    # p "Calculation: (#{to_dict[:subtotalOneABC]} * #{tax_rate}) - #{shipping_tax}"
+    # p "taxTotal: #{to_dict[:taxTotal]}"
 
     # Subtotal 2
     to_dict[:subtotalTwo] = to_dict[:taxTotal] + to_dict[:subtotalOneABC]
-    ap "subtotalTwo: #{desc(to_dict[:subtotalTwo])}"
+    # p "subtotalTwo: #{to_dict[:subtotalTwo]}"
 
     if to_dict[:totalHostessBenefitsSix] < to_dict[:freeTotal].to_f
       minusToGetTotal = BigDecimal.new(to_dict[:totalHostessBenefitsSix])
@@ -180,7 +170,7 @@ class Brain
     end
 
     to_dict[:minusToGetTotal] = minusToGetTotal
-    ap "minusToGetTotal: #{desc(to_dict[:minusToGetTotal])}"
+    # p "minusToGetTotal: #{to_dict[:minusToGetTotal]}"
 
     # Discount
     finalDiscount = (BigDecimal.new(h.addtlDiscount) > 0) ? BigDecimal.new(h.addtlDiscount) : BigDecimal.new(0)
@@ -198,9 +188,5 @@ class Brain
 
   def totalRetail
 	   h.showTotal
-  end
-
-  def desc(value)
-    "#{value} (#{value.class})"
   end
 end
