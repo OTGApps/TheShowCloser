@@ -57,8 +57,16 @@ class HostessScreen < PM::TableScreen
     s.join(" - ")
   end
 
+  def missing_db_alert
+    App.alert("Warning!", {
+      message: "The jewelry database is missing. Please connect to the internet, close, and relaunch the app before adding a hostess."
+    })
+  end
+
   def add_hostess
     ap "Adding new hostess"
+
+    return missing_db_alert unless JewelryData.exists?
 
     alert = BW::UIAlertView.plain_text_input(title: 'Enter Hostess Name:') do |a|
       if alert.clicked_button.index > 0
@@ -114,6 +122,7 @@ class HostessScreen < PM::TableScreen
   end
 
   def show_quick_lookup
+    return missing_db_alert unless JewelryData.exists?
     open_modal QuickLookupScreen.new(nav_bar:true, presentation_style: UIModalPresentationFormSheet)
   end
 

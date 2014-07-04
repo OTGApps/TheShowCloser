@@ -1,4 +1,8 @@
 class JewelryData
+  def self.exists?
+    File.exists?(JewelryData.file_location)
+  end
+
   def self.file_data
     BW::JSON.parse(File.read(JewelryData.file_location))
   end
