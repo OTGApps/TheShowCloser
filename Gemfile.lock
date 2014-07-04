@@ -41,7 +41,7 @@ GIT
 PATH
   remote: ../ProMotion
   specs:
-    ProMotion (2.0.0.rc3)
+    ProMotion (2.0.0.rc4)
       methadone (~> 1.4)
 
 PATH
