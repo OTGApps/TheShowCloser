@@ -16,7 +16,7 @@ class HostessScreen < PM::TableScreen
     # Hostess.destroy_all! # For Testing ONLY
   end
 
-  def on_appear
+  def will_appear
     # Check for Jewelry Database update
     unless App::Persistence['jeweler_number']
       show_registration
