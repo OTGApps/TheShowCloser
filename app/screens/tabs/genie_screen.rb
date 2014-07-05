@@ -55,13 +55,13 @@ class GenieScreen < MasterJewelryScreen
     halfprice_item_numbers = ch.halfprice_items.collect{ |j| j.item }
 
     @free_data = []
-    JewelryData.items(free_item_numbers).each do |wli|
+    JewelryData.data.items(free_item_numbers).each do |wli|
       @free_data << build_free_cell(wli)
     end
     @free_data << {title: "No Selections"} if @free_data.count == 0
 
     @halfprice_data = []
-    JewelryData.items(halfprice_item_numbers).each do |wli|
+    JewelryData.data.items(halfprice_item_numbers).each do |wli|
       @halfprice_data << build_halfprice_cell(wli)
     end
     @halfprice_data << {title: "No Selections"} if @halfprice_data.count == 0

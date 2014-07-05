@@ -153,7 +153,6 @@ class GenieProcessorScreen < PM::Screen
   end
 
   def cancel
-    p 'Canceling process.'
     cleanup
     close
   end

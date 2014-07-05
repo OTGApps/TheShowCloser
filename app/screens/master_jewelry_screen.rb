@@ -29,7 +29,7 @@ class MasterJewelryScreen < PM::TableScreen
 
   def cells
     # TODO - mke this into sections by letter name
-    @data = JewelryData.sorted.collect do |j|
+    @data = JewelryData.data.sorted.collect do |j|
       build_cell(j)
     end
     update_table_data

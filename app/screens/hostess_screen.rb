@@ -66,7 +66,7 @@ class HostessScreen < PM::TableScreen
   def add_hostess
     p "Adding new hostess"
 
-    return missing_db_alert unless JewelryData.exists?
+    return missing_db_alert unless JewelryData.data.exists?
 
     alert = BW::UIAlertView.plain_text_input(title: 'Enter Hostess Name:') do |a|
       if alert.clicked_button.index > 0
@@ -119,7 +119,7 @@ class HostessScreen < PM::TableScreen
   end
 
   def show_quick_lookup
-    return missing_db_alert unless JewelryData.exists?
+    return missing_db_alert unless JewelryData.data.exists?
     open_modal QuickLookupScreen.new(nav_bar:true, presentation_style: UIModalPresentationFormSheet)
   end
 

@@ -1,21 +1,27 @@
 class JewelryData
-  def self.exists?
-    File.exists?(JewelryData.file_location)
+
+  def self.data
+    Dispatch.once { @instance ||= new }
+    @instance
   end
 
-  def self.file_data
-    BW::JSON.parse(File.read(JewelryData.file_location))
+  def exists?
+    File.exists?(file_location)
   end
 
-  def self.file_location
+  def file_data
+    @file_data ||= BW::JSON.parse(File.read(file_location))
+  end
+
+  def file_location
     File.join(App.documents_path, "jewelry.json")
   end
 
-  def self.sorted
+  def sorted
     file_data['database'].sort_by { |j| j['name'] }
   end
 
-  def self.item_data(number)
+  def item_data(number)
     i = file_data['database'].find{|item| item['item'] == number.to_s}
 
     res = {}
@@ -33,7 +39,7 @@ class JewelryData
     res
   end
 
-  def self.items(items)
+  def items(items)
     file_data['database'].select{ |j| items.include?(j['item'].to_i) }#.sort_by { |j| j.name }
   end
 end

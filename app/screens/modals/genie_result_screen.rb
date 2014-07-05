@@ -8,15 +8,11 @@ class GenieResultScreen < PM::WebScreen
     set_nav_bar_button :right, system_item: :stop, action: :close_modal
 
     rmq.stylesheet = GenieResultStylesheet
-
-    ap @results
-    ap @info
   end
 
   def will_appear
     @view_set_up ||= begin
       rmq(web).apply_style :web_view
-
       rmq(self.view).append(UIButton, :apply_button).on(:tap) do |sender|
         apply
       end

@@ -92,7 +92,7 @@ class JewelryDownloader
     JewelryAPI.get_jewelry do |json, error|
       if error.nil?
         jewelry_string = BW::JSON.generate(json)
-        File.open(JewelryData.file_location, 'w') { |file| file.write(jewelry_string) }
+        File.open(JewelryData.data.file_location, 'w') { |file| file.write(jewelry_string) }
         done_downloading
       else
         Motion::Blitz.error('Download failed. Please try again later.')
@@ -105,7 +105,7 @@ class JewelryDownloader
 
   def done_downloading
     p 'Done Downloading'
-    App::Persistence['db_version'] = JewelryData.file_data['db']
+    App::Persistence['db_version'] = JewelryData.data.file_data['db']
     Motion::Blitz.success('All done!')
   end
 

@@ -9,3 +9,5 @@ resources/*.storyboardc
 *~
 *.sw[po]
 /vendor/
+
+**/*.xcodeproj/xcuserdata
