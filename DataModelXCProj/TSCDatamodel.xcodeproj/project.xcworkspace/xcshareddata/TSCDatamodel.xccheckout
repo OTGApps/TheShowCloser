@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>EE874F77-42D1-4898-96EB-4888BF19A3DA</string>
+	<key>IDESourceControlProjectName</key>
+	<string>TSCDatamodel</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>A442F964-33F1-499A-9942-14209613B6C4</key>
+		<string>ssh://github.com/markrickert/TheShowCloser.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>TSCDatamodel/TSCDatamodel.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>A442F964-33F1-499A-9942-14209613B6C4</key>
+		<string>../../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>ssh://github.com/markrickert/TheShowCloser.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>A442F964-33F1-499A-9942-14209613B6C4</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>A442F964-33F1-499A-9942-14209613B6C4</string>
+			<key>IDESourceControlWCCName</key>
+			<string>TSC</string>
+		</dict>
+	</array>
+</dict>
+</plist>

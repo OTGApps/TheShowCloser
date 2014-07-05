@@ -9,4 +9,3 @@ resources/*.storyboardc
 *~
 *.sw[po]
 /vendor/
-/TSCDatamodel/
