@@ -8,7 +8,6 @@ class AppDelegate < PM::Delegate
 
     # 3rd Party integrations
     BW.debug = true unless App.info_plist['AppStoreRelease'] == true
-
     BITHockeyManagerLauncher.new.start unless BW.debug?
 
     unless Device.simulator?

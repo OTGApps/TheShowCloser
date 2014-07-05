@@ -39,7 +39,9 @@ class GenieProcessorScreen < PM::Screen
   end
 
   def start_animating
-    transform = CATransform3DMakeRotation(1.0 * Math::PI / 2, 0, 0, 1.0)
+    # TODO - Fix bug where the animation doesn't start when invoked from Landscape mode
+
+    transform = CATransform3DMakeRotation(Math::PI / 2.0, 0, 0, 1.0)
 
     animation = CABasicAnimation.animationWithKeyPath('transform')
     animation.toValue = NSValue.valueWithCATransform3D(transform)
