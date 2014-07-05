@@ -1,7 +1,6 @@
 class WishlistItem < CDQManagedObject
 
   def copyWithZone(zone)
-    # ap self
     Jewelry.allocWithZone(zone).init.tap do |j|
       j.item = self.item.copy
       j.name = self.name.copy
@@ -13,6 +12,10 @@ class WishlistItem < CDQManagedObject
       j.qtyHalfPrice = 0
       j.qtyFree = 0
     end
+  end
+
+  def price=(p)
+    self.setPrice BigDecimal.new(p).to_f
   end
 
   def method_missing(meth, *args)

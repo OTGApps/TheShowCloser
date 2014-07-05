@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="5064" systemVersion="13E28" minimumToolsVersion="Xcode 4.1" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="Hostess" representedClassName="Hostess" syncable="YES">
+        <attribute name="addtlCharge" optional="YES" attributeType="Float" minValueString="0" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="addtlDiscount" optional="YES" attributeType="Float" minValueString="0" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="bonus1" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
+        <attribute name="bonus2" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
+        <attribute name="bonus3" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
+        <attribute name="bonus4" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
+        <attribute name="bonusExtra" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="bonusValue" optional="YES" attributeType="Integer 16" minValueString="0" defaultValueString="50" syncable="YES"/>
+        <attribute name="createdDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="discount" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="jewelryPercentage" optional="YES" attributeType="Integer 16" minValueString="0" defaultValueString="30" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="notes" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="promotion304050" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
+        <attribute name="promotion304050Trigger40" optional="YES" attributeType="Float" minValueString="0" defaultValueString="400" syncable="YES"/>
+        <attribute name="promotion304050Trigger50" optional="YES" attributeType="Float" minValueString="0" defaultValueString="500" syncable="YES"/>
+        <attribute name="shipping" optional="YES" attributeType="Float" defaultValueString="4" syncable="YES"/>
+        <attribute name="showTotal" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="taxEnabled" optional="YES" attributeType="Boolean" defaultValueString="YES" syncable="YES"/>
+        <attribute name="taxRate" optional="YES" attributeType="Float" syncable="YES"/>
+        <attribute name="taxShipping" optional="YES" attributeType="Boolean" defaultValueString="YES" syncable="YES"/>
+        <relationship name="wishlist" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="WishlistItem" inverseName="hostess" inverseEntity="WishlistItem" syncable="YES"/>
+    </entity>
+    <entity name="WishlistItem" representedClassName="WishlistItem" syncable="YES">
+        <attribute name="catalog" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="item" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="pages" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="price" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="qtyFree" attributeType="Integer 16" minValueString="0" defaultValueString="0" syncable="YES"/>
+        <attribute name="qtyHalfPrice" optional="YES" attributeType="Integer 16" minValueString="0" defaultValueString="0" syncable="YES"/>
+        <attribute name="retired" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="stopSell" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="hostess" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Hostess" inverseName="wishlist" inverseEntity="Hostess" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="Hostess" positionX="160" positionY="192" width="128" height="375"/>
+        <element name="WishlistItem" positionX="432" positionY="246" width="128" height="210"/>
+    </elements>
+</model>
