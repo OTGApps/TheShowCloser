@@ -5,7 +5,7 @@ class JewelryDownloader
 
     JewelryAPI.version_info do |json_data, error|
       if error.nil?
-        decide(json_data, alert)
+        decide(BW::JSON.parse(json_data), alert)
       else
         NSLog "Error retrieving data from the #{App.name} server."
       end
@@ -72,6 +72,7 @@ class JewelryDownloader
 
   def cancelled_transaction
     lambda {
+      # TODO - Don't keep prompting if the user doesn't want to see the update.
       Motion::Blitz.error('Transaction Cancelled.')
     }
   end
@@ -91,8 +92,7 @@ class JewelryDownloader
   def download_and_save
     JewelryAPI.get_jewelry do |json, error|
       if error.nil?
-        jewelry_string = BW::JSON.generate(json)
-        File.open(JewelryData.data.file_location, 'w') { |file| file.write(jewelry_string) }
+        File.open(JewelryData.data.file_location, 'w') { |file| file.write(json) }
         done_downloading
       else
         Motion::Blitz.error('Download failed. Please try again later.')
@@ -105,8 +105,8 @@ class JewelryDownloader
 
   def done_downloading
     p 'Done Downloading'
-    App::Persistence['db_version'] = JewelryData.data.file_data['db']
     JewelryData.data.reset # Reset the cache
+    App::Persistence['db_version'] = JewelryData.data.file_data['db']
     Motion::Blitz.success('All done!')
   end
 

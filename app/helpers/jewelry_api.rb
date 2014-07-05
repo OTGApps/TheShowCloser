@@ -12,7 +12,7 @@ class JewelryAPI
   end
 
   def self.version_info(&block)
-    AFMotion::JSON.post(VERSION_URL, JewelryAPI.post_data) do |response|
+    AFMotion::HTTP.get(VERSION_URL, JewelryAPI.post_data) do |response|
       json = nil
       error = nil
 
@@ -27,9 +27,11 @@ class JewelryAPI
   end
 
   def self.get_jewelry(&block)
-    AFMotion::JSON.post(JEWELRY_URL, JewelryAPI.post_data) do |response|
+    AFMotion::HTTP.get(JEWELRY_URL, JewelryAPI.post_data) do |response|
       json = nil
       error = nil
+
+      ap response
 
       if response.success?
         json = response.object

@@ -27,7 +27,7 @@ class IAPHelper
     NSLog('Requesting product information')
     @completion_handler = block
 
-    @products_request = sk_products_request.alloc.initWithproduct_identifiers(@product_identifiers)
+    @products_request = SKProductsRequest.alloc.initWithProductIdentifiers(@product_identifiers)
     @products_request.delegate = self
     @products_request.start
   end
@@ -37,7 +37,7 @@ class IAPHelper
   end
 
   def buy_product(product)
-    NSLog("Buying %@...", product.product_identifier)
+    NSLog("Buying %@...", product.productIdentifier)
 
     payment = SKPayment.paymentWithProduct(product)
     SKPaymentQueue.defaultQueue.addPayment(payment)
@@ -45,13 +45,13 @@ class IAPHelper
 
   #pragma mark - SKProductsRequestDelegate
 
-  def products_request(request, didReceiveResponse:response)
+  def productsRequest(request, didReceiveResponse:response)
     NSLog("Loaded list of products...")
     @products_request = nil
 
     sk_products = response.products
     sk_products.each do |sk_product|
-      NSLog("Found product: %@ %@ %0.2", sk_product.product_identifier, sk_product.localizedTitle, sk_product.price.floatValue)
+      NSLog("Found product: %@ %@ %0.2", sk_product.productIdentifier, sk_product.localizedTitle, sk_product.price.floatValue)
     end
 
     @completion_handler.call(true, sk_products)
@@ -85,14 +85,14 @@ class IAPHelper
   def completeTransaction(transaction)
     NSLog("completeTransaction...")
 
-    self.provide_content(transaction.payment.product_identifier)
+    self.provide_content(transaction.payment.productIdentifier)
     SKPaymentQueue.defaultQueue.finishTransaction(transaction)
   end
 
   def restoreTransaction(transaction)
     NSLog("restoreTransaction...")
 
-    self.provide_content(transaction.originalTransaction.payment.product_identifier)
+    self.provide_content(transaction.originalTransaction.payment.productIdentifier)
     SKPaymentQueue.defaultQueue.finishTransaction(transaction)
   end
 
