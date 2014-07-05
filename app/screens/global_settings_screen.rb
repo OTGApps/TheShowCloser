@@ -144,6 +144,7 @@ class GlobalSettingsScreen < Formotion::FormController
     })
 
     @form.row(:check_for_update).on_tap do |row|
+      Flurry.logEvent("PRESSED_MANUAL_DB_CHECK") unless Device.simulator?
       jd = JewelryDownloader.new
       jd.check(true)
     end

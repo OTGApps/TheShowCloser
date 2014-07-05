@@ -46,6 +46,7 @@ class RegistrationScreen < Formotion::FormController
       if jn.length < 4 || jn.include?(".")
         App.alert("Invalid", message: "It appears that your Jeweler number is invalid. Please try again.")
       else
+        Flurry.logEvent("SET_JEWELER_NUMBER")
         App::Persistence['jeweler_number'] = jn
         dismissModalViewControllerAnimated(true)
       end
