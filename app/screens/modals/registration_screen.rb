@@ -20,7 +20,7 @@ class RegistrationScreen < Formotion::FormController
   def init
     @form ||= Formotion::Form.new({
       sections: [{
-        title: "Welcome to The Show Closer! Please enter your Jeweler Number.\n\nWe use this on your emailed receipts and to make sure you have the most up to date jewelry catalog data.",
+        title: "Please enter your Premier Designs Jeweler Number (without the \"J\").\n\nWe use this on your emailed receipts and to make sure you have the most up to date jewelry catalog data.",
         rows: [{
           title: "Jeweler Number:",
           key: :jeweler_number,
