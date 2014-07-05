@@ -18,9 +18,10 @@ class ReceiptScreen < PM::WebScreen
 
   def on_load
     set_nav_bar_button :right, {
-      title: "Email Receipt",
-      system_item: :reply,
-      action: :email_receipt
+      title: 'Email Receipt',
+      action: :email_receipt,
+      image: UIImage.imageNamed('email'),
+      type: :plain
     }
   end
 
