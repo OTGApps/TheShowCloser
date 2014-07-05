@@ -106,6 +106,7 @@ class JewelryDownloader
   def done_downloading
     p 'Done Downloading'
     App::Persistence['db_version'] = JewelryData.data.file_data['db']
+    JewelryData.data.reset # Reset the cache
     Motion::Blitz.success('All done!')
   end
 

@@ -1,8 +1,13 @@
 class JewelryData
+  attr_accessor :file_data_cache
 
   def self.data
     Dispatch.once { @instance ||= new }
     @instance
+  end
+
+  def reset
+    @file_data_cache = nil
   end
 
   def exists?
@@ -10,7 +15,7 @@ class JewelryData
   end
 
   def file_data
-    @file_data ||= BW::JSON.parse(File.read(file_location))
+    @file_data_cache ||= BW::JSON.parse(File.read(file_location))
   end
 
   def file_location
