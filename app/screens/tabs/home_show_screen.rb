@@ -51,7 +51,7 @@ class HomeShowScreen < Formotion::FormController
     serialized[:jewelry_percentage] = serialized[:jewelry_percentage][0...-1].to_i
 
     # Floatify
-    [:tax_rate, :shipping, :show_total, :addtl_discount, :addtl_charge].each do |sym|
+    [:tax_rate, :shipping, :show_total, :addtl_discount, :addtl_charge, :promotion304050Trigger40, :promotion304050Trigger50].each do |sym|
       serialized[sym] = "0" if serialized[sym].is_a?(String) && serialized[sym].empty?
       serialized[sym] = BigDecimal.new(serialized[sym]).to_f
     end
@@ -122,7 +122,8 @@ class HomeShowScreen < Formotion::FormController
           type: :text,
           value: ch.notes,
           input_accessory: :done,
-          done_action: default_done_action
+          done_action: default_done_action,
+          row_height: 100
         }]
       },{
         title: "Hostess Benefits:",
@@ -190,6 +191,28 @@ class HomeShowScreen < Formotion::FormController
           key: :addtl_charge,
           type: :currency,
           value: ch.addtlCharge,
+          input_accessory: :done,
+          done_action: default_done_action
+        }]
+      },{
+        title: "30-40-50 Hostess Promotion",
+        rows: [{
+          title: "Enable?",
+          key: :promotion304050,
+          value: ch.promotion304050.to_bool,
+          type: :switch,
+        },{
+          title: "40% Benefits Limit:",
+          key: :promotion304050Trigger40,
+          value: ch.promotion304050Trigger40 || 400.0,
+          type: :currency,
+          input_accessory: :done,
+          done_action: default_done_action
+        },{
+          title: "50% Benefits Limit:",
+          key: :promotion304050Trigger50,
+          value: ch.promotion304050Trigger50 || 500.0,
+          type: :currency,
           input_accessory: :done,
           done_action: default_done_action
         }]
