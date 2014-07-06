@@ -17,7 +17,7 @@ Motion::Project::App.setup do |app|
   app.short_version = '3.0.0'
   app.icons = Dir.glob("resources/Icon*.png").map{|icon| icon.split("/").last}
   app.seed_id = 'DW9QQZR4ZL'
-  app.info_plist['FULL_APP_NAME'] = 'The Show Closer'
+  app.info_plist['FULL_APP_NAME'] = 'Show Closer'
   app.info_plist['APP_STORE_ID'] = 483940964
 
   app.entitlements['get-task-allow'] = true
@@ -28,7 +28,7 @@ Motion::Project::App.setup do |app|
     pod 'Appirater'
     pod 'ActionSheetPicker-3.0'
 
-    pod 'HockeySDK'
+    # pod 'HockeySDK'
   end
 
   # Beta
@@ -52,19 +52,19 @@ Motion::Project::App.setup do |app|
     app.provisioning_profile = "./provisioning/release.mobileprovision"
   end
 
-  if app.hockeyapp?
-    app.hockeyapp do
-      set :api_token, '48f624f35e054b12971acae809731b3a'
-      set :beta_id, '204fc75ce437870248bf98b630ff6c01'
-      set :status, "2"
-      set :notify, "0"
-      set :notes_type, "1"
-      set :is_cocoapod, true
-    end
-    app.entitlements['get-task-allow'] = false
-    app.identifier = 'com.mohawkapps.TheShowCloserBeta'
-    app.codesign_certificate = "iPhone Distribution: Mohawk Apps, LLC (DW9QQZR4ZL)"
-    app.provisioning_profile = "./provisioning/adhoc.mobileprovision"
-  end
+  # if app.hockeyapp?
+  #   app.hockeyapp do
+  #     set :api_token, '48f624f35e054b12971acae809731b3a'
+  #     set :beta_id, '204fc75ce437870248bf98b630ff6c01'
+  #     set :status, "2"
+  #     set :notify, "0"
+  #     set :notes_type, "1"
+  #     set :is_cocoapod, true
+  #   end
+  #   app.entitlements['get-task-allow'] = false
+  #   app.identifier = 'com.mohawkapps.TheShowCloserBeta'
+  #   app.codesign_certificate = "iPhone Distribution: Mohawk Apps, LLC (DW9QQZR4ZL)"
+  #   app.provisioning_profile = "./provisioning/adhoc.mobileprovision"
+  # end
 
 end
