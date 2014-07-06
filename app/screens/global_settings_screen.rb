@@ -4,7 +4,7 @@ class GlobalSettingsScreen < Formotion::FormController
     super
     self.title = "Global Settings"
     self.navigationItem.rightBarButtonItem = UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemStop, target:self, action:"close")
-    # Flurry.logEvent "SettingsView" unless Device.simulator?
+    Flurry.logEvent "SettingsView" unless Device.simulator?
   end
 
   def init
