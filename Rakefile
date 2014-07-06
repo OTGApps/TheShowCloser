@@ -14,7 +14,7 @@ Motion::Project::App.setup do |app|
   app.device_family = [:iphone, :ipad]
   app.interface_orientations = [:portrait, :portrait_upside_down, :landscape_left, :landscape_right]
   app.version = '18'
-  app.short_version = '3.0.0b2'
+  app.short_version = '3.0.0'
   app.icons = Dir.glob("resources/Icon*.png").map{|icon| icon.split("/").last}
   app.seed_id = 'DW9QQZR4ZL'
   app.info_plist['FULL_APP_NAME'] = 'The Show Closer'
