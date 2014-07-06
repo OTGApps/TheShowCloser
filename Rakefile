@@ -52,19 +52,19 @@ Motion::Project::App.setup do |app|
     app.provisioning_profile = "./provisioning/release.mobileprovision"
   end
 
-  # if app.hockeyapp?
-  #   app.hockeyapp do
-  #     set :api_token, '48f624f35e054b12971acae809731b3a'
-  #     set :beta_id, '204fc75ce437870248bf98b630ff6c01'
-  #     set :status, "2"
-  #     set :notify, "0"
-  #     set :notes_type, "1"
-  #     set :is_cocoapod, true
-  #   end
-  #   app.entitlements['get-task-allow'] = false
-  #   app.identifier = 'com.mohawkapps.TheShowCloserBeta'
-  #   app.codesign_certificate = "iPhone Distribution: Mohawk Apps, LLC (DW9QQZR4ZL)"
-  #   app.provisioning_profile = "./provisioning/adhoc.mobileprovision"
-  # end
+  if app.hockeyapp?
+    app.hockeyapp do
+      set :api_token, '48f624f35e054b12971acae809731b3a'
+      set :beta_id, '204fc75ce437870248bf98b630ff6c01'
+      set :status, "2"
+      set :notify, "0"
+      set :notes_type, "1"
+      set :is_cocoapod, true
+    end
+    app.entitlements['get-task-allow'] = false
+    app.identifier = 'com.mohawkapps.TheShowCloserBeta'
+    app.codesign_certificate = "iPhone Distribution: Mohawk Apps, LLC (DW9QQZR4ZL)"
+    app.provisioning_profile = "./provisioning/adhoc.mobileprovision"
+  end
 
 end

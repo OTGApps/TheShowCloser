@@ -97,7 +97,7 @@ class GlobalSettingsScreen < Formotion::FormController
           type: :share,
           image: "icon_share",
           value: {
-            items: "I'm using the #{App.name} app. Check it out! http://www.mohawkapps.com/app/theshowcloser/",
+            items: "I'm using the #{App.name} app for my Premier business. Check it out! http://www.mohawkapps.com/app/theshowcloser/",
             excluded: [
               UIActivityTypeAddToReadingList,
               UIActivityTypeAirDrop,

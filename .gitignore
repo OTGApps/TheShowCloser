@@ -13,3 +13,5 @@ resources/*.storyboardc
 **/*.xcodeproj/xcuserdata
 
 /_release/
+
+**/x*.cuserdata/*
