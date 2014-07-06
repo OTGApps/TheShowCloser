@@ -11,3 +11,5 @@ resources/*.storyboardc
 /vendor/
 
 **/*.xcodeproj/xcuserdata
+
+/_release/
