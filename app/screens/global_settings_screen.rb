@@ -71,14 +71,14 @@ class GlobalSettingsScreen < Formotion::FormController
           type: :github_link,
           image: "icon_github",
           warn: true,
-          value: "https://github.com/MohawkApps/BeerJudge"
+          value: "https://github.com/MohawkApps/ShowCloser"
         }, {
           title: "Found a bug?",
           subtitle: "Log it here.",
           type: :issue_link,
           image: "icon_issue",
           warn: true,
-          value: "https://github.com/MohawkApps/BeerJudge/issues/"
+          value: "https://github.com/MohawkApps/ShowCloser/issues/"
         }, {
           title: "Email me suggestions!",
           subtitle: "I'd love to hear from you",

@@ -14,4 +14,4 @@ resources/*.storyboardc
 
 /_release/
 
-**/x*.cuserdata/*
+**/*.xcuserdata/*
