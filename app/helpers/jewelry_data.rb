@@ -1,5 +1,5 @@
 class JewelryData
-  attr_accessor :file_data_cache
+  attr_accessor :file_data_cache, :sorted_cache, :item_data_cache
 
   def self.data
     Dispatch.once { @instance ||= new }
@@ -8,6 +8,8 @@ class JewelryData
 
   def reset
     @file_data_cache = nil
+    @sorted_cache = nil
+    @item_data_cache = nil
   end
 
   def exists?
@@ -23,14 +25,16 @@ class JewelryData
   end
 
   def sorted
-    file_data['database'].sort_by { |j| j['name'] }
+    @sorted_cache ||= file_data['database'].sort_by { |j| j['name'] }
   end
 
   def item_data(number)
-    i = file_data['database'].find{|item| item['item'] == number.to_s}
+    i = number.to_s.to_sym
+    @item_data_cache ||= {}
+    @item_data_cache[i] ||= file_data['database'].find{|item| item['item'] == number.to_s}
 
     res = {}
-    i.each do |k,v|
+    @item_data_cache[i].each do |k,v|
       if k == 'item'
         res[k] = v.to_i
       elsif v.is_a?(Array)
