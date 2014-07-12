@@ -6,7 +6,7 @@ class HomeShowScreen < Formotion::FormController
     super
     App.notification_center.observe "PickedHostessNotification" do |notification|
       p 'PickedHostessNotification'
-      ap ch
+      mp ch
 
       reinit
       self.tableView.scrollRectToVisible(CGRectMake(0, 0, 1, 1), animated:false)
@@ -56,7 +56,7 @@ class HomeShowScreen < Formotion::FormController
       serialized[sym] = BigDecimal.new(serialized[sym]).to_f
     end
 
-    ap serialized
+    mp serialized
 
     ch.set_and_save(serialized)
     reinit_titles

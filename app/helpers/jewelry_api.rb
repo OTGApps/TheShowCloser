@@ -31,7 +31,7 @@ class JewelryAPI
       json = nil
       error = nil
 
-      ap response
+      mp response
 
       if response.success?
         json = response.object

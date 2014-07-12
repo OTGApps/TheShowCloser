@@ -77,7 +77,7 @@ class GenieProcessorScreen < PM::Screen
       end
     end
     # puts "Jewelry Set:"
-    # ap @jewelry_set
+    # mp @jewelry_set
 
     Dispatch::Queue.concurrent('com.mohawkapps.theshowcloser.genie').async do
       start_time = NSDate.date
