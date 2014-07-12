@@ -67,7 +67,7 @@ class MasterJewelryScreen < PM::TableScreen
     cell_data(data).merge({
       action: :toggle_free,
       long_press_action: :show_free_qty_picker,
-      image: ch.has_free?(data['item']) ? "num_#{ch.free_count(data['item'])}" : 'normal',
+      image: ch.has_free?(data['item']) ? image_num(ch.free_count(data['item'])) : image_normal,
     })
   end
 
@@ -75,7 +75,7 @@ class MasterJewelryScreen < PM::TableScreen
     cell_data(data).merge({
       action: :toggle_halfprice,
       long_press_action: :show_halfprice_qty_picker,
-      image: ch.has_halfprice?(data['item']) ? "num_#{ch.halfprice_count(data['item'])}" : 'normal',
+      image: ch.has_halfprice?(data['item']) ? image_num(ch.halfprice_count(data['item'])) : image_normal,
     })
   end
 
@@ -95,14 +95,15 @@ class MasterJewelryScreen < PM::TableScreen
   #Toggling
 
   def toggle_free(args)
-    toggle_item(args[:item], true)
+    mp args
+    toggle_item(args[:item], true, args[:index_path])
   end
 
   def toggle_halfprice(args)
-    toggle_item(args[:item], false)
+    toggle_item(args[:item], false, args[:index_path])
   end
 
-  def toggle_item(item, free)
+  def toggle_item(item, free, index_path)
     if free
       qty = (ch.has_free?(item)) ? 0 : 1
       ch.set_free(item, qty)
@@ -110,7 +111,7 @@ class MasterJewelryScreen < PM::TableScreen
       qty = (ch.has_halfprice?(item)) ? 0 : 1
       ch.set_halfprice(item, qty)
     end
-    update_table_data
+    update_table_data(index_path)
   end
 
   # Clearing
@@ -164,14 +165,17 @@ class MasterJewelryScreen < PM::TableScreen
   # Picker
 
   def show_free_qty_picker(args)
-    show_qty_picker(args[:item], true)
+    show_qty_picker(args, true)
   end
 
   def show_halfprice_qty_picker(args)
-    show_qty_picker(args[:item], false)
+    show_qty_picker(args, false)
   end
 
-  def show_qty_picker(item, free)
+  def show_qty_picker(args, free)
+    item = args[:item]
+    index_path = args[:index_path]
+
     # Get the initial index for the picker
     initial_index = 0
     if free && ch.has_free?(item)
@@ -192,7 +196,7 @@ class MasterJewelryScreen < PM::TableScreen
         else
           ch.set_halfprice(item, value)
         end
-        update_table_data
+        update_table_data(index_path)
       },
       cancelBlock: -> picker {
         p 'Canceled the picker'
@@ -202,5 +206,15 @@ class MasterJewelryScreen < PM::TableScreen
 
   def ch
     Hostesses.shared_hostess.current_hostess
+  end
+
+  def image_normal
+    @images ||= {}
+    @images[:normal] ||= UIImage.imageNamed('normal')
+  end
+
+  def image_num(num)
+    @images ||= {}
+    @images[num.to_s.to_sym] ||= UIImage.imageNamed("num_#{num}")
   end
 end

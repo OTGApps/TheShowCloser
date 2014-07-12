@@ -162,7 +162,7 @@ class GlobalSettingsScreen < Formotion::FormController
 
   def close
     data = @form.render
-    ap data
+    mp data
 
     data.each do |key, value|
       App::Persistence[key.to_s] = ([TrueClass, FalseClass, String].include?(value.class)) ? value : value.to_s
