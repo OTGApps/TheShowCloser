@@ -1,11 +1,4 @@
 GIT
-  remote: git://github.com/MohawkApps/awesome_print_motion.git
-  revision: af1f904e6cea5737b6a8f4453a6730e620ee4588
-  branch: mine
-  specs:
-    awesome_print_motion (0.1.0)
-
-GIT
   remote: git://github.com/clayallsopp/formotion.git
   revision: 5a09385703ef0be252d6367db8580eb538cbaeb3
   branch: master
@@ -33,10 +26,10 @@ GIT
 
 GIT
   remote: git://github.com/rubymotion/BubbleWrap.git
-  revision: 90bcc7936153340adb5e9ab47954cbe7de063637
+  revision: b85e8eeae8cc96213403832a73d5d2cf1bcbd8a7
   specs:
-    bubble-wrap (1.6.0)
-      bubble-wrap-http (= 1.6.0)
+    bubble-wrap (1.7.0)
+      bubble-wrap-http (= 1.7.0)
 
 PATH
   remote: ../ProMotion
@@ -65,7 +58,7 @@ GEM
     afmotion (2.3.1)
       motion-cocoapods (>= 1.4.1)
       motion-require (>= 0.1)
-    bubble-wrap-http (1.6.0)
+    bubble-wrap-http (1.7.0)
     builder (3.2.2)
     claide (0.6.1)
     cocoapods (0.33.1)
@@ -108,6 +101,7 @@ GEM
       cocoapods (>= 0.32.1)
     motion-require (0.2.0)
     motion-yaml (1.2)
+    motion_print (0.0.1)
     multi_json (1.10.1)
     nap (0.8.0)
     netrc (0.7.7)
@@ -128,7 +122,6 @@ PLATFORMS
 DEPENDENCIES
   ProMotion!
   afmotion
-  awesome_print_motion!
   bubble-wrap!
   cdq!
   cocoapods
@@ -136,6 +129,7 @@ DEPENDENCIES
   motion-blitz
   motion-cocoapods
   motion-hockeyapp!
+  motion_print
   pro_motion_slide_menu!
   rake
   ruby_motion_query!

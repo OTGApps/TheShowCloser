@@ -24,5 +24,5 @@ gem 'ruby_motion_query', path: '../rmq'
 gem 'cdq', path: '../cdq'
 
 # Development
-gem 'awesome_print_motion', github: 'MohawkApps/awesome_print_motion', branch: 'mine'
+gem 'motion_print'
 gem 'motion-hockeyapp', github: 'rromanchuk/motion-hockeyapp', branch: 'sdk-from-cocoapods'
