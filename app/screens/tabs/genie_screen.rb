@@ -18,10 +18,13 @@ class GenieScreen < MasterJewelryScreen
       system_item: :flexible_space
     },{
       title: "Calculate Best Deal",
-      action: :start_calculations
+      action: :start_calculations,
+      tint_color: UIColor.whiteColor
     },{
       system_item: :flexible_space
     }]
+    self.navigationController.toolbar.barTintColor = rmq.color.purple
+
   end
 
   def start_calculations
