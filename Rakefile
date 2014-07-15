@@ -13,8 +13,8 @@ Motion::Project::App.setup do |app|
   app.deployment_target = "7.0"
   app.device_family = [:iphone, :ipad]
   app.interface_orientations = [:portrait, :portrait_upside_down, :landscape_left, :landscape_right]
-  app.version = '18'
-  app.short_version = '3.0.0'
+  app.version = '19'
+  app.short_version = '3.0.1'
   app.icons = Dir.glob("resources/Icon*.png").map{|icon| icon.split("/").last}
   app.seed_id = 'DW9QQZR4ZL'
   app.info_plist['FULL_APP_NAME'] = 'Show Closer'
@@ -27,8 +27,6 @@ Motion::Project::App.setup do |app|
     pod 'FlurrySDK', '5.1.0'
     pod 'Appirater'
     pod 'ActionSheetPicker-3.0'
-
-    # pod 'HockeySDK'
   end
 
   # Beta

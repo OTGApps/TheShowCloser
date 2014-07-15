@@ -20,7 +20,7 @@ class RegistrationScreen < Formotion::FormController
   def init
     @form ||= Formotion::Form.new({
       sections: [{
-        title: "Please enter your Premier Designs Jeweler Number (without the \"J\").\n\nWe use this on your emailed receipts and to make sure you have the most up to date jewelry catalog data.",
+        title: "Please enter your Premier Designs Jeweler Number (without the \"J\").\n\nWe use this on your emailed receipts and to make sure you have the most up to date jewelry catalog data. You can not change this later.",
         rows: [{
           title: "Jeweler Number:",
           key: :jeweler_number,
@@ -45,6 +45,8 @@ class RegistrationScreen < Formotion::FormController
 
       if jn.length < 4 || jn.include?(".")
         App.alert("Invalid", message: "It appears that your Jeweler number is invalid. Please try again.")
+      elsif jn.to_i == 0
+        App.alert("Invalid", message: "Please use your real Jeweler number. It will be printed on your hostess receipts and can not be changed.")
       else
         Flurry.logEvent("SET_JEWELER_NUMBER")
         App::Persistence['jeweler_number'] = jn
