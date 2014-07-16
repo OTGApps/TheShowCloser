@@ -18,13 +18,6 @@ GIT
       motion-cocoapods
 
 GIT
-  remote: git://github.com/rromanchuk/motion-hockeyapp.git
-  revision: 384e671c7e181b69b77d227485098d5bf50a2457
-  branch: sdk-from-cocoapods
-  specs:
-    motion-hockeyapp (1.1.6)
-
-GIT
   remote: git://github.com/rubymotion/BubbleWrap.git
   revision: b85e8eeae8cc96213403832a73d5d2cf1bcbd8a7
   specs:
@@ -128,7 +121,6 @@ DEPENDENCIES
   formotion!
   motion-blitz
   motion-cocoapods
-  motion-hockeyapp!
   motion_print
   pro_motion_slide_menu!
   rake

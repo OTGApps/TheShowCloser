@@ -25,4 +25,3 @@ gem 'cdq', path: '../cdq'
 
 # Development
 gem 'motion_print'
-gem 'motion-hockeyapp', github: 'rromanchuk/motion-hockeyapp', branch: 'sdk-from-cocoapods'
