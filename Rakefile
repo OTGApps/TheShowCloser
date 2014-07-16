@@ -19,6 +19,7 @@ Motion::Project::App.setup do |app|
   app.seed_id = 'DW9QQZR4ZL'
   app.info_plist['FULL_APP_NAME'] = 'Show Closer'
   app.info_plist['APP_STORE_ID'] = 483940964
+  app.info_plist['TestingMode'] = true if ENV['RUBYMOTION_TESTER'] == 'true'
 
   app.entitlements['get-task-allow'] = true
   app.codesign_certificate = "iPhone Developer: Mark Rickert (YA2VZGDX4S)"

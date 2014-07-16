@@ -64,31 +64,31 @@ class GlobalSettingsScreen < Formotion::FormController
           key: :check_for_update,
           type: :button
         }]
-      }, {
-        title: "#{App.name} is open source:",
-        rows: [{
-          title: "View on GitHub",
-          type: :github_link,
-          image: "icon_github",
-          warn: true,
-          value: "https://github.com/MohawkApps/ShowCloser"
-        }, {
-          title: "Found a bug?",
-          subtitle: "Log it here.",
-          type: :issue_link,
-          image: "icon_issue",
-          warn: true,
-          value: "https://github.com/MohawkApps/ShowCloser/issues/"
-        }, {
-          title: "Email me suggestions!",
-          subtitle: "I'd love to hear from you",
-          type: :email_me,
-          image: "icon_email",
-          value: {
-            to: "mark@mohawkapps.com",
-            subject: "#{App.name} App Feedback"
-          }
-        }]
+      # }, {
+        # title: "#{App.name} is open source:",
+        # rows: [{
+        #   title: "View on GitHub",
+        #   type: :github_link,
+        #   image: "icon_github",
+        #   warn: true,
+        #   value: "https://github.com/MohawkApps/ShowCloser"
+        # }, {
+        #   title: "Found a bug?",
+        #   subtitle: "Log it here.",
+        #   type: :issue_link,
+        #   image: "icon_issue",
+        #   warn: true,
+        #   value: "https://github.com/MohawkApps/ShowCloser/issues/"
+        # }, {
+        #   title: "Email me suggestions!",
+        #   subtitle: "I'd love to hear from you",
+        #   type: :email_me,
+        #   image: "icon_email",
+        #   value: {
+        #     to: "mark@mohawkapps.com",
+        #     subject: "#{App.name} App Feedback"
+        #   }
+        # }]
       }, {
         title: "Tell Your friends:",
         rows: [{
@@ -104,6 +104,15 @@ class GlobalSettingsScreen < Formotion::FormController
               UIActivityTypeCopyToPasteboard,
               UIActivityTypePrint
             ]
+          }
+        }, {
+          title: "Email me suggestions!",
+          subtitle: "I'd love to hear from you",
+          type: :email_me,
+          image: "icon_email",
+          value: {
+            to: "mark@mohawkapps.com",
+            subject: "#{App.name} App Feedback"
           }
         },{
           title: "Rate on iTunes",

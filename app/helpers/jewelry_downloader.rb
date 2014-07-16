@@ -27,6 +27,11 @@ class JewelryDownloader
       return
     end
 
+    if App.info_plist['TestingMode'] == true
+      free_upgrade
+      return
+    end
+
     if version['free_update']
       free_upgrade
     else
