@@ -18,7 +18,7 @@ class HostessScreen < PM::TableScreen
 
   def will_appear
     if App.info_plist['TestingMode'] == true
-      App::Persistence['jeweler_number'] ||= 999999
+      App::Persistence['jeweler_number'] = 999999
     end
 
     # Check for Jewelry Database update
