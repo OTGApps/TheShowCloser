@@ -88,15 +88,18 @@ class GenieProcessorScreen < PM::Screen
       # amount of overage
 
       n = @jewelry_set.count
+      total_allowed = 5000
 
-      combinations = [:free, :half].cartesian_power(n)
+      combinations = [:free, :half].cartesian_power(n, total_allowed)
+
       # Remove all combos that are not allowed
       combinations = combinations.reject do |c|
         half_count = c.select{|i| i == :half}.count
         (half_count > 8) || (half_count > 6 && Brain.app_brain.h.showTotal < 500) || (half_count > 4 && Brain.app_brain.h.showTotal < 300)
       end
-      # Limit total calculations to 5000
-      combinations = combinations.sample(5000)
+
+      # Limit total calculations to total_allowed
+      combinations = combinations.sample(total_allowed) if combinations.count > total_allowed
       total_combos = combinations.count
 
       combinations.each_with_index do |combo, i|
