@@ -2,9 +2,12 @@ class MasterJewelryScreen < PM::TableScreen
   searchable
 
   def on_load
-    @data ||= [{
-      title: 'Loading...',
-      selection_style: UITableViewCellSelectionStyleNone
+    @table_data ||= [{
+      title: nil,
+      cells: [{
+        title: 'Loading...',
+        selection_style: UITableViewCellSelectionStyleNone
+      }]
     }]
   end
 
@@ -21,18 +24,32 @@ class MasterJewelryScreen < PM::TableScreen
   end
 
   def table_data
-    [{
-      title: nil,
-      cells: @data
-    }]
+    @table_data
+  end
+
+  def table_data_index
+    # Returns an array of the first letter of the title of each section.
+    @table_data.count > 1 ? ["{search}"] + table_data.collect{ |section| section[:title].to_s[0] } : nil
   end
 
   def cells
-    # TODO - mke this into sections by letter name
-    @data = JewelryData.data.sorted.collect do |j|
-      build_cell(j)
+    @table_data = []
+    section_titles.each do |t|
+      section_data = {
+        title: t,
+        cells: []
+      }
+      cells = JewelryData.data.sorted.select{|j| j['name'][0].upcase == t}
+      cells.each do |c|
+        section_data[:cells] << build_cell(c)
+      end
+      @table_data << section_data
     end
     update_table_data
+  end
+
+  def section_titles
+    JewelryData.data.sorted.collect{|j| j['name'][0].upcase}.uniq
   end
 
   def cell_title(data)
@@ -217,4 +234,11 @@ class MasterJewelryScreen < PM::TableScreen
     @images ||= {}
     @images[num.to_s.to_sym] ||= UIImage.imageNamed("num_#{num}")
   end
+
+  # Background color for header views
+  def tableView(tableView, willDisplayHeaderView:view, forSection:section)
+    view.textLabel.setTextColor(UIColor.whiteColor)
+    view.backgroundView.backgroundColor = rmq.color.purple
+  end
+
 end
