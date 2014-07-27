@@ -1,5 +1,6 @@
 class QuickLookupScreen < MasterJewelryScreen
   searchable
+  indexable
   title "Quick Lookup"
 
   def on_load

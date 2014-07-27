@@ -1,5 +1,6 @@
 class FreeScreen < MasterJewelryScreen
   searchable
+  indexable
   longpressable
   title "Free: "
   tab_bar_item item: "tab_jewelry", title: "Free"

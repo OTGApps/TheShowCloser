@@ -1,5 +1,6 @@
 class HalfPriceScreen < MasterJewelryScreen
   searchable
+  indexable
   longpressable
   title "Half Price Selections"
   tab_bar_item item: "tab_jewelry", title: "1/2 Price"

@@ -1,5 +1,4 @@
 class MasterJewelryScreen < PM::TableScreen
-  searchable
 
   def on_load
     @table_data ||= [{
@@ -25,11 +24,6 @@ class MasterJewelryScreen < PM::TableScreen
 
   def table_data
     @table_data
-  end
-
-  def table_data_index
-    # Returns an array of the first letter of the title of each section.
-    @table_data.count > 1 ? ["{search}"] + table_data.collect{ |section| section[:title].to_s[0] } : nil
   end
 
   def cells
