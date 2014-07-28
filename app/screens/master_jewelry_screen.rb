@@ -99,7 +99,8 @@ class MasterJewelryScreen < PM::TableScreen
       selection_style: UITableViewCellSelectionStyleDefault,
       arguments: {
         item: data['item']
-      }
+      },
+      scoped: data['retired'] == 0 ? :current : :retired
     }
   end
 

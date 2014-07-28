@@ -1,5 +1,5 @@
 class HalfPriceScreen < MasterJewelryScreen
-  searchable
+  searchable scoped: ['Current', 'Retired', 'All'], scoped_all: 'All'
   indexable
   longpressable
   title "Half Price Selections"
