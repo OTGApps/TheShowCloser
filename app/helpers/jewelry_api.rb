@@ -1,6 +1,6 @@
 class JewelryAPI
-  VERSION_URL = "http://theshowcloser.mohawkapps.com/3/version/"
-  JEWELRY_URL = "http://theshowcloser.mohawkapps.com/3/jewelry/"
+  VERSION_URL = "http://theshowcloser.mohawkapps.com/4/version/"
+  JEWELRY_URL = "http://theshowcloser.mohawkapps.com/4/jewelry/"
 
   def self.post_data
     {
