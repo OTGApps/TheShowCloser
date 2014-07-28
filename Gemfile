@@ -9,7 +9,7 @@ gem 'cocoapods'
 
 # RubyMotion
 gem 'afmotion'
-gem 'bubble-wrap', github: 'rubymotion/BubbleWrap', require: ['bubble-wrap/core', 'bubble-wrap/mail']
+gem 'bubble-wrap', github: 'rubymotion/BubbleWrap', require: ['bubble-wrap/core']
 
 gem 'ProMotion', path: '../ProMotion'
 # gem 'ProMotion', github: 'clearsightstudio/ProMotion'

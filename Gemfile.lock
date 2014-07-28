@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/clayallsopp/formotion.git
-  revision: 5a09385703ef0be252d6367db8580eb538cbaeb3
+  revision: 829ab8ef8205fd8d53453747ac4b9683c4de2ccb
   branch: master
   specs:
     formotion (1.8)
@@ -19,7 +19,7 @@ GIT
 
 GIT
   remote: git://github.com/rubymotion/BubbleWrap.git
-  revision: b85e8eeae8cc96213403832a73d5d2cf1bcbd8a7
+  revision: be4682c6109bb5ca4cb2a223f50483f3184d0058
   specs:
     bubble-wrap (1.7.0)
       bubble-wrap-http (= 1.7.0)

@@ -36,22 +36,6 @@ class ReceiptScreen < PM::WebScreen
     set_content(parsed_html)
   end
 
-  def email_receipt
-    BW::Mail.compose(
-      delegate: self,
-      html: true,
-      subject: " Premier Designs Receipt from #{App::Persistence['kReceiptName']}",
-      message: html,
-    ) do |result, error|
-      # result.sent?      # => boolean
-      # result.canceled?  # => boolean
-      # result.saved?     # => boolean
-      # result.failed?    # => boolean
-      # error             # => NSError
-    end
-
-  end
-
   def parsed_html
     p "Getting parsed HTML"
     ch = Hostesses.shared_hostess.current_hostess
@@ -189,4 +173,31 @@ class ReceiptScreen < PM::WebScreen
        <th style='font-weight: normal;text-align: right'>-</th>
        <td style='border: none;text-align: right;border-bottom: 1px solid #CCC'>#{value}</td>"
   end
+
+  # Emailing
+
+  def email_receipt
+    body = "<br /><br />" << html
+    subject = "Premier Designs Receipt from #{App::Persistence['kReceiptName']}"
+
+    if MFMailComposeViewController.canSendMail
+      mail_composer = MFMailComposeViewController.alloc.init
+      mail_composer.mailComposeDelegate = self
+      mail_composer.setSubject(subject)
+      mail_composer.setMessageBody(body, isHTML:true)
+      if mail_composer
+        self.presentModalViewController(mail_composer, animated:true)
+      else
+        App.alert('There was a problem displaying the mail composer.')
+      end
+    else
+      App.alert("No Email Account", { message: "You have not configured this device for sending email."})
+    end
+  end
+
+  def mailComposeController(controller, didFinishWithResult:result, error:error)
+    App.alert("Error Sending Email", { message: error.localizedDescription } ) unless error.nil?
+    self.dismissModalViewControllerAnimated(true)
+  end
+
 end
