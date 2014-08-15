@@ -106,13 +106,13 @@ class MasterJewelryScreen < PM::TableScreen
 
   #Toggling
 
-  def toggle_free(args)
+  def toggle_free(args, index_path)
     mp args
-    toggle_item(args[:item], true, args[:index_path])
+    toggle_item(args[:item], true, index_path)
   end
 
-  def toggle_halfprice(args)
-    toggle_item(args[:item], false, args[:index_path])
+  def toggle_halfprice(args, index_path)
+    toggle_item(args[:item], false, index_path)
   end
 
   def toggle_item(item, free, index_path)
@@ -176,17 +176,23 @@ class MasterJewelryScreen < PM::TableScreen
 
   # Picker
 
-  def show_free_qty_picker(args)
-    show_qty_picker(args, true)
+  def show_free_qty_picker(args, index_path)
+    show_qty_picker(args, true, index_path)
   end
 
-  def show_halfprice_qty_picker(args)
-    show_qty_picker(args, false)
+  def show_halfprice_qty_picker(args, index_path)
+    show_qty_picker(args, false, index_path)
   end
 
-  def show_qty_picker(args, free)
+  def show_qty_picker(args, free, index_path)
     item = args[:item]
-    index_path = args[:index_path]
+
+    # if Device.ipad?
+    #   sending_view = table_view_cell(index_path: index_path).contentView.superview.superview
+    # else
+    #   sending_view = self.view
+    # end
+    # mp sending_view
 
     # Get the initial index for the picker
     initial_index = 0
@@ -213,7 +219,7 @@ class MasterJewelryScreen < PM::TableScreen
       cancelBlock: -> picker {
         p 'Canceled the picker'
       },
-      origin: self.view)
+      origin: nil)
   end
 
   def ch
