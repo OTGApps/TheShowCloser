@@ -92,6 +92,7 @@ GEM
       motion-cocoapods (>= 1.4.0)
     motion-cocoapods (1.5.0)
       cocoapods (>= 0.32.1)
+    motion-hockeyapp (1.1.7)
     motion-require (0.2.0)
     motion-yaml (1.2)
     motion_print (0.0.1)
@@ -121,6 +122,7 @@ DEPENDENCIES
   formotion!
   motion-blitz
   motion-cocoapods
+  motion-hockeyapp
   motion_print
   pro_motion_slide_menu!
   rake

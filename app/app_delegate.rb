@@ -10,6 +10,7 @@ class AppDelegate < PM::Delegate
     BW.debug = true unless App.info_plist['AppStoreRelease'] == true
 
     unless Device.simulator?
+      # BITHockeyManagerLauncher.new.start
       app_id = App.info_plist['APP_STORE_ID']
 
       # Flurry
