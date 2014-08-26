@@ -14,6 +14,14 @@ class MasterJewelryScreen < PM::TableScreen
     @reload_observer = App.notification_center.observe 'ReloadJewelryTableNotification' do |notification|
       cells
     end
+
+    # Tip
+    if App::Persistence['shown_longpress_tip'].nil?
+      App::Persistence['shown_longpress_tip'] = true
+      App.alert("Quantity Tip:", {
+        message: "You can tap and hold an item to change its quantity!"
+      })
+    end
   end
 
   def on_disappear
