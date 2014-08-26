@@ -118,7 +118,6 @@ class GenieScreen < MasterJewelryScreen
     }).show
   end
 
-
   def ch
     Hostesses.shared_hostess.current_hostess
   end
