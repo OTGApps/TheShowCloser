@@ -175,6 +175,14 @@ class MasterJewelryScreen < PM::TableScreen
   def show_qty_picker(args, free, index_path)
     item = args[:item]
 
+    if Device.ipad?
+      cell = table_view.cellForRowAtIndexPath(index_path)
+      sender = cell.imageView
+    else
+      sender = nil
+    end
+    # mp sending_view
+
     # Get the initial index for the picker
     initial_index = 0
     if free && ch.has_free?(item)
@@ -200,7 +208,7 @@ class MasterJewelryScreen < PM::TableScreen
       cancelBlock: -> picker {
         p 'Canceled the picker'
       },
-      origin: nil)
+      origin: sender)
   end
 
   def ch
