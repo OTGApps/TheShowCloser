@@ -27,7 +27,7 @@ Motion::Project::App.setup do |app|
   app.pods do
     pod 'FlurrySDK', '5.1.0'
     pod 'Appirater'
-    pod 'ActionSheetPicker-3.0'
+    pod 'ActionSheetPicker-3.0', '~> 1.1.2'
   end
 
   # Beta
