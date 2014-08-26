@@ -95,7 +95,6 @@ class MasterJewelryScreen < PM::TableScreen
   #Toggling
 
   def toggle_free(args, index_path)
-    mp args
     toggle_item(args[:item], true, index_path)
   end
 
