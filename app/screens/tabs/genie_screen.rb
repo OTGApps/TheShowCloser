@@ -81,13 +81,16 @@ class GenieScreen < MasterJewelryScreen
         qty = ch.free_count(args[:item])
         ch.set_free(args[:item], 0)
         ch.set_halfprice(args[:item], qty)
+      else
+        # They Cancelled
       end
       update_table_data
     end
 
     BW::UIAlertView.new({
       title: 'Change Item:',
-      buttons: ['Delete', 'Set Half Price'],
+      message: '(Tap and hold to change quantity)',
+      buttons: ['Delete', 'Toggle to Half Price', 'Cancel'],
       on_click: callback
     }).show
   end
@@ -101,13 +104,16 @@ class GenieScreen < MasterJewelryScreen
         qty = ch.halfprice_count(args[:item])
         ch.set_halfprice(args[:item], 0)
         ch.set_free(args[:item], qty)
+      else
+        # They Cancelled
       end
       update_table_data
     end
 
     BW::UIAlertView.new({
       title: 'Change Item:',
-      buttons: ['Delete', 'Set Free'],
+      message: '(Tap and hold to change quantity)',
+      buttons: ['Delete', 'Toggle to Free', 'Cancel'],
       on_click: callback
     }).show
   end
