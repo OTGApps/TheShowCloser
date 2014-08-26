@@ -168,7 +168,7 @@ class MasterJewelryScreen < PM::TableScreen
   end
 
   def show_halfprice_qty_picker(args, index_path)
-    show_qty_picker(args, false)
+    show_qty_picker(args, false, index_path)
   end
 
   def show_qty_picker(args, free, index_path)
