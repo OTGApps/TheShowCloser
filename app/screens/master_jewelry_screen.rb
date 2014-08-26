@@ -200,7 +200,7 @@ class MasterJewelryScreen < PM::TableScreen
       cancelBlock: -> picker {
         p 'Canceled the picker'
       },
-      origin: self.view)
+      origin: nil)
   end
 
   def ch
