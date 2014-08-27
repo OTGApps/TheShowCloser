@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-$:.unshift("/Library/RubyMotion/lib")
+$:.unshift("/Library/RubyMotion2.31/lib")
 require 'motion/project/template/ios'
 
 begin
@@ -13,8 +13,8 @@ Motion::Project::App.setup do |app|
   app.deployment_target = "7.0"
   app.device_family = [:iphone, :ipad]
   app.interface_orientations = [:portrait, :portrait_upside_down, :landscape_left, :landscape_right]
-  app.version = '23'
-  app.short_version = '3.0.2b4'
+  app.version = '20'
+  app.short_version = '3.0.2'
   app.icons = Dir.glob("resources/Icon*.png").map{|icon| icon.split("/").last}
   app.seed_id = 'DW9QQZR4ZL'
   app.info_plist['FULL_APP_NAME'] = 'Show Closer'

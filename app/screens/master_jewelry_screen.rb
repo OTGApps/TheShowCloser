@@ -16,6 +16,14 @@ class MasterJewelryScreen < PM::TableScreen
     @reload_observer = App.notification_center.observe 'ReloadJewelryTableNotification' do |notification|
       cells
     end
+
+    # Tip
+    if App::Persistence['shown_longpress_tip'].nil?
+      App::Persistence['shown_longpress_tip'] = true
+      App.alert("Quantity Tip:", {
+        message: "You can tap and hold an item to change its quantity!"
+      })
+    end
   end
 
   def on_disappear
@@ -107,7 +115,6 @@ class MasterJewelryScreen < PM::TableScreen
   #Toggling
 
   def toggle_free(args, index_path)
-    mp args
     toggle_item(args[:item], true, index_path)
   end
 
@@ -187,12 +194,12 @@ class MasterJewelryScreen < PM::TableScreen
   def show_qty_picker(args, free, index_path)
     item = args[:item]
 
-    # if Device.ipad?
-    #   sending_view = table_view_cell(index_path: index_path).contentView.superview.superview
-    # else
-    #   sending_view = self.view
-    # end
-    # mp sending_view
+    if Device.ipad?
+      cell = table_view.cellForRowAtIndexPath(index_path)
+      sender = cell.imageView
+    else
+      sender = nil
+    end
 
     # Get the initial index for the picker
     initial_index = 0
@@ -219,7 +226,7 @@ class MasterJewelryScreen < PM::TableScreen
       cancelBlock: -> picker {
         p 'Canceled the picker'
       },
-      origin: nil)
+      origin: sender)
   end
 
   def ch

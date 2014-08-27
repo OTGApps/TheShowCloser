@@ -72,6 +72,52 @@ class GenieScreen < MasterJewelryScreen
     update_table_data
   end
 
+  def toggle_free(args, index_path)
+    callback = lambda do |alert|
+      case alert.clicked_button.index
+      when 0
+        ch.set_free(args[:item], 0)
+      when 1
+        qty = ch.free_count(args[:item])
+        ch.set_free(args[:item], 0)
+        ch.set_halfprice(args[:item], qty)
+      else
+        # They Cancelled
+      end
+      update_table_data
+    end
+
+    BW::UIAlertView.new({
+      title: 'Change Item:',
+      message: '(Tap and hold to change quantity)',
+      buttons: ['Delete', 'Toggle to Half Price', 'Cancel'],
+      on_click: callback
+    }).show
+  end
+
+  def toggle_halfprice(args, index_path)
+    callback = lambda do |alert|
+      case alert.clicked_button.index
+      when 0
+        ch.set_halfprice(args[:item], 0)
+      when 1
+        qty = ch.halfprice_count(args[:item])
+        ch.set_halfprice(args[:item], 0)
+        ch.set_free(args[:item], qty)
+      else
+        # They Cancelled
+      end
+      update_table_data
+    end
+
+    BW::UIAlertView.new({
+      title: 'Change Item:',
+      message: '(Tap and hold to change quantity)',
+      buttons: ['Delete', 'Toggle to Free', 'Cancel'],
+      on_click: callback
+    }).show
+  end
+
   def ch
     Hostesses.shared_hostess.current_hostess
   end
