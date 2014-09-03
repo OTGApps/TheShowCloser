@@ -13,8 +13,8 @@ Motion::Project::App.setup do |app|
   app.deployment_target = "7.0"
   app.device_family = [:iphone, :ipad]
   app.interface_orientations = [:portrait, :portrait_upside_down, :landscape_left, :landscape_right]
-  app.version = '20'
-  app.short_version = '3.0.2'
+  app.version = '21'
+  app.short_version = '3.0.3'
   app.icons = Dir.glob("resources/Icon*.png").map{|icon| icon.split("/").last}
   app.seed_id = 'DW9QQZR4ZL'
   app.info_plist['FULL_APP_NAME'] = 'Show Closer'
