@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-$:.unshift("/Library/RubyMotion2.31/lib")
+$:.unshift("/Library/RubyMotion/lib")
 require 'motion/project/template/ios'
 
 begin
@@ -13,7 +13,7 @@ Motion::Project::App.setup do |app|
   app.deployment_target = "7.0"
   app.device_family = [:iphone, :ipad]
   app.interface_orientations = [:portrait, :portrait_upside_down, :landscape_left, :landscape_right]
-  app.version = '22'
+  app.version = (`git rev-list HEAD --count`.strip.to_i).to_s
   app.short_version = '3.0.4'
   app.icons = Dir.glob("resources/Icon*.png").map{|icon| icon.split("/").last}
   app.seed_id = 'DW9QQZR4ZL'
@@ -25,7 +25,7 @@ Motion::Project::App.setup do |app|
   app.codesign_certificate = "iPhone Developer: Mark Rickert (YA2VZGDX4S)"
 
   app.pods do
-    pod 'FlurrySDK', '5.1.0'
+    pod 'FlurrySDK'
     pod 'Appirater'
     pod 'ActionSheetPicker-3.0', '~> 1.1.2'
   end
