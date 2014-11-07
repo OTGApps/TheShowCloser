@@ -30,13 +30,6 @@ Motion::Project::App.setup do |app|
     pod 'ActionSheetPicker-3.0', '~> 1.1.2'
   end
 
-  # app.vendor_project("vendor/MailMan", :static, :cflags => '-fobjc-arc')
-
-  # Beta
-  # app.identifier = 'com.mohawkapps.TheShowCloserBeta'
-  # app.provisioning_profile = "./provisioning/beta.mobileprovision"
-
-  # Non-Beta
   app.identifier = 'com.mohawkapps.TheShowCloser'
   app.provisioning_profile = "./provisioning/development.mobileprovision"
 
@@ -45,19 +38,6 @@ Motion::Project::App.setup do |app|
   ]
   app.entitlements['com.apple.developer.ubiquity-kvstore-identifier']     =  app.seed_id + '.' + app.identifier
   app.entitlements['com.apple.developer.ubiquity-container-identifiers']  = [app.seed_id + '.' + app.identifier]
-
-  # if app.hockeyapp?
-  #   app.hockeyapp do
-  #     set :api_token, '48f624f35e054b12971acae809731b3a'
-  #     set :beta_id, '204fc75ce437870248bf98b630ff6c01'
-  #     set :status, '2'
-  #     set :notify, '0'
-  #     set :notes_type, '0'
-  #   end
-  #   # app.identifier = app.seed_id + '.' + 'com.mohawkapps.TheShowCloser'
-  #   # app.codesign_certificate = "iPhone Distribution: Mohawk Apps, LLC (DW9QQZR4ZL)"
-  #   # app.provisioning_profile = "./provisioning/adhoc.mobileprovision"
-  # end
 
   app.release do
     app.info_plist['AppStoreRelease'] = true
