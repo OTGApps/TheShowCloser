@@ -102,12 +102,15 @@ class Brain
       showTotalWithHalfPrice = h.showTotal + half_price_total
       fourtyPctTrigger = h.promotion304050Trigger40
       fiftyPctTrigger  = h.promotion304050Trigger50
+      sixtyPctTrigger  = h.promotion304050Trigger60
 
       # DLog(@"showTotalWithHalfPrice %f", showTotalWithHalfPrice);
       # DLog(@"fiftyPctTrigger %f", fiftyPctTrigger);
       # DLog(@"fiftyPctTrigger %f", fiftyPctTrigger);
 
-      if showTotalWithHalfPrice >= fiftyPctTrigger
+      if promotion30405060? && showTotalWithHalfPrice >= sixtyPctTrigger
+        return 60
+      elsif showTotalWithHalfPrice >= fiftyPctTrigger
         return 50
       elsif showTotalWithHalfPrice >= fourtyPctTrigger
         return 40
@@ -208,6 +211,10 @@ class Brain
 
   def promotion304050?
     h.promotion304050.to_bool
+  end
+
+  def promotion30405060?
+    h.promotion30405060.to_bool
   end
 
 end
