@@ -141,7 +141,7 @@ class Hostess < CDQManagedObject
 
   def copyWithZone(zone)
     c = {}
-    self.attributes.each do |a|
+    self.attributes.keys.each do |a|
       c[a] = self.send(a)
     end
     c
