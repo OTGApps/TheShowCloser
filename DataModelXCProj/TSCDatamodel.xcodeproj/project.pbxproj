@@ -36,6 +36,7 @@
 		7B0608DF19536E2C0057E403 /* TheShowCloser2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TheShowCloser2.xcdatamodel; sourceTree = "<group>"; };
 		7B0608E019536E2C0057E403 /* TheShowCloser3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TheShowCloser3.xcdatamodel; sourceTree = "<group>"; };
 		7B0608E119536E2C0057E403 /* TheShowCloser5.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TheShowCloser5.xcdatamodel; sourceTree = "<group>"; };
+		7B8CAF891A13AC500078C505 /* 3.0.5.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = 3.0.5.xcdatamodel; sourceTree = "<group>"; };
 		7B9AA7EF18847CCA00797B35 /* TSCDatamodel.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TSCDatamodel.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7B9AA7F218847CCA00797B35 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		7B9AA7F418847CCA00797B35 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -417,13 +418,14 @@
 			isa = XCVersionGroup;
 			children = (
 				7B0608DC19536E2C0057E403 /* 3.0.0.xcdatamodel */,
+				7B8CAF891A13AC500078C505 /* 3.0.5.xcdatamodel */,
 				7B0608DD19536E2C0057E403 /* TheShowCloser 4.xcdatamodel */,
 				7B0608DE19536E2C0057E403 /* TheShowCloser.xcdatamodel */,
 				7B0608DF19536E2C0057E403 /* TheShowCloser2.xcdatamodel */,
 				7B0608E019536E2C0057E403 /* TheShowCloser3.xcdatamodel */,
 				7B0608E119536E2C0057E403 /* TheShowCloser5.xcdatamodel */,
 			);
-			currentVersion = 7B0608DC19536E2C0057E403 /* 3.0.0.xcdatamodel */;
+			currentVersion = 7B8CAF891A13AC500078C505 /* 3.0.5.xcdatamodel */;
 			name = TheShowCloser.xcdatamodeld;
 			path = ../resources/TheShowCloser.xcdatamodeld;
 			sourceTree = "<group>";
