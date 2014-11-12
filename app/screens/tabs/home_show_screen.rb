@@ -70,7 +70,13 @@ class HomeShowScreen < Formotion::FormController
       s.rows.each_with_index do |r, ri|
         if r.type == :switch
           observe(self.form.sections[si].rows[ri], "value") do |old_value, new_value|
-            update_and_save_hostess
+            # If turning on or off the 30th Anniversary Promo, turn on or off the 30-40-50 promo
+            hash = self.form.render
+            if self.form.sections[si].rows[ri].key == :promotion30405060 && new_value != hash[:promotion304050]
+              self.form.row(:promotion304050).value = new_value
+            else
+              update_and_save_hostess
+            end
           end
         end
       end
@@ -212,6 +218,21 @@ class HomeShowScreen < Formotion::FormController
           title: "50% Benefits Limit:",
           key: :promotion304050Trigger50,
           value: ch.promotion304050Trigger50 || 500.0,
+          type: :currency,
+          input_accessory: :done,
+          done_action: default_done_action
+        }]
+      },{
+        title: "30th Anniversary Promotion:",
+        rows: [{
+          title: "Enable?",
+          key: :promotion30405060,
+          value: (ch.promotion30405060.nil?) ? false : ch.promotion30405060.to_bool,
+          type: :switch,
+        },{
+          title: "60% Benefits Limit:",
+          key: :promotion304050Trigger60,
+          value: (ch.promotion304050Trigger60.nil?) ? 600.0 : ch.promotion304050Trigger60,
           type: :currency,
           input_accessory: :done,
           done_action: default_done_action
