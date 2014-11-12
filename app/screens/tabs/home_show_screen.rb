@@ -44,19 +44,19 @@ class HomeShowScreen < Formotion::FormController
 
   def update_and_save_hostess(key = nil)
     return if ch.nil?
-    p 'Saving Hostess Data'
+    mp 'Saving Hostess Data'
 
     serialized = form.render
     serialized[:created_date] = Time.at(serialized[:created_date])
     serialized[:jewelry_percentage] = serialized[:jewelry_percentage][0...-1].to_i
 
     # Floatify
-    [:tax_rate, :shipping, :show_total, :addtl_discount, :addtl_charge, :promotion304050Trigger40, :promotion304050Trigger50].each do |sym|
+    [:tax_rate, :shipping, :show_total, :addtl_discount, :addtl_charge, :promotion304050Trigger40, :promotion304050Trigger50, :promotion304050Trigger60].each do |sym|
       serialized[sym] = "0" if serialized[sym].is_a?(String) && serialized[sym].empty?
       serialized[sym] = BigDecimal.new(serialized[sym]).to_f
     end
 
-    mp serialized
+    # mp serialized
 
     ch.set_and_save(serialized)
     reinit_titles

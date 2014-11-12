@@ -10,15 +10,20 @@ end
 
 Motion::Project::App.setup do |app|
   app.name = 'ShowCloser'
-  app.deployment_target = "7.0"
-  app.device_family = [:iphone, :ipad]
-  app.interface_orientations = [:portrait, :portrait_upside_down, :landscape_left, :landscape_right]
-  app.version = (`git rev-list HEAD --count`.strip.to_i).to_s
-  app.short_version = '3.0.4'
-  app.icons = Dir.glob("resources/Icon*.png").map{|icon| icon.split("/").last}
-  app.seed_id = 'DW9QQZR4ZL'
   app.info_plist['FULL_APP_NAME'] = 'Show Closer'
   app.info_plist['APP_STORE_ID'] = 483940964
+
+  app.sdk_version = "8.1"
+  app.deployment_target = "7.1"
+  app.device_family = [:iphone, :ipad]
+  app.interface_orientations = [:portrait, :portrait_upside_down, :landscape_left, :landscape_right]
+
+  app.version = (`git rev-list HEAD --count`.strip.to_i).to_s
+  app.short_version = '3.0.4'
+
+  app.icons = Dir.glob("resources/Icon*.png").map{|icon| icon.split("/").last}
+  app.seed_id = 'DW9QQZR4ZL'
+
   app.info_plist['TestingMode'] = true if ENV['RUBYMOTION_TESTER'] == 'true'
 
   app.entitlements['get-task-allow'] = true
