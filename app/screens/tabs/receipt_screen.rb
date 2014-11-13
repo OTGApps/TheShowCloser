@@ -177,24 +177,26 @@ class ReceiptScreen < PM::WebScreen
   # Emailing
 
   def email_warning
-    return email_receipt unless App::Persistence['saw_email_warning'].nil?
-
-    callback = lambda do |alert|
-      App::Persistence['saw_email_warning'] = true
-      case alert.clicked_button.index
-      when 0
-        email_receipt
-      when 1
-        App.open_url('http://openradar.appspot.com/radar?id=5287901860462592')
+    if Device.ios_version < "8.0" && App::Persistence['saw_email_warning'].nil?
+      callback = lambda do |alert|
+        App::Persistence['saw_email_warning'] = true
+        case alert.clicked_button.index
+        when 0
+          email_receipt
+        when 1
+          App.open_url('http://openradar.appspot.com/radar?id=5287901860462592')
+        end
       end
-    end
 
-    BW::UIAlertView.new({
-      title: 'Email Bug Alert:',
-      message: "Some users have been experiencing a bug in email sending. Apple is aware of the issue.\nPlease verify that your hostesses are receiving the emailed receipts. There is no known workaround at this time.",
-      buttons: ['OK', 'Learn More'],
-      on_click: callback
-    }).show
+      BW::UIAlertView.new({
+        title: 'Email Bug Alert:',
+        message: "Some users have been experiencing a bug in email sending. Apple is aware of the issue.\nPlease verify that your hostesses are receiving the emailed receipts. There is no known workaround at this time.",
+        buttons: ['OK', 'Learn More'],
+        on_click: callback
+      }).show
+    else
+      email_receipt
+    end
   end
 
   def email_receipt
