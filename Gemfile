@@ -26,4 +26,3 @@ gem 'cdq', github: 'infinitered/cdq'
 
 # Development
 gem 'motion_print'
-gem 'motion-hockeyapp'
