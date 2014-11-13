@@ -78,9 +78,15 @@ class GenieScreen < MasterJewelryScreen
       when 0
         ch.set_free(args[:item], 0)
       when 1
-        qty = ch.free_count(args[:item])
-        ch.set_free(args[:item], 0)
-        ch.set_halfprice(args[:item], qty)
+        if Brain.app_brain.h.jewelryPercentage.to_i == 20 && ch.halfprice_items.count >= 1
+          App.alert("Can't add half price item!", {
+            message: "Catalog shows only get one half price item."
+          })
+        else
+          qty = ch.free_count(args[:item])
+          ch.set_free(args[:item], 0)
+          ch.set_halfprice(args[:item], qty)
+        end
       else
         # They Cancelled
       end

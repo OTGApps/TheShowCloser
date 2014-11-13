@@ -128,7 +128,11 @@ class MasterJewelryScreen < PM::TableScreen
       ch.set_free(item, qty)
     else
       qty = (ch.has_halfprice?(item)) ? 0 : 1
-      ch.set_halfprice(item, qty)
+      if qty == 1 && Brain.app_brain.h.jewelryPercentage.to_i == 20 && ch.halfprice_items.count >= 1
+        catalog_show_halfprice_error
+      else
+        ch.set_halfprice(item, qty)
+      end
     end
     update_table_data(index_path)
   end
@@ -219,7 +223,11 @@ class MasterJewelryScreen < PM::TableScreen
         if free
           ch.set_free(item, value)
         else
-          ch.set_halfprice(item, value)
+          if Brain.app_brain.h.jewelryPercentage.to_i == 20 && ch.halfprice_items.count >= 1
+            catalog_show_halfprice_error
+          else
+            ch.set_halfprice(item, value)
+          end
         end
         update_table_data(index_path)
       },
@@ -247,6 +255,12 @@ class MasterJewelryScreen < PM::TableScreen
   def tableView(tableView, willDisplayHeaderView:view, forSection:section)
     view.textLabel.setTextColor(UIColor.whiteColor)
     view.backgroundView.backgroundColor = rmq.color.purple
+  end
+
+  def catalog_show_halfprice_error
+    App.alert("Can't add half price item!", {
+      message: "Catalog shows only get one\nhalf price item."
+    })
   end
 
 end

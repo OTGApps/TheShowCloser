@@ -95,7 +95,7 @@ class GenieProcessorScreen < PM::Screen
       # Remove all combos that are not allowed
       combinations = combinations.reject do |c|
         half_count = c.select{|i| i == :half}.count
-        (half_count > 8) || (half_count > 6 && Brain.app_brain.h.showTotal < 500) || (half_count > 4 && Brain.app_brain.h.showTotal < 300)
+        (half_count > 1 && Brain.app_brain.h.jewelryPercentage.to_i == 20) || (half_count > 8) || (half_count > 6 && Brain.app_brain.h.showTotal < 500) || (half_count > 4 && Brain.app_brain.h.showTotal < 300)
       end
 
       # Limit total calculations to total_allowed
