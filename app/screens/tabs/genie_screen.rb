@@ -80,7 +80,7 @@ class GenieScreen < MasterJewelryScreen
       when 1
         if Brain.app_brain.h.jewelryPercentage.to_i == 20 && ch.halfprice_items.count >= 1
           App.alert("Can't add half price item!", {
-            message: "Catalog shows only get one half price item."
+            message: "Catalog shows only get one\nhalf price item."
           })
         else
           qty = ch.free_count(args[:item])
