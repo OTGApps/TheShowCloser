@@ -99,7 +99,11 @@ class HostessScreen < PM::TableScreen
   def pick_hostess(args)
     Hostesses.shared_hostess.current_hostess = args[:hostess]
     App.notification_center.post "PickedHostessNotification"
-    App.delegate.slide_menu.hide
+    App.delegate.menu.show_right
+  end
+
+  def on_rotate
+    App.delegate.menu.set_width
   end
 
   def on_cell_deleted(cell)

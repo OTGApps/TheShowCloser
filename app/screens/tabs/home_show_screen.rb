@@ -36,8 +36,7 @@ class HomeShowScreen < Formotion::FormController
   end
 
   def show_all_hostesses
-    App.delegate.slide_menu.anchorRightRevealAmount = Device.screen.width_for_orientation(:landscape_left)
-    App.delegate.slide_menu.show(:right)
+    App.delegate.menu.hide
     unobserve_all
     ch = nil
   end

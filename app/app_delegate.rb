@@ -28,20 +28,8 @@ class AppDelegate < PM::Delegate
     # Set defaults for the application
     AppDefaults.set
 
-    hostess_screen = HostessScreen.new(nav_bar:true, toolbar: true)
-
-    @tab_bar = ProMotion::TabBarController.new(
-      UINavigationController.alloc.initWithRootViewController(HomeShowScreen.alloc.init),
-      FreeScreen.new(nav_bar:true),
-      HalfPriceScreen.new(nav_bar:true),
-      GenieScreen.new(nav_bar:true, toolbar: true),
-      ReceiptScreen.new(nav_bar:true, external_links: false, scale_to_fit: true)
-    )
-
-    open_slide_menu @tab_bar, left: hostess_screen
-
-    slide_menu.anchorRightRevealAmount = Device.screen.width_for_orientation(:landscape_left)
-    slide_menu.show_right(false)
+    @menu = open MenuDrawer
+    # @menu.show_left(false)
   end
 
   def set_appearance
