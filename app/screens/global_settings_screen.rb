@@ -137,12 +137,6 @@ class GlobalSettingsScreen < Formotion::FormController
           type: :web_link,
           warn: false,
           value: "http://www.mohawkapps.com"
-        }, {
-          title: "Made with ♥ in North Carolina",
-          type: :static,
-          enabled: false,
-          selection_style: :none,
-          text_alignment: NSTextAlignmentCenter
         # },{
         #   type: :static_image,
         #   value: "nc",
