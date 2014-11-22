@@ -13,11 +13,11 @@ gem 'bubble-wrap', github: 'rubymotion/BubbleWrap', require: ['bubble-wrap/core'
 
 gem 'ProMotion', path: '../ProMotion'
 # gem 'ProMotion', github: 'clearsightstudio/ProMotion'
+gem 'ProMotion-menu', github: 'clearsightstudio/ProMotion-menu', branch: 'shadow'
 
 gem 'formotion', github: 'clayallsopp/formotion', branch: 'master'
 
 gem 'motion-blitz' # SVProgressHUD
-gem 'pro_motion_slide_menu', github: 'markrickert/promotion_slide_menu', branch: 'ECSlidingViewController'
 gem 'ruby_motion_query'
 
 # Core Data
