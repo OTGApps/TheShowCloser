@@ -38,7 +38,11 @@ class Hostess < CDQManagedObject
       self.wishlist.create(item_data.merge({qtyFree:count.to_i}))
     end
     cdq.save
-    clean_up_item(item_number) if cleanup
+    if block_given?
+      yield
+    else
+      clean_up_item(item_number) if cleanup
+    end
   end
 
   def set_halfprice(item_number, count, cleanup = true)
@@ -51,7 +55,11 @@ class Hostess < CDQManagedObject
       self.wishlist.create(item_data.merge({qtyHalfPrice:count.to_i}))
     end
     cdq.save
-    clean_up_item(item_number) if cleanup
+    if block_given?
+      yield
+    else
+      clean_up_item(item_number) if cleanup
+    end
   end
 
   def clean_up_item(item_number)
@@ -137,6 +145,15 @@ class Hostess < CDQManagedObject
       warn NoMethodError.new("Method not implemented on Hostess model: #{meth.to_s}")
       false
     end
+  end
+
+  def available=(a)
+  end
+
+  def tempStopSell=(tss)
+  end
+
+  def date_added=(da)
   end
 
   def copyWithZone(zone)

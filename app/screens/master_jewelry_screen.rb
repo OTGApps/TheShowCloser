@@ -27,6 +27,7 @@ class MasterJewelryScreen < PM::TableScreen
   end
 
   def on_disappear
+    @_sorted = nil
     App.notification_center.unobserve @reload_observer
   end
 
@@ -34,24 +35,25 @@ class MasterJewelryScreen < PM::TableScreen
     @table_data
   end
 
-  def cells
+  def cells(reload_table = true)
     @table_data = []
     section_titles.each do |t|
       section_data = {
         title: t,
         cells: []
       }
-      cells = JewelryData.data.sorted.select{|j| j['name'][0].upcase == t}
+      cells = sorted.select{|j| j['name'][0].upcase == t}
       cells.each do |c|
         section_data[:cells] << build_cell(c)
       end
       @table_data << section_data
     end
-    update_table_data
+    update_table_data if reload_table
+    yield if block_given?
   end
 
   def section_titles
-    JewelryData.data.sorted.collect{|j| j['name'][0].upcase}.uniq
+    sorted.collect{|j| j['name'][0].upcase}.uniq
   end
 
   def cell_title(data)
@@ -99,7 +101,7 @@ class MasterJewelryScreen < PM::TableScreen
   end
 
   def cell_data(data)
-    {
+    c = {
       title: cell_title(data),
       subtitle: cell_subtitle(data),
       search_text: data['item'],
@@ -108,8 +110,9 @@ class MasterJewelryScreen < PM::TableScreen
       arguments: {
         item: data['item']
       },
-      scoped: data['retired'] == 0 ? :current : :retired
+      # scoped: data['retired'] == 0 ? :current : :retired
     }
+    c
   end
 
   #Toggling
@@ -125,16 +128,25 @@ class MasterJewelryScreen < PM::TableScreen
   def toggle_item(item, free, index_path)
     if free
       qty = (ch.has_free?(item)) ? 0 : 1
-      ch.set_free(item, qty)
+      ch.set_free(item, qty) do
+        mp "Updating table data from a free item: #{index_path}"
+        cells(false) do
+          update_table_data(index_paths: index_path)
+        end
+      end
     else
       qty = (ch.has_halfprice?(item)) ? 0 : 1
       if qty == 1 && Brain.app_brain.h.jewelryPercentage.to_i == 20 && ch.halfprice_items.count >= 1
         catalog_show_halfprice_error
       else
-        ch.set_halfprice(item, qty)
+        ch.set_halfprice(item, qty) do
+          mp "Updating table data from a half price item: #{index_path}"
+          cells(false) do
+            update_table_data(index_paths: index_path)
+          end
+        end
       end
     end
-    update_table_data(index_path)
   end
 
   # Clearing
@@ -221,15 +233,22 @@ class MasterJewelryScreen < PM::TableScreen
         p "Picked Qty: #{value}"
 
         if free
-          ch.set_free(item, value)
+          ch.set_free(item, value) do
+            cells(false) do
+              update_table_data(index_paths: index_path)
+            end
+          end
         else
           if Brain.app_brain.h.jewelryPercentage.to_i == 20 && ch.halfprice_items.count >= 1
             catalog_show_halfprice_error
           else
-            ch.set_halfprice(item, value)
+            ch.set_halfprice(item, value) do
+              cells(false) do
+                update_table_data(index_paths: index_path)
+              end
+            end
           end
         end
-        update_table_data(index_path)
       },
       cancelBlock: -> picker {
         p 'Canceled the picker'
@@ -242,11 +261,13 @@ class MasterJewelryScreen < PM::TableScreen
   end
 
   def image_normal
+    # mp 'Getting normal image'
     @images ||= {}
     @images[:normal] ||= UIImage.imageNamed('normal')
   end
 
   def image_num(num)
+    # mp "Getting #{num} image"
     @images ||= {}
     @images[num.to_s.to_sym] ||= UIImage.imageNamed("num_#{num}")
   end
@@ -261,6 +282,10 @@ class MasterJewelryScreen < PM::TableScreen
     App.alert("Can't add half price item!", {
       message: "Catalog shows only get one\nhalf price item."
     })
+  end
+
+  def sorted
+    @_sorted ||= JewelryData.data.sorted
   end
 
 end

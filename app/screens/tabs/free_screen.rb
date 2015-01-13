@@ -1,5 +1,5 @@
 class FreeScreen < MasterJewelryScreen
-  searchable scoped: ['Current', 'Retired', 'All'], scoped_all: 'All'
+  searchable# scoped: ['Current', 'Retired', 'All'], scoped_all: 'All'
   indexable
   longpressable
   title "Free: "
@@ -14,7 +14,7 @@ class FreeScreen < MasterJewelryScreen
     build_free_cell(data)
   end
 
-  def cells
+  def cells(reload_table = true)
     super
     self.navigationController.navigationBar.topItem.title = "Free: #{Brain.app_brain.free_left_dollars}"
   end

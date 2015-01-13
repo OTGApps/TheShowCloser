@@ -71,21 +71,21 @@ class GlobalSettingsScreen < Formotion::FormController
         #   type: :github_link,
         #   image: "icon_github",
         #   warn: true,
-        #   value: "https://github.com/MohawkApps/ShowCloser"
+        #   value: "https://github.com/OTGApps/ShowCloser"
         # }, {
         #   title: "Found a bug?",
         #   subtitle: "Log it here.",
         #   type: :issue_link,
         #   image: "icon_issue",
         #   warn: true,
-        #   value: "https://github.com/MohawkApps/ShowCloser/issues/"
+        #   value: "https://github.com/OTGApps/ShowCloser/issues/"
         # }, {
         #   title: "Email me suggestions!",
         #   subtitle: "I'd love to hear from you",
         #   type: :email_me,
         #   image: "icon_email",
         #   value: {
-        #     to: "mark@mohawkapps.com",
+        #     to: "mark@otgapps.io",
         #     subject: "#{App.name} App Feedback"
         #   }
         # }]
@@ -97,7 +97,7 @@ class GlobalSettingsScreen < Formotion::FormController
           type: :share,
           image: "icon_share",
           value: {
-            items: "I'm using the #{App.name} app for my Premier business. Check it out! http://www.mohawkapps.com/app/theshowcloser/",
+            items: "I'm using the #{App.name} app for my Premier business. Check it out! http://www.otgapps.io",
             excluded: [
               UIActivityTypeAddToReadingList,
               UIActivityTypeAirDrop,
@@ -111,7 +111,7 @@ class GlobalSettingsScreen < Formotion::FormController
           type: :email_me,
           image: "icon_email",
           value: {
-            to: "mark@mohawkapps.com",
+            to: "info@otgapps.io",
             subject: "#{App.name} App Feedback"
           }
         },{
@@ -130,13 +130,13 @@ class GlobalSettingsScreen < Formotion::FormController
           title: "Copyright",
           type: :static,
           font: { name: 'HelveticaNeue', size: 13 },
-          placeholder: "#{copyright_year} Mohawk Apps, LLC",
+          placeholder: "#{copyright_year} Off The Grid Apps, LLC",
           selection_style: :none
         }, {
-          title: "Visit MohawkApps.com",
+          title: "Visit OTGApps.io",
           type: :web_link,
           warn: false,
-          value: "http://www.mohawkapps.com"
+          value: "http://www.otgapps.io"
         # },{
         #   type: :static_image,
         #   value: "nc",

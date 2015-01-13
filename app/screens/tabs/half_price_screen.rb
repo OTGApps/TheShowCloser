@@ -1,5 +1,5 @@
 class HalfPriceScreen < MasterJewelryScreen
-  searchable scoped: ['Current', 'Retired', 'All'], scoped_all: 'All'
+  searchable# scoped: ['Current', 'Retired', 'All'], scoped_all: 'All'
   indexable
   longpressable
   title "Half Price Selections"
@@ -14,7 +14,7 @@ class HalfPriceScreen < MasterJewelryScreen
     build_halfprice_cell(data)
   end
 
-  def cells
+  def cells(reload_table = true)
     super
     self.navigationController.navigationBar.topItem.title = "1/2 Price: #{Brain.app_brain.free_left_dollars}"
   end

@@ -1,5 +1,5 @@
 class QuickLookupScreen < MasterJewelryScreen
-  searchable scoped: ['Current', 'Retired', 'All'], scoped_all: 'All'
+  searchable# scoped: ['Current', 'Retired', 'All'], scoped_all: 'All'
   indexable
   title "Quick Lookup"
 

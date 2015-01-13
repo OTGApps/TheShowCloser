@@ -36,7 +36,7 @@ class RegistrationScreen < Formotion::FormController
       },{
         title: "An Internet connection is required for catalog data downloads. Your first catalog download is free, subsequent catalog data updates require an in app purchase (See App Store description for details)."
       },{
-        title: "This application is sold and maintained by Mohawk Apps, LLC and is not endorsed by or afilliated with any other company."
+        title: "This application is sold and maintained by Off The Grid Apps, LLC and is not endorsed by or afilliated with any other company."
       }]
     })
 

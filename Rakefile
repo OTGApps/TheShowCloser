@@ -19,11 +19,12 @@ Motion::Project::App.setup do |app|
   app.interface_orientations = [:portrait, :portrait_upside_down, :landscape_left, :landscape_right]
 
   app.version = (`git rev-list HEAD --count`.strip.to_i).to_s
-  app.short_version = '3.0.6'
+  app.short_version = '3.0.7'
 
   app.icons = Dir.glob("resources/Icon*.png").map{|icon| icon.split("/").last}
   app.seed_id = 'DW9QQZR4ZL'
 
+  app.frameworks += %w[StoreKit MessageUI CoreGraphics]
   app.info_plist['TestingMode'] = true if ENV['RUBYMOTION_TESTER'] == 'true'
 
   app.entitlements['get-task-allow'] = true
