@@ -131,7 +131,11 @@ class MasterJewelryScreen < PM::TableScreen
       ch.set_free(item, qty) do
         mp "Updating table data from a free item: #{index_path}"
         cells(false) do
-          update_table_data(index_paths: index_path)
+          if searching?
+            update_table_data
+          else
+            update_table_data(index_paths: index_path)
+          end
         end
       end
     else
@@ -142,7 +146,11 @@ class MasterJewelryScreen < PM::TableScreen
         ch.set_halfprice(item, qty) do
           mp "Updating table data from a half price item: #{index_path}"
           cells(false) do
-            update_table_data(index_paths: index_path)
+            if searching?
+              update_table_data
+            else
+              update_table_data(index_paths: index_path)
+            end
           end
         end
       end
