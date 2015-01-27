@@ -13,6 +13,10 @@ class AppDelegate < PM::Delegate
       # BITHockeyManagerLauncher.new.start
       app_id = App.info_plist['APP_STORE_ID']
 
+      # Crittercism
+      Crittercism.enableWithAppID("54c794aa3cf56b9e0457d86e")
+      Crittercism.setAsyncBreadcrumbMode(true)
+
       # Flurry
       NSSetUncaughtExceptionHandler("uncaughtExceptionHandler")
       Flurry.startSession((App.info_plist['AppStoreRelease'] == true ? "IRHW8V9LE2M38WJLSM6T" : "3W88Z2Q6MR87NHGDSMVV"))

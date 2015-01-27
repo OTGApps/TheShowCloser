@@ -34,6 +34,7 @@ Motion::Project::App.setup do |app|
     pod 'FlurrySDK'
     pod 'Appirater'
     pod 'ActionSheetPicker-3.0', '~> 1.1.2'
+    pod 'CrittercismSDK'
   end
 
   app.identifier = 'com.mohawkapps.TheShowCloser'
