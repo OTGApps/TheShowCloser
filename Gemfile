@@ -21,8 +21,8 @@ gem 'motion-blitz' # SVProgressHUD
 gem 'ruby_motion_query'
 
 # Core Data
-gem 'ruby-xcdm', github: 'infinitered/ruby-xcdm'
-gem 'cdq', github: 'infinitered/cdq'
+gem 'ruby-xcdm'#, github: 'infinitered/ruby-xcdm'
+gem 'cdq'#, github: 'infinitered/cdq'
 
 # Development
 gem 'motion_print'
