@@ -4,7 +4,7 @@ module Formotion
 
       def on_select(tableView, tableViewDelegate)
         super
-        Flurry.logEvent("GITHUB_ISSUE_TAPPED") unless Device.simulator?
+        AppLogger.log("GITHUB_ISSUE_TAPPED")
       end
 
     end

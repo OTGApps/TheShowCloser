@@ -48,7 +48,8 @@ class RegistrationScreen < Formotion::FormController
       elsif jn.to_i == 0
         App.alert("Invalid", message: "Please use your real Jeweler number. It will be printed on your hostess receipts and can not be changed.")
       else
-        Flurry.logEvent("SET_JEWELER_NUMBER")
+        AppLogger.log("SET_JEWELER_NUMBER")
+        Crittercism.setUsername("#{jn}")
         App::Persistence['jeweler_number'] = jn
         dismissModalViewControllerAnimated(true)
       end

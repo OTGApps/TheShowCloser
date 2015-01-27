@@ -4,7 +4,7 @@ module Formotion
 
       def on_select(tableView, tableViewDelegate)
         super
-        Flurry.logEvent("SHARE_TAPPED") unless Device.simulator?
+        AppLogger.log("SHARE_TAPPED")
       end
 
     end

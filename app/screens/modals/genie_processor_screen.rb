@@ -61,7 +61,7 @@ class GenieProcessorScreen < PM::Screen
 
   def perform_calculations
     p 'Start Processing'
-    Flurry.logEvent("GENIE_STARTED") unless Device.simulator?
+    AppLogger.log("GENIE_STARTED")
 
     @progress.setProgress(0.0, animated:false)
 
@@ -142,7 +142,7 @@ class GenieProcessorScreen < PM::Screen
         }
 
         Dispatch::Queue.main.sync do
-          Flurry.logEvent("GENIE_FINISHED_WITH_TIME", withParameters:timer_info) unless BW.debug?
+          AppLogger.log("GENIE_FINISHED_WITH_TIME", timer_info)
           cleanup
 
           # Show the summary screen.
@@ -157,7 +157,7 @@ class GenieProcessorScreen < PM::Screen
   end
 
   def cancel
-    Flurry.logEvent("GENIE_CANCELLED") unless Device.simulator?
+    AppLogger.log("GENIE_CANCELLED")
     cleanup
     close
   end

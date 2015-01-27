@@ -4,7 +4,7 @@ class GlobalSettingsScreen < Formotion::FormController
     super
     self.title = "Global Settings"
     self.navigationItem.rightBarButtonItem = UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemStop, target:self, action:"close")
-    Flurry.logEvent "SettingsView" unless Device.simulator?
+    AppLogger.log("SettingsView")
   end
 
   def init
@@ -147,7 +147,7 @@ class GlobalSettingsScreen < Formotion::FormController
     })
 
     @form.row(:check_for_update).on_tap do |row|
-      Flurry.logEvent("PRESSED_MANUAL_DB_CHECK") unless Device.simulator?
+      AppLogger.log("PRESSED_MANUAL_DB_CHECK")
       jd = JewelryDownloader.new
       jd.check(true)
     end

@@ -16,9 +16,9 @@ module Formotion
           message: row.value[:message] || "",
           animated: true
         }) do |result, error|
-          Flurry.logEvent("EMAIL_SENT") if result.sent? && !Device.simulator?
-          Flurry.logEvent("EMAIL_CANCELED") if result.canceled? && !Device.simulator?
-          Flurry.logEvent("EMAIL_FAILED") if result.failed? && !Device.simulator?
+          AppLogger.log("EMAIL_SENT") if result.sent?
+          AppLogger.log("EMAIL_CANCELED") if result.canceled?
+          AppLogger.log("EMAIL_FAILED") if result.failed?
         end
       end
 

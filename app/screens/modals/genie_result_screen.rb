@@ -11,7 +11,7 @@ class GenieResultScreen < PM::WebScreen
   end
 
   def will_appear
-    Flurry.logEvent("GENIE_GOT_SUGGESTIONS") unless Device.simulator?
+    AppLogger.log("GENIE_GOT_SUGGESTIONS")
     @view_set_up ||= begin
       rmq(web).apply_style :web_view
       rmq(self.view).append(UIButton, :apply_button).on(:tap) do |sender|
@@ -40,14 +40,12 @@ class GenieResultScreen < PM::WebScreen
   end
 
   def close_modal(automatic = false)
-    unless Device.simulator?
-      Flurry.logEvent("GENIE_DENIED_SUGGESTIONS") unless automatic
-    end
+    AppLogger.log("GENIE_DENIED_SUGGESTIONS") unless automatic
     self.navigationController.dismissModalViewControllerAnimated(true)
   end
 
   def apply
-    Flurry.logEvent("GENIE_TOOK_SUGGESTIONS") unless Device.simulator?
+    AppLogger.log("GENIE_TOOK_SUGGESTIONS")
 
     # Reset all the items to zero
     ch.items.each do |i|
