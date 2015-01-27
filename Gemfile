@@ -11,8 +11,8 @@ gem 'cocoapods'
 gem 'afmotion'
 gem 'bubble-wrap', github: 'rubymotion/BubbleWrap', require: ['bubble-wrap/core', 'bubble-wrap/mail']
 
-gem 'ProMotion', path: '../ProMotion'
-# gem 'ProMotion', github: 'clearsightstudio/ProMotion'
+# gem 'ProMotion', path: '../ProMotion'
+gem 'ProMotion', github: 'clearsightstudio/ProMotion', branch: 'version-2.3'
 gem 'ProMotion-menu', github: 'clearsightstudio/ProMotion-menu', branch: 'shadow'
 
 gem 'formotion', github: 'clayallsopp/formotion', branch: 'master'
