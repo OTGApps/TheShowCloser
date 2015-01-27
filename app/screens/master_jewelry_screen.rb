@@ -243,7 +243,11 @@ class MasterJewelryScreen < PM::TableScreen
         if free
           ch.set_free(item, value) do
             cells(false) do
-              update_table_data(index_paths: index_path)
+              if searching?
+                update_table_data
+              else
+                update_table_data(index_paths: index_path)
+              end
             end
           end
         else
@@ -252,7 +256,11 @@ class MasterJewelryScreen < PM::TableScreen
           else
             ch.set_halfprice(item, value) do
               cells(false) do
-                update_table_data(index_paths: index_path)
+                if searching?
+                  update_table_data
+                else
+                  update_table_data(index_paths: index_path)
+                end
               end
             end
           end
