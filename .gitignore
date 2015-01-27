@@ -14,3 +14,5 @@ resources/*.storyboardc
 provisioning/*
 _data
 server
+_releases
+**/xcuserdata
