@@ -9,16 +9,15 @@ GIT
 
 GIT
   remote: git://github.com/clearsightstudio/ProMotion-menu.git
-  revision: 60e00fa794d37845d2fdbe9103a4756f9426c92f
-  branch: shadow
+  revision: fd3a5b057853c304ade8bbc8c6ad1daf7f8304f5
   specs:
-    ProMotion-menu (1.0.0.beta2)
+    ProMotion-menu (1.0.0)
       ProMotion (~> 2)
-      motion-cocoapods
+      motion-cocoapods (~> 1)
 
 GIT
   remote: git://github.com/clearsightstudio/ProMotion.git
-  revision: 590790af2b9e39ced2442af149a683b578237fb1
+  revision: e53d95d0bcc43d12cbf7ddffaa5760f7f25127c7
   branch: version-2.3
   specs:
     ProMotion (2.2.1)
