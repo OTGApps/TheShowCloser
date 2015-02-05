@@ -11,7 +11,6 @@ class MenuDrawer < PM::Menu::Drawer
     )
     hostess_screen = HostessScreen.new(nav_bar:true, toolbar: true)
 
-
     self.center = hostess_screen
     self.right = tab_bar
     self.shadow = false

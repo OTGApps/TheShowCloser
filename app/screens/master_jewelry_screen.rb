@@ -10,9 +10,11 @@ class MasterJewelryScreen < PM::TableScreen
     }]
   end
 
-  def on_appear
+  def will_appear
     cells
+  end
 
+  def on_appear
     @reload_observer = App.notification_center.observe 'ReloadJewelryTableNotification' do |notification|
       cells
     end
