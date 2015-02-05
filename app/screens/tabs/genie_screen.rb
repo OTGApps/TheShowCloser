@@ -52,8 +52,6 @@ class GenieScreen < MasterJewelryScreen
   end
 
   def cells
-    ch = Hostesses.shared_hostess.current_hostess
-
     free_item_numbers = ch.free_items.collect{ |j| j.item }
     halfprice_item_numbers = ch.halfprice_items.collect{ |j| j.item }
 
