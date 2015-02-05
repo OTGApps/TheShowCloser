@@ -16,6 +16,7 @@ class AppDelegate < PM::Delegate
       # Crittercism
       Crittercism.enableWithAppID("54c794aa3cf56b9e0457d86e")
       Crittercism.setAsyncBreadcrumbMode(true)
+      Crittercism.setUsername("#{App::Persistence['jeweler_number']}") unless App::Persistence['jeweler_number'].nil?
 
       # Flurry
       NSSetUncaughtExceptionHandler("uncaughtExceptionHandler")
