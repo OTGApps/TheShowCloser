@@ -42,6 +42,7 @@ class AppDelegate < PM::Delegate
 
     UISwitch.appearance.setOnTintColor(purple)
     UIBarButtonItem.appearance.setTintColor(purple)
+    UITabBar.appearance.setBarTintColor(rmq.color.white)
   end
 
   #Flurry exception handler
