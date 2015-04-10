@@ -1,7 +1,7 @@
-# Show Closer [![Code Climate](https://codeclimate.com/github/MohawkApps/TheShowCloser.png)](https://codeclimate.com/github/MohawkApps/TheShowCloser)
+# Show Closer [![Code Climate](https://codeclimate.com/github/OTGApps/TheShowCloser.png)](https://codeclimate.com/github/OTGApps/TheShowCloser)
 ![App Icon](resources/Icon-120.png)
 
-#### A [RubyMotion](http://www.rubymotion.com/) application brought to you by [Mohawk Apps](http://www.mohawkapps.com/).
+#### A [RubyMotion](http://www.rubymotion.com/) application brought to you by [Off The Grid Apps](http://otgapps.io/).
 
 You MUST be an authorized Jeweler to use this application.
 
