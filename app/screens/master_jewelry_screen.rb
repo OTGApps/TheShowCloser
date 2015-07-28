@@ -67,14 +67,14 @@ class MasterJewelryScreen < PM::TableScreen
   end
 
   def page_number(item)
-    p = item['pages']
-    return "" unless p.is_a?(Array)
+    pg = item['pages']
+    return "" unless pg.is_a?(Array)
 
-    case p.count
+    case pg.count
     when 1
-      ", Page: #{p.first}"
+      ", Page: #{pg.first}"
     else
-      ", Pages: #{p.join(', ')}"
+      ", Pages: #{pg.join(', ')}"
     end
   end
 
