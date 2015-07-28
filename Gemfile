@@ -12,7 +12,7 @@ gem 'afmotion'
 gem 'bubble-wrap', github: 'rubymotion/BubbleWrap', require: ['bubble-wrap/core', 'bubble-wrap/mail']
 
 # gem 'ProMotion', path: '../ProMotion'
-gem 'ProMotion', github: 'clearsightstudio/ProMotion', branch: 'version-2.3'
+gem 'ProMotion', github: 'clearsightstudio/ProMotion'
 gem 'ProMotion-menu', github: 'clearsightstudio/ProMotion-menu'
 
 gem 'formotion', github: 'clayallsopp/formotion', branch: 'master'
@@ -23,6 +23,7 @@ gem 'ruby_motion_query'
 # Core Data
 gem 'ruby-xcdm'#, github: 'infinitered/ruby-xcdm'
 gem 'cdq'#, github: 'infinitered/cdq'
+gem 'motion-yaml', '1.4'
 
 # Development
 gem 'motion_print'
