@@ -1,6 +1,7 @@
-class HostessScreen < PM::TableScreen
+class HostessScreen < PM::DataTableScreen
   # searchable
   title "Your Hostesses"
+  model Hostess, scope: :created
 
   def on_load
     set_nav_bar_button :right, system_item: :add, action: :add_hostess
@@ -26,40 +27,40 @@ class HostessScreen < PM::TableScreen
       show_registration
     else
       db_update_check
-      update_table_data
+      # update_table_data
     end
   end
 
-  def table_data
-  [{
-    title: nil,
-    cells: all_hostesses
-  }]
-  end
+  # def table_data
+  # [{
+  #   title: nil,
+  #   cells: all_hostesses
+  # }]
+  # end
 
-  def all_hostesses
-    Hostess.sort_by(:createdDate).collect do |h|
-      {
-        title: h.name,
-        subtitle: subtitle(h),
-        cell_style: UITableViewCellStyleSubtitle,
-        accessory_type: :disclosure_indicator,
-        selection_style: :gray,
-        editing_style: :delete, # Swipe-to-delete
-        action: :pick_hostess,
-        arguments: {
-          hostess: h
-        }
-      }
-    end.reverse
-  end
-
-  def subtitle(hostess)
-    s = []
-    s << hostess.createdDate.short_date
-    s << Dolarizer.d(hostess.showTotal) if hostess.showTotal > 0
-    s.join(" - ")
-  end
+  # def all_hostesses
+  #   Hostess.sort_by(:createdDate).collect do |h|
+  #     {
+  #       title: h.name,
+  #       subtitle: subtitle(h),
+  #       cell_style: UITableViewCellStyleSubtitle,
+  #       accessory_type: :disclosure_indicator,
+  #       selection_style: :gray,
+  #       editing_style: :delete, # Swipe-to-delete
+  #       action: :pick_hostess,
+  #       arguments: {
+  #         hostess: h
+  #       }
+  #     }
+  #   end.reverse
+  # end
+  #
+  # def subtitle(hostess)
+  #   s = []
+  #   s << hostess.createdDate.short_date
+  #   s << Dolarizer.d(hostess.showTotal) if hostess.showTotal > 0
+  #   s.join(" - ")
+  # end
 
   def missing_db_alert
     App.alert("Warning!", {
@@ -83,11 +84,6 @@ class HostessScreen < PM::TableScreen
           taxShipping: App::Persistence['kTaxShipping']
         )
         cdq.save
-        update_table_data
-
-        new_cell = NSIndexPath.indexPathForRow(0, inSection:0)
-        data_cell = self.promotion_table_data.cell(index_path: new_cell)
-        trigger_action(data_cell[:action], data_cell[:arguments], new_cell) if data_cell[:action]
       end
     end
     alert_field = alert.textFieldAtIndex(0)

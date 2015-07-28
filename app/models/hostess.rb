@@ -1,4 +1,27 @@
 class Hostess < CDQManagedObject
+  scope :created, sort_by(:createdDate)
+
+  def cell
+    {
+      title: name,
+      subtitle: subtitle,
+      cell_style: UITableViewCellStyleSubtitle,
+      accessory_type: :disclosure_indicator,
+      selection_style: :gray,
+      editing_style: :delete, # Swipe-to-delete
+      action: :pick_hostess,
+      arguments: {
+        hostess: self
+      }
+    }
+  end
+
+  def subtitle
+    s = []
+    s << createdDate.short_date
+    s << Dolarizer.d(showTotal) if showTotal > 0
+    s.join(" - ")
+  end
 
   def set_and_save(values)
     values.each do |k,v|
