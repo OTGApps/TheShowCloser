@@ -5,7 +5,7 @@ class HomeShowScreen < Formotion::FormController
   def viewDidLoad
     super
     App.notification_center.observe "PickedHostessNotification" do |notification|
-      p 'PickedHostessNotification'
+      mp 'PickedHostessNotification'
       mp ch
 
       reinit

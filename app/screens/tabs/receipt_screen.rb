@@ -37,7 +37,7 @@ class ReceiptScreen < PM::WebScreen
   end
 
   def parsed_html
-    p "Getting parsed HTML"
+    mp "Getting parsed HTML"
     ch = Hostesses.shared_hostess.current_hostess
 
     if ch.nil?
@@ -66,34 +66,34 @@ class ReceiptScreen < PM::WebScreen
     # Hostess half Price selections
     half_price_html = ''
     if ch.halfprice_items.count > 0
-      p "#{ch.halfprice_items.count} half price items."
+      mp "#{ch.halfprice_items.count} half price items."
 
       ch.halfprice_items.each do |item|
         big_d_item = BigDecimal.new(item.price)
         half_price_html << jewelry_template(item.item, item.qtyHalfPrice, item.name || '', big_d_item, big_d_item / 2)
       end
     else
-      p "No half price items."
+      mp "No half price items."
       half_price_html << jewelry_template
     end
 
     html.sub!('[[[HALF_PRICE_SELECTIONS]]]', half_price_html)
-    p "Half price total: #{brain.half_price_total}"
+    mp "Half price total: #{brain.half_price_total}"
     html.gsub!('[[[HALF_PRICE_TOTAL]]]', dolarize(brain.half_price_total))
 
 	  # Bonuses
     bonuses_total, bonus_count = 0, 0
     is_catalog_show = (brain.jewelry_percentage == 20) ? true : false
-    p "Is catalog show? #{is_catalog_show}"
+    mp "Is catalog show? #{is_catalog_show}"
 
     unless is_catalog_show
 
-      p "New hostess plan? #{ch.new_hostess_plan?}"
+      mp "New hostess plan? #{ch.new_hostess_plan?}"
       [ch.bonus1, ch.bonus2, ch.bonus3, ch.bonus4].each do |bonus|
         break if ch.new_hostess_plan? && bonus_count > 1
 
         bonus = bonus.to_bool
-        p "Bonus #{bonus_count}: #{bonus}"
+        mp "Bonus #{bonus_count}: #{bonus}"
 
         if bonus == true
           checkbox = "&#x2611;"

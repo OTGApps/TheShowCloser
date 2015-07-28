@@ -68,7 +68,7 @@ class HostessScreen < PM::TableScreen
   end
 
   def add_hostess
-    p "Adding new hostess"
+    mp "Adding new hostess"
 
     return missing_db_alert unless JewelryData.data.exists?
 
@@ -132,7 +132,7 @@ class HostessScreen < PM::TableScreen
   end
 
   def db_update_check
-    p "Checking for a database update."
+    mp "Checking for a database update."
     jd = JewelryDownloader.new
     jd.check
   end

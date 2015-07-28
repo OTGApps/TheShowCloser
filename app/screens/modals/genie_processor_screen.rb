@@ -60,7 +60,7 @@ class GenieProcessorScreen < PM::Screen
   end
 
   def perform_calculations
-    p 'Start Processing'
+    mp 'Start Processing'
     AppLogger.log("GENIE_STARTED")
 
     @progress.setProgress(0.0, animated:false)
@@ -81,7 +81,7 @@ class GenieProcessorScreen < PM::Screen
 
     Dispatch::Queue.concurrent('com.mohawkapps.theshowcloser.genie').async do
       start_time = NSDate.date
-      # p "Wishlist Array #{@jewelry_set}"
+      # mp "Wishlist Array #{@jewelry_set}"
 
       # Now that we have the array, we need to loop through every combination
       # that exists and calculate which is the cheapest or leaves the least

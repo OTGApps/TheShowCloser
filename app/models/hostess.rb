@@ -29,7 +29,7 @@ class Hostess < CDQManagedObject
 
   # Set
   def set_free(item_number, count, cleanup = true)
-    p "Setting item #{item_number} free: #{count}"
+    mp "Setting item #{item_number} free: #{count}"
     if item(item_number)
       my_item = item(item_number)
       my_item.qtyFree = count.to_i
@@ -46,7 +46,7 @@ class Hostess < CDQManagedObject
   end
 
   def set_halfprice(item_number, count, cleanup = true)
-    p "Setting item #{item_number} half price: #{count}"
+    mp "Setting item #{item_number} half price: #{count}"
     if item(item_number)
       my_item = item(item_number)
       my_item.qtyHalfPrice = count.to_i

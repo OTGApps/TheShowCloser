@@ -1,7 +1,7 @@
 class JewelryDownloader
 
   def check(alert = false)
-    p "Checking for Jewelry DB update for Jeweler Number: #{App::Persistence['jeweler_number']}"
+    mp "Checking for Jewelry DB update for Jeweler Number: #{App::Persistence['jeweler_number']}"
 
     JewelryAPI.version_info do |json_data, error|
       if error.nil?
@@ -41,7 +41,7 @@ class JewelryDownloader
   end
 
   def paid_upgrade
-    p 'Starting paid upgrade'
+    mp 'Starting paid upgrade'
     BW::UIAlertView.new({
       title: 'Catalog Update Available',
       message: 'There is a PAID catalog update available.',
@@ -49,7 +49,7 @@ class JewelryDownloader
       cancel_button_index: 0
     }) do |alert|
       if alert.clicked_button.cancel?
-        p 'Canceled'
+        mp 'Canceled'
       else
         purchase_upgrade
       end
@@ -109,7 +109,7 @@ class JewelryDownloader
   private
 
   def done_downloading
-    p 'Done Downloading'
+    mp 'Done Downloading'
     JewelryData.data.reset # Reset the cache
     App::Persistence['db_version'] = JewelryData.data.file_data['db']
     Motion::Blitz.success('All done!')
