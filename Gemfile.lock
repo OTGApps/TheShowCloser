@@ -118,3 +118,6 @@ DEPENDENCIES
   rake
   ruby-xcdm
   ruby_motion_query
+
+BUNDLED WITH
+   1.10.4
