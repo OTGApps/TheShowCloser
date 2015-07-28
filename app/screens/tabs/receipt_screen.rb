@@ -70,7 +70,7 @@ class ReceiptScreen < PM::WebScreen
 
       ch.halfprice_items.each do |item|
         big_d_item = BigDecimal.new(item.price)
-        half_price_html << jewelry_template(item.item, item.qtyHalfPrice, item.name || '', big_d_item, big_d_item / 2)
+        half_price_html << jewelry_template(item.item, item.qtyHalfPrice, item.name || '', big_d_item / 2, (big_d_item / 2 * item.qtyHalfPrice))
       end
     else
       mp "No half price items."
@@ -112,7 +112,7 @@ class ReceiptScreen < PM::WebScreen
     if ch.free_items.count > 0
       ch.free_items.each do |item|
         big_d_item = BigDecimal.new(item.price)
-        free_html << jewelry_template(item.item, item.qtyFree, item.name || '', big_d_item, big_d_item)
+        free_html << jewelry_template(item.item, item.qtyFree, item.name || '', big_d_item, big_d_item * item.qtyFree)
       end
     else
       free_html << jewelry_template
