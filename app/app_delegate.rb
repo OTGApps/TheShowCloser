@@ -19,8 +19,8 @@ class AppDelegate < PM::Delegate
       Crittercism.setUsername("#{App::Persistence['jeweler_number']}") unless App::Persistence['jeweler_number'].nil?
 
       # Flurry
-      NSSetUncaughtExceptionHandler("uncaughtExceptionHandler")
-      Flurry.startSession((App.info_plist['AppStoreRelease'] == true ? "IRHW8V9LE2M38WJLSM6T" : "3W88Z2Q6MR87NHGDSMVV"))
+      # NSSetUncaughtExceptionHandler("uncaughtExceptionHandler")
+      # Flurry.startSession((App.info_plist['AppStoreRelease'] == true ? "IRHW8V9LE2M38WJLSM6T" : "3W88Z2Q6MR87NHGDSMVV"))
 
       # Appirater
       Appirater.setAppId app_id

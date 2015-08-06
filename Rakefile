@@ -30,7 +30,6 @@ Motion::Project::App.setup do |app|
   app.codesign_certificate = "iPhone Developer: Mark Rickert (YA2VZGDX4S)"
 
   app.pods do
-    pod 'FlurrySDK'
     pod 'Appirater'
     pod 'ActionSheetPicker-3.0', '~> 1.1.2'
   end
