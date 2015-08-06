@@ -9,7 +9,7 @@ GIT
 
 GIT
   remote: git://github.com/clearsightstudio/ProMotion-menu.git
-  revision: aedfd1c897e3b913589638e4f60f10b090763839
+  revision: b3039de27a9473a4ee9cd930d8bda549dd3a951d
   specs:
     ProMotion-menu (1.1.0)
       ProMotion (~> 2)
@@ -17,7 +17,7 @@ GIT
 
 GIT
   remote: git://github.com/clearsightstudio/ProMotion.git
-  revision: 42d810c58d1056392a30bc5ebf7ec334d7e951d6
+  revision: e0101b3da641373148166d238a6ada7307dbb78d
   specs:
     ProMotion (2.4.2)
       methadone (~> 1.7)
@@ -80,12 +80,12 @@ GEM
     json (1.8.3)
     methadone (1.9.1)
       bundler
-    minitest (5.7.0)
+    minitest (5.8.0)
     molinillo (0.3.1)
     motion-appstore (1.0.6)
     motion-blitz (1.2.0)
       motion-cocoapods (>= 1.4.0)
-    motion-cocoapods (1.7.2)
+    motion-cocoapods (1.7.3)
       cocoapods (>= 0.34)
     motion-require (0.2.0)
     motion-yaml (1.4)
