@@ -7,7 +7,6 @@ resources/*.storyboardc
 .DS_Store
 *~
 *.sw[po]
-/vendor/
 **/*.xcodeproj/xcuserdata
 /_release/
 **/*.xcuserdata/*
@@ -16,3 +15,4 @@ _data
 server
 _releases
 **/xcuserdata
+vendor/Pods

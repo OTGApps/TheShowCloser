@@ -33,11 +33,13 @@ Motion::Project::App.setup do |app|
     pod 'FlurrySDK'
     pod 'Appirater'
     pod 'ActionSheetPicker-3.0', '~> 1.1.2'
-    pod 'CrittercismSDK'
   end
 
   app.identifier = 'com.mohawkapps.TheShowCloser'
   app.provisioning_profile = "./provisioning/development.mobileprovision"
+  app.vendor_project('vendor/CrittercismSDK_v5.3.0', :static,
+    :products => ['libCrittercism_v5_3_0.a'],
+    :headers_dir => 'vendor/CrittercismSDK_v5.3.0')
 
   app.entitlements['keychain-access-groups'] = [
     app.seed_id + '.' + app.identifier
