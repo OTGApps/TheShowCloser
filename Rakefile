@@ -19,7 +19,7 @@ Motion::Project::App.setup do |app|
 
   app.identifier = 'com.mohawkapps.TheShowCloser'
   app.version = (`git rev-list HEAD --count`.strip.to_i).to_s
-  app.short_version = '3.0.10'
+  app.short_version = '3.0.11'
 
   app.icons = Dir.glob("resources/Icon*.png").map{|icon| icon.split("/").last}
   app.seed_id = 'DW9QQZR4ZL'

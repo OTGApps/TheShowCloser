@@ -28,7 +28,7 @@ class Hostess < CDQManagedObject
   end
 
   # Set
-  def set_free(item_number, count, cleanup = true)
+  def set_free(item_number, count, cleanup, &block)
     mp "Setting item #{item_number} free: #{count}"
     if item(item_number)
       my_item = item(item_number)
@@ -38,14 +38,14 @@ class Hostess < CDQManagedObject
       self.wishlist.create(item_data.merge({qtyFree:count.to_i}))
     end
     cdq.save
-    if block_given?
-      yield
+    if block
+      block.call
     else
       clean_up_item(item_number) if cleanup
     end
   end
 
-  def set_halfprice(item_number, count, cleanup = true)
+  def set_halfprice(item_number, count, cleanup, &block)
     mp "Setting item #{item_number} half price: #{count}"
     if item(item_number)
       my_item = item(item_number)
@@ -55,8 +55,8 @@ class Hostess < CDQManagedObject
       self.wishlist.create(item_data.merge({qtyHalfPrice:count.to_i}))
     end
     cdq.save
-    if block_given?
-      yield
+    if block
+      block.call
     else
       clean_up_item(item_number) if cleanup
     end

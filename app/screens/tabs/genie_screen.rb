@@ -74,7 +74,7 @@ class GenieScreen < MasterJewelryScreen
     callback = lambda do |alert|
       case alert.clicked_button.index
       when 0
-        ch.set_free(args[:item], 0)
+        ch.set_free(args[:item], 0, true)
       when 1
         if Brain.app_brain.h.jewelryPercentage.to_i == 20 && ch.halfprice_items.count >= 1
           App.alert("Can't add half price item!", {
@@ -82,8 +82,8 @@ class GenieScreen < MasterJewelryScreen
           })
         else
           qty = ch.free_count(args[:item])
-          ch.set_free(args[:item], 0)
-          ch.set_halfprice(args[:item], qty)
+          ch.set_free(args[:item], 0, true)
+          ch.set_halfprice(args[:item], qty, true)
         end
       else
         # They Cancelled
@@ -103,11 +103,11 @@ class GenieScreen < MasterJewelryScreen
     callback = lambda do |alert|
       case alert.clicked_button.index
       when 0
-        ch.set_halfprice(args[:item], 0)
+        ch.set_halfprice(args[:item], 0, true)
       when 1
         qty = ch.halfprice_count(args[:item])
-        ch.set_halfprice(args[:item], 0)
-        ch.set_free(args[:item], qty)
+        ch.set_halfprice(args[:item], 0, true)
+        ch.set_free(args[:item], qty, true)
       else
         # They Cancelled
       end

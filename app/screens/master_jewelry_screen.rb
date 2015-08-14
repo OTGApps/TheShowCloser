@@ -130,7 +130,7 @@ class MasterJewelryScreen < PM::TableScreen
   def toggle_item(item, free, index_path)
     if free
       qty = (ch.has_free?(item)) ? 0 : 1
-      ch.set_free(item, qty) do
+      ch.set_free(item, qty, true) do
         mp "Updating table data from a free item: #{index_path}"
         cells(false) do
           if searching?
@@ -145,7 +145,7 @@ class MasterJewelryScreen < PM::TableScreen
       if qty == 1 && Brain.app_brain.h.jewelryPercentage.to_i == 20 && ch.halfprice_items.count >= 1
         catalog_show_halfprice_error
       else
-        ch.set_halfprice(item, qty) do
+        ch.set_halfprice(item, qty, true) do
           mp "Updating table data from a half price item: #{index_path}"
           cells(false) do
             if searching?
@@ -243,7 +243,7 @@ class MasterJewelryScreen < PM::TableScreen
         mp "Picked Qty: #{value}"
 
         if free
-          ch.set_free(item, value) do
+          ch.set_free(item, value, true) do
             cells(false) do
               if searching?
                 update_table_data
@@ -256,7 +256,7 @@ class MasterJewelryScreen < PM::TableScreen
           if Brain.app_brain.h.jewelryPercentage.to_i == 20 && ch.halfprice_items.count >= 1
             catalog_show_halfprice_error
           else
-            ch.set_halfprice(item, value) do
+            ch.set_halfprice(item, value, true) do
               cells(false) do
                 if searching?
                   update_table_data
