@@ -5,7 +5,7 @@ class MasterJewelryScreen < PM::TableScreen
       title: nil,
       cells: [{
         title: 'Loading...',
-        selection_style: UITableViewCellSelectionStyleNone
+        selection_style: :none
       }]
     }]
   end
@@ -44,8 +44,9 @@ class MasterJewelryScreen < PM::TableScreen
         title: t,
         cells: []
       }
-      cells = sorted.select{|j| j['name'][0].upcase == t}
-      cells.each do |c|
+      @_cell_cache ||= {}
+      @_cell_cache[t] ||= sorted.select{|j| j['name'][0].upcase == t}
+      @_cell_cache[t].each do |c|
         section_data[:cells] << build_cell(c)
       end
       @table_data << section_data
@@ -55,7 +56,7 @@ class MasterJewelryScreen < PM::TableScreen
   end
 
   def section_titles
-    sorted.collect{|j| j['name'][0].upcase}.uniq
+    @_section_titles ||= sorted.collect{|j| j['name'][0].upcase}.uniq
   end
 
   def cell_title(data)
@@ -82,7 +83,7 @@ class MasterJewelryScreen < PM::TableScreen
 
   def build_cell(data)
     cell_data(data).merge({
-      selection_style: UITableViewCellSelectionStyleNone
+      selection_style: :none
     })
   end
 

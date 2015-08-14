@@ -8,7 +8,7 @@ class GenieScreen < MasterJewelryScreen
 
     placeholder = [{
       title: 'Loading...',
-      selection_style: UITableViewCellSelectionStyleNone
+      selection_style: :none
     }]
     @free_data ||= placeholder
     @halfprice_data ||= placeholder
