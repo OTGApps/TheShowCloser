@@ -30,11 +30,9 @@ Motion::Project::App.setup do |app|
   app.pods do
     pod 'Appirater', '~> 2.0.5'
     pod 'ActionSheetPicker-3.0', '~> 1.1.2'
+    pod 'CrittercismSDK', '~> 5.4.0'
   end
 
-  app.vendor_project('vendor/CrittercismSDK_v5.3.0', :static,
-    :products => ['libCrittercism_v5_3_0.a'],
-    :headers_dir => 'vendor/CrittercismSDK_v5.3.0')
 
   app.entitlements['keychain-access-groups'] = [
     app.seed_id + '.' + app.identifier
