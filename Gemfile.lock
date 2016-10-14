@@ -32,6 +32,21 @@ GIT
       motion_print (~> 1.0)
 
 GIT
+  remote: git://github.com/infinitered/cdq.git
+  revision: 18f29cdd78baab7976ebc75305084bf7e414108a
+  specs:
+    cdq (1.0.8)
+      motion-yaml (= 1.4)
+      ruby-xcdm (>= 0.0.9)
+
+GIT
+  remote: git://github.com/infinitered/rmq.git
+  revision: 17d5b4810e9d17bb9ab3f7d385e8cee94c91e615
+  branch: position-center
+  specs:
+    ruby_motion_query (1.7.0)
+
+GIT
   remote: git://github.com/rubymotion/BubbleWrap.git
   revision: f40ed83d23ef9ec150710fa2e0751d59e906bb00
   specs:
@@ -47,9 +62,6 @@ GEM
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
     builder (3.2.2)
-    cdq (1.0.8)
-      motion-yaml (= 1.4)
-      ruby-xcdm (>= 0.0.9)
     claide (1.0.1)
     cocoapods (1.0.1)
       activesupport (>= 4.0.2)
@@ -108,7 +120,6 @@ GEM
       activesupport (~> 4.1)
       builder (~> 3.2)
       plist (~> 3.1)
-    ruby_motion_query (1.7.0)
     thread_safe (0.3.5)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
@@ -125,15 +136,13 @@ DEPENDENCIES
   ProMotion-menu!
   afmotion!
   bubble-wrap!
-  cdq
+  cdq!
   formotion!
   motion-appstore
   motion-blitz
-  motion-yaml (= 1.4)
   motion_print
   rake
-  ruby-xcdm
-  ruby_motion_query
+  ruby_motion_query!
 
 BUNDLED WITH
    1.12.5
