@@ -33,6 +33,16 @@ Motion::Project::App.setup do |app|
     pod 'CrittercismSDK', '~> 5.4.0'
   end
 
+  app.info_plist["NSAppTransportSecurity"] = {
+    "NSAllowsArbitraryLoads" => true,
+    "NSExceptionDomains" => {
+      "mohawkapps.com" => {
+        "NSThirdPartyExceptionRequiresForwardSecrecy" => false,
+        "NSTemporaryExceptionAllowsInsecureHTTPLoads" => true,
+        "NSIncludesSubdomains" => true
+      }
+    }
+  }
 
   app.entitlements['keychain-access-groups'] = [
     app.seed_id + '.' + app.identifier
