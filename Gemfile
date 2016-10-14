@@ -3,16 +3,12 @@ source 'https://rubygems.org'
 # Rubygems
 gem 'rake'
 
-# Cocoapods
-gem 'motion-cocoapods'
-gem 'cocoapods'
-
 # RubyMotion
-gem 'afmotion'
+gem 'afmotion', github: 'clayallsopp/afmotion'
 gem 'bubble-wrap', github: 'rubymotion/BubbleWrap', require: ['bubble-wrap/core', 'bubble-wrap/mail']
 
 # gem 'ProMotion', path: '../ProMotion'
-gem 'ProMotion', github: 'clearsightstudio/ProMotion', branch: 'fix/773'
+gem 'ProMotion', github: 'clearsightstudio/ProMotion'
 gem 'ProMotion-menu', github: 'clearsightstudio/ProMotion-menu'
 
 gem 'formotion', github: 'clayallsopp/formotion', branch: 'master'
