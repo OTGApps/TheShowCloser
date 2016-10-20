@@ -22,7 +22,7 @@ PODS:
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
   - Appirater (2.0.5)
-  - CrittercismSDK (5.4.11)
+  - CrittercismSDK (5.6.2)
   - MMDrawerController (0.6.0):
     - MMDrawerController/Core (= 0.6.0)
     - MMDrawerController/MMDrawerBarButtonItem (= 0.6.0)
@@ -41,7 +41,7 @@ DEPENDENCIES:
   - ActionSheetPicker-3.0 (~> 1.1.2)
   - AFNetworking (~> 2.5.0)
   - Appirater (~> 2.0.5)
-  - CrittercismSDK (~> 5.4.0)
+  - CrittercismSDK (~> 5.6.2)
   - MMDrawerController (~> 0.5)
   - SVProgressHUD (~> 1.0)
 
@@ -49,10 +49,10 @@ SPEC CHECKSUMS:
   ActionSheetPicker-3.0: 084fd811d591ed6a62025ef650cb11f88740ad09
   AFNetworking: 05edc0ac4c4c8cf57bcf4b84be5b0744b6d8e71e
   Appirater: e7c0a47fb67ee5041ce8479e6ba960927fb40264
-  CrittercismSDK: bea34b91a42eebc03eac6effa81b4d761b12ed3f
+  CrittercismSDK: 0844a458a94e80862a9e834f2e0ecdbf104015b2
   MMDrawerController: e3a54a5570388463ad3b36975251575b50c4e1a0
   SVProgressHUD: 748080e4f36e603f6c02aec292664239df5279c1
 
-PODFILE CHECKSUM: 70e740a9e5d509dc8624497932fe03a42e89b8ec
+PODFILE CHECKSUM: 24a162c3e78e1f88a63946eb401da1863d30d045
 
-COCOAPODS: 1.0.1
+COCOAPODS: 1.1.0

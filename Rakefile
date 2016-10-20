@@ -30,7 +30,7 @@ Motion::Project::App.setup do |app|
   app.pods do
     pod 'Appirater', '~> 2.0.5'
     pod 'ActionSheetPicker-3.0', '~> 1.1.2'
-    pod 'CrittercismSDK', '~> 5.4.0'
+    pod 'CrittercismSDK', '~> 5.6.2'
   end
 
   app.info_plist["NSAppTransportSecurity"] = {
