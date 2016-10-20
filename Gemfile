@@ -14,7 +14,7 @@ gem 'ProMotion-menu', github: 'clearsightstudio/ProMotion-menu'
 gem 'formotion', github: 'clayallsopp/formotion', branch: 'master'
 
 gem 'motion-blitz' # SVProgressHUD
-gem 'ruby_motion_query', github: 'infinitered/rmq', branch: 'position-center'
+gem 'ruby_motion_query', github: 'infinitered/rmq', branch: 'master'
 
 # Core Data
 gem 'cdq', github: 'infinitered/cdq'
