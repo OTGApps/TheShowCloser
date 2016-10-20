@@ -21,6 +21,9 @@ Motion::Project::App.setup do |app|
   app.version = (`git rev-list HEAD --count`.strip.to_i).to_s
   app.short_version = '3.0.11'
 
+  app.info_plist['UIRequiresFullScreen'] = true
+  app.info_plist['ITSAppUsesNonExemptEncryption'] = false
+
   app.icons = Dir.glob("resources/Icon*.png").map{|icon| icon.split("/").last}
   app.seed_id = 'DW9QQZR4ZL'
 
